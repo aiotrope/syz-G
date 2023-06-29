@@ -1,0 +1,18 @@
+@import 'bootstrap/scss/bootstrap';
+@import './variables';
+
+.title {
+  font-weight: bolder;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 69%;
+}
+
+.spinner {
+  position: fixed;
+  z-index: 1031;
+  top: 50%;
+  left: 50%;
+}
