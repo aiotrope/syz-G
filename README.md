@@ -1,2 +1,2 @@
-# syz-G
-Full stack web project.
+# xsymous
+CT30A3204 nominated capstone project.
