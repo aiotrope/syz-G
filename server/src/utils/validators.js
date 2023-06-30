@@ -11,7 +11,7 @@ export const signupSchema = Joi.object()
     username: Joi.string()
       .pattern(
         username_regex,
-        'Username requires 3 characters long with letters, numbers and special characters'
+        'Username requires 2 characters long with letters, numbers and special characters'
       )
       .trim()
       .required(),

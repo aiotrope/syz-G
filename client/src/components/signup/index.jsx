@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import * as yup from 'yup'
@@ -16,24 +16,24 @@ import { toast } from 'react-toastify'
 import { authService } from '../../services/auth'
 import { useCommon } from '../../contexts/common'
 
+const password_regex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~?/`!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/
+
+const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{2,}$/
+
 const schema = yup
   .object({
-    username: yup.string().trim().min(6).required(),
+    username: yup.string().trim().matches(username_regex).required(),
     email: yup.string().email().required(),
-    password: yup.string().trim().min(8).required(),
-    re_password: yup.string().oneOf([yup.ref('password'), null], 'Password must match'),
+    password: yup.string().trim().matches(password_regex).required(),
+    confirm: yup.string().oneOf([yup.ref('password'), null], 'Password must match'),
   })
   .required()
 
 const Signup = () => {
-  const queryClient = useQueryClient()
+  //const queryClient = useQueryClient()
   const { isLoading, mutateAsync } = useMutation({
     mutationFn: authService.createUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['user-account'],
-      })
-    },
   })
 
   const navigate = useNavigate()
@@ -50,15 +50,17 @@ const Signup = () => {
   const { addSignedEmail } = useCommon()
 
   const onSubmit = async (userData) => {
+    console.log(userData)
     try {
       const result = await mutateAsync(userData)
       addSignedEmail(userData.email)
       if (result) {
+        console.log(result)
         reset()
-        navigate('/signup-activation')
+        navigate('/login')
       }
     } catch (error) {
-      toast.error(`Error: ${error.message} - ${error.response.data.detail}`)
+      toast.error(`Error: ${error}`)
     }
   }
   if (isLoading) {
@@ -141,15 +143,15 @@ const Signup = () => {
           <FormControl
             type="password"
             placeholder="Re-enter your password"
-            {...register('re_password')}
-            aria-invalid={errors.re_password?.message ? 'true' : 'false'}
-            className={`${errors.re_password?.message ? 'is-invalid' : ''} `}
+            {...register('confirm')}
+            aria-invalid={errors.confirm?.message ? 'true' : 'false'}
+            className={`${errors.confirm?.message ? 'is-invalid' : ''} `}
             id="confirm"
             size='lg'
           />
-          {errors.re_password?.message && (
+          {errors.confirm?.message && (
             <FormControl.Feedback type="invalid">
-              {errors.re_password?.message}
+              {errors.confirm?.message}
             </FormControl.Feedback>
           )}
         </FormGroup>

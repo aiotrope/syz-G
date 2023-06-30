@@ -1,8 +1,9 @@
-import { config } from '../config'
+//import { config } from '../config'
 import axios from 'axios'
 
 export const http = axios.create({
-  baseURL: config.base_url,
+  baseURL: import.meta.env.VITE_SERVER_BASE_URL,
   withCredentials: true,
-  timeout: 60000,
+  timeout: 80000,
+  headers: { 'Content-Type': 'application/json' },
 })

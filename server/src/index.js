@@ -41,13 +41,14 @@ app.use(cookieParser())
 if (process.env.NODE_ENV === 'development') {
   let options = {
     origin: 'http://127.0.0.1:5173/',
-    optionsSuccessStatus: 200,
     credentials: true,
   }
   app.use(cors(options))
+} else {
+  app.use(cors())
+
 }
 
-app.use(cors())
 
 app.use(
   session({
