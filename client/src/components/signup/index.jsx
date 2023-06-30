@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import * as yup from 'yup'
@@ -31,9 +31,14 @@ const schema = yup
   .required()
 
 const Signup = () => {
-  //const queryClient = useQueryClient()
+  const queryClient = useQueryClient()
   const { isLoading, mutateAsync } = useMutation({
     mutationFn: authService.createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['user-account'],
+      })
+    },
   })
 
   const navigate = useNavigate()
@@ -90,7 +95,7 @@ const Signup = () => {
             aria-invalid={errors.username?.message ? 'true' : 'false'}
             className={`${errors.username?.message ? 'is-invalid' : ''} `}
             id="username"
-            size='lg'
+            size="lg"
           />
           {errors.username?.message && (
             <FormControl.Feedback type="invalid">{errors.username?.message}</FormControl.Feedback>
@@ -110,7 +115,7 @@ const Signup = () => {
             aria-invalid={errors.email?.message ? 'true' : 'false'}
             className={`${errors.email?.message ? 'is-invalid' : ''} `}
             id="email"
-            size='lg'
+            size="lg"
           />
           {errors.email?.message && (
             <FormControl.Feedback type="invalid">{errors.email?.message}</FormControl.Feedback>
@@ -127,7 +132,7 @@ const Signup = () => {
             aria-invalid={errors.password?.message ? 'true' : 'false'}
             className={`${errors.password?.message ? 'is-invalid' : ''} `}
             id="password"
-            size='lg'
+            size="lg"
           />
           {errors.password?.message && (
             <FormControl.Feedback type="invalid">{errors.password?.message}</FormControl.Feedback>
@@ -147,12 +152,10 @@ const Signup = () => {
             aria-invalid={errors.confirm?.message ? 'true' : 'false'}
             className={`${errors.confirm?.message ? 'is-invalid' : ''} `}
             id="confirm"
-            size='lg'
+            size="lg"
           />
           {errors.confirm?.message && (
-            <FormControl.Feedback type="invalid">
-              {errors.confirm?.message}
-            </FormControl.Feedback>
+            <FormControl.Feedback type="invalid">{errors.confirm?.message}</FormControl.Feedback>
           )}
         </FormGroup>
         <FormGroup className="d-grid mt-3">

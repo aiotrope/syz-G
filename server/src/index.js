@@ -38,17 +38,9 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cookieParser())
 
-if (process.env.NODE_ENV === 'development') {
-  let options = {
-    origin: 'http://127.0.0.1:5173/',
-    credentials: true,
-  }
-  app.use(cors(options))
-} else {
-  app.use(cors())
-
+if (process.env === 'development') {
+  app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
 }
-
 
 app.use(
   session({

@@ -5,9 +5,9 @@ import { ToastContainer } from 'react-toastify'
 import Header from './components/header'
 import Router from './components/router'
 
-import './assets/scss/_App.scss'
+import './utils/sass/_App.scss'
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Header />

@@ -14,7 +14,7 @@
     "lint:client": "cd client && npm run linting -- --fix",
     "lint:server": "cd server && npm run linting -- --fix",
     "dev:server": "NODE_ENV=development cd server && npm run dev",
-    "dev:client": "NODE_ENV=development cd client && npm run dev",
+    "dev:client": "NODE_ENV=development cd client && npm run start",
     "start": "NODE_ENV=production cd server && npm run start"
   },
   "repository": {
