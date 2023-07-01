@@ -12,10 +12,7 @@ const options = {
 export const jwtStrategy = (passport) => {
   passport.use(
     new Strategy(options, async (req, payload, cb) => {
-      const user = await User.fincb({
-        id: payload.id,
-        email: payload.email,
-      })
+      const user = await User.findById(payload.id)
       if (user) {
         req.user = user
 

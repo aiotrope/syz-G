@@ -1,8 +1,9 @@
 {
-    "extends": ["react-app", "react-app/jest", "eslint:recommended", "plugin:jsx-a11y/strict", "plugin:prettier/recommended"],
+    "extends": ["react-app", "react-app/jest", "eslint:recommended", "plugin:jsx-a11y/recommended", "prettier"],
     "rules": {
       "linebreak-style": ["error", "unix"],
       "eqeqeq": "error",
+      "semi": ["error", "never"],
       "no-trailing-spaces": "error",
       "object-curly-spacing": ["error", "always"],
       "arrow-spacing": ["error", { "before": true, "after": true }],

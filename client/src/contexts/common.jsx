@@ -22,16 +22,20 @@ export const CommonProvider = ({ children }) => {
   const value = {
     mounted,
     signedEmail,
-    removeSignedEmail: React.useCallback(() => removeSignedEmail(), []),
     addSignedEmail: React.useCallback((email) => addSignedEmail(email), []),
+    removeSignedEmail: React.useCallback(() => removeSignedEmail(), []),
   }
 
   return <CommonContext.Provider value={value}>{children}</CommonContext.Provider>
 }
 
 export const useCommon = () => {
-  const { mounted, signedEmail, addSignedEmail, removeSignedEmail } =
-    React.useContext(CommonContext)
+  const {
+    mounted,
+    signedEmail,
+    addSignedEmail,
+    removeSignedEmail,
+  } = React.useContext(CommonContext)
   return {
     mounted,
     signedEmail,

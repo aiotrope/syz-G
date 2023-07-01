@@ -3,10 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 
-import { useAuth } from '../../contexts/authContext'
-
-const Header = () => {
-  const { authenticated } = useAuth()
+const UnAuthTopNav = () => {
   return (
     <header role="banner">
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
@@ -28,16 +25,6 @@ const Header = () => {
               </LinkContainer>
             </Nav>
             <Nav>
-              {authenticated && (
-                <>
-                  <LinkContainer to="/account">
-                    <Nav.Link>Account</Nav.Link>
-                  </LinkContainer>
-                  <LinkContainer to="/logout">
-                    <Nav.Link>Logout</Nav.Link>
-                  </LinkContainer>
-                </>
-              )}
               <LinkContainer to="/login">
                 <Nav.Link>Login</Nav.Link>
               </LinkContainer>
@@ -52,4 +39,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default UnAuthTopNav

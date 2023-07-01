@@ -8,10 +8,7 @@ import { signupSchema, signinSchema } from '../utils/validators'
 
 //import logger from '../utils/logger'
 
-/**
- * @desc return an array of users objects with id, email, username,
- * isStaff and timestamps
- */
+// return an array of users objects with id, email, username, isStaff and timestamps
 
 const getAll = async (req, res) => {
   try {
@@ -28,10 +25,7 @@ const getAll = async (req, res) => {
   }
 }
 
-/**
- * @desc create new user with request body of email, password and confirm
- * @return user object - id, email, hashedPassword, isStaff and timestamps
- */
+//create new user with request body of email, password and confirm
 
 const signup = async (req, res) => {
   const foundUser = await User.findOne({ email: req.body.email })
@@ -56,17 +50,16 @@ const signup = async (req, res) => {
 
       await user.save()
 
-      return res.status(201).json(user)
+      return res
+        .status(201)
+        .json({ message: `${user.email} registered`, ...user })
     }
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }
 }
 
-/**
- * @desc to send auth credentials - email & password
- * @return access (token) and user's email
- */
+// login user with email and password
 
 const signin = async (req, res) => {
   let { email, password } = req.body
@@ -94,11 +87,37 @@ const signin = async (req, res) => {
 
     const token = jwt.sign(payload, config.jwt_secret, { expiresIn: '1h' })
 
+    const decoded = jwt.verify(token, config.jwt_secret)
+
     req.user = user
 
-    res.status(200).json({ accessToken: token, email: payload.email })
+    req.access = token
+
+    res.status(200).json({
+      message: `${decoded.email} signed-in`,
+      access: token,
+    })
   } catch (err) {
     res.status(401).json({ error: err.message })
+  }
+}
+
+// get user using params id
+
+const getById = async (req, res) => {
+  const { id } = req.params
+  try {
+    const user = await User.findById(id).select({
+      hashedPassword: 0,
+    })
+
+    if (!user) {
+      return res.status(404).json({ error: `Problem fetching user: ${user}` })
+    }
+
+    return res.status(200).json(user)
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
   }
 }
 
@@ -106,4 +125,5 @@ export default {
   getAll,
   signup,
   signin,
+  getById,
 }

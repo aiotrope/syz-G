@@ -15,7 +15,7 @@ export const googleStrategy = (passport) => {
         passReqToCallback: true,
       },
       async (req, accessToken, refreshToken, profile, cb) => {
-        const user = await User.fincb({ googleId: profile.id })
+        const user = await User.findOne({ googleId: profile.id })
         if (!user) {
           const newUser = await User.create({
             email: profile.emails?.[0].value,
@@ -25,13 +25,14 @@ export const googleStrategy = (passport) => {
 
           if (newUser) {
             req.user = newUser
+            req.access = accessToken
             logger.warn({ accessToken, refreshToken, newUser })
             return cb(null, newUser)
           }
         }
-        if (user && user[0]) {
+        if (user) {
           req.user = user
-          req.accessToken = accessToken
+          req.access = accessToken
           return cb(null, user && user[0])
         }
       }

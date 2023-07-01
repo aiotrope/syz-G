@@ -16,6 +16,12 @@ router.post('/signin', userController.signin)
 router.get('/', userController.getAll)
 
 router.get(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  userController.getById
+)
+
+router.get(
   '/google/login',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 )

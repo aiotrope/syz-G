@@ -1,3 +1,4 @@
+import React from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
@@ -32,7 +33,7 @@ const schema = yup
 
 const Signup = () => {
   const queryClient = useQueryClient()
-  const { isLoading, mutateAsync } = useMutation({
+  const { isLoading, reset, mutateAsync } = useMutation({
     mutationFn: authService.createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -42,10 +43,10 @@ const Signup = () => {
   })
 
   const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -61,13 +62,16 @@ const Signup = () => {
       addSignedEmail(userData.email)
       if (result) {
         console.log(result)
-        reset()
+
+        toast.success(result.message)
+
         navigate('/login')
       }
-    } catch (error) {
-      toast.error(`Error: ${error}`)
+    } catch (err) {
+      toast.error(err.response.data.error)
     }
   }
+
   if (isLoading) {
     return (
       <Spinner animation="border" className="spinner">
@@ -159,7 +163,7 @@ const Signup = () => {
           )}
         </FormGroup>
         <FormGroup className="d-grid mt-3">
-          <Button variant="primary" size="lg" type="submit">
+          <Button variant="primary" size="lg" type="submit" onClick={() => reset()}>
             Submit Registration
           </Button>
         </FormGroup>

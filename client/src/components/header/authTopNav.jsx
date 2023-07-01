@@ -2,11 +2,20 @@ import { LinkContainer } from 'react-router-bootstrap'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import Button from 'react-bootstrap/Button'
+import { toast } from 'react-toastify'
 
 import { useAuth } from '../../contexts/authContext'
+import { authService } from '../../services/auth'
 
-const Header = () => {
-  const { authenticated } = useAuth()
+const AuthTopNav = () => {
+  const { setAuthenticatedUser, setAuthenticated, authenticatedUser } = useAuth()
+  const logout = () => {
+    toast.info(`${authenticatedUser.username} logged out`)
+    setAuthenticated(false)
+    setAuthenticatedUser(null)
+    authService.removeAccessTokens()
+  }
   return (
     <header role="banner">
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
@@ -28,22 +37,12 @@ const Header = () => {
               </LinkContainer>
             </Nav>
             <Nav>
-              {authenticated && (
-                <>
-                  <LinkContainer to="/account">
-                    <Nav.Link>Account</Nav.Link>
-                  </LinkContainer>
-                  <LinkContainer to="/logout">
-                    <Nav.Link>Logout</Nav.Link>
-                  </LinkContainer>
-                </>
-              )}
-              <LinkContainer to="/login">
-                <Nav.Link>Login</Nav.Link>
+              <LinkContainer to="/account">
+                <Nav.Link>{authenticatedUser.username}</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/signup">
-                <Nav.Link>Signup</Nav.Link>
-              </LinkContainer>
+              <Nav.Item>
+                <Button onClick={() => logout()} variant='warning'>Logout</Button>
+              </Nav.Item>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -52,4 +51,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default AuthTopNav
