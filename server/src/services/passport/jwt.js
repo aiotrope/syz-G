@@ -1,4 +1,5 @@
 import config from '../../utils/config'
+import passport from 'passport'
 import { Strategy, ExtractJwt } from 'passport-jwt'
 
 import User from '../../models/user'
@@ -9,17 +10,15 @@ const options = {
   passReqToCallback: true,
 }
 
-export const jwtStrategy = (passport) => {
-  passport.use(
-    new Strategy(options, async (req, payload, cb) => {
-      const user = await User.findById(payload.id)
-      if (user) {
-        req.user = user
+passport.use(
+  new Strategy(options, async (req, payload, done) => {
+    const currentUser = await User.findById(payload.id)
+    if (currentUser) {
+      req.currentUser = currentUser
 
-        return cb(null, user)
-      }
+      return done(null, currentUser)
+    }
 
-      return cb(null, false)
-    })
-  )
-}
+    return done(null, false)
+  })
+)

@@ -89,10 +89,6 @@ const signin = async (req, res) => {
 
     const decoded = jwt.verify(token, config.jwt_secret)
 
-    req.user = user
-
-    req.access = token
-
     res.status(200).json({
       message: `${decoded.email} signed-in`,
       access: token,
@@ -121,9 +117,45 @@ const getById = async (req, res) => {
   }
 }
 
+const getGoogleLoggedInUser = async (req, res) => {
+  const user = req.user
+  try {
+    const payload = {
+      id: user.id,
+      email: user.email,
+    }
+    const token = jwt.sign(payload, config.jwt_secret, { expiresIn: '1h' })
+
+    const decoded = jwt.verify(token, config.jwt_secret)
+
+    req.session.googleAccess = token
+
+    res.status(200).json({
+      message: `${decoded.email} signed-in`,
+      ...user,
+      access: token,
+    })
+
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
+  }
+}
+
+const googleLoginUser = async (req, res) => {
+  try {
+    const googleAccessToken = req.session.googleAccess
+    return res.status(200).json(googleAccessToken)
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
+  }
+}
+
 export default {
   getAll,
   signup,
   signin,
   getById,
+  getGoogleLoggedInUser,
+  googleLoginUser
+  
 }

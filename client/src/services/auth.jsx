@@ -18,6 +18,7 @@ const login = async (credentials) => {
 
   if (response.status === 200 && response.data) {
     localStorage.setItem('access', JSON.stringify(response.data.access))
+
     return response.data
   }
 }
@@ -41,11 +42,34 @@ const removeAccessTokens = () => {
   localStorage.removeItem('access')
 }
 
+// for deletion
+const getGoogleAuthorizationUrl = async () => {
+  const response = await axios.get('/api/user/google/callback', {
+    withCredentials: true,
+    headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'multipart/form-data' },
+  })
+  console.log(response)
+  if (response) return response
+}
+
+const getGoogleUser = async () => {
+  const response = await axios.get('/api/user/google-user', {
+    withCredentials: true,
+    headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' },
+  })
+
+  if (response.data) {
+    console.log(response.data)
+    return response
+  }
+}
 
 export const authService = {
   createUser,
   login,
   getAccessToken,
   getUserById,
-  removeAccessTokens
+  removeAccessTokens,
+  getGoogleAuthorizationUrl,
+  getGoogleUser,
 }

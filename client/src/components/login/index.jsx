@@ -13,7 +13,6 @@ import FormLabel from 'react-bootstrap/FormLabel'
 import Stack from 'react-bootstrap/Stack'
 import Spinner from 'react-bootstrap/Spinner'
 import { toast } from 'react-toastify'
-
 import { authService } from '../../services/auth'
 import { useCommon } from '../../contexts/common'
 
@@ -78,6 +77,19 @@ const Login = () => {
     prepare()
   }, [accessToken, mounted, navigate])
 
+  const handleGoogleLogin = async () => {
+    try {
+      const googleLoginURL = 'http://localhost:8080/api/user/google/login'
+      const newWindow = window.open(googleLoginURL, '_self')
+      if (newWindow.closed) {
+        const fetchUser = await authService.getGoogleUser()
+        localStorage.setItem('googleUserAccess', fetchUser?.data)
+      }
+    } catch (err) {
+      console.error(err.message)
+    }
+  }
+
   if (isLoading) {
     return (
       <Spinner animation="grow" className="spinner">
@@ -139,6 +151,11 @@ const Login = () => {
       </Form>
       <div className="text-center mt-4">
         <strong>OR</strong>
+      </div>
+      <div className="d-grid my-3">
+        <Button variant="light" size="lg" onClick={handleGoogleLogin}>
+          Login via Gmail
+        </Button>
       </div>
     </Stack>
   )

@@ -12,9 +12,12 @@ import dbConnection from './utils/db'
 import loggingMiddleware from './middlewares/logging'
 import errorMiddleware from './middlewares/error'
 
-import { jwtStrategy } from './services/passport/jwt'
-import { localStrategy } from './services/passport/local'
-import { googleStrategy } from './services/passport/google'
+//import { jwtStrategy } from './services/passport/jwt'
+//import { localStrategy } from './services/passport/local'
+//import { googleStrategy } from './services/passport/google'
+
+import './services/passport/jwt'
+import './services/passport/google'
 
 import logger from './utils/logger'
 
@@ -24,11 +27,11 @@ const app = express()
 
 dbConnection()
 
-jwtStrategy(passport)
+//jwtStrategy(passport)
 
-googleStrategy(passport)
+//googleStrategy(passport)
 
-localStrategy(passport)
+//localStrategy(passport)
 
 app.use(express.static('../frontend/build'))
 
@@ -39,7 +42,13 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 if (process.env === 'development') {
-  app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
+  app.use(
+    cors({
+      origin: 'http://localhost:5173',
+      credentials: true,
+      optionsSuccessStatus: 200,
+    })
+  )
 }
 
 app.use(
@@ -47,6 +56,7 @@ app.use(
     secret: config.session_secret,
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 24 * 60 * 60 * 10000, secure: false, httpOnly: false }, // 24 hrs // true for https
   })
 )
 

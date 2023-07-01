@@ -24,6 +24,14 @@ Content-Type: application/json
 
 ### get user by id
 GET http://localhost:8080/api/user/649f24f5d509e5a9addbc3b1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWYyNGY1ZDUwOWU1YTlhZGRiYzNiMSIsImVtYWlsIjoic2FtcGxlQHNyLmlvIiwiaWF0IjoxNjg4MTY3MzQ2LCJleHAiOjE2ODgxNzA5NDZ9.SvDfsQCqAUbbE4iVCzsu2Fvj1454dEEOE1jZZiH4wo0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWYyNGY1ZDUwOWU1YTlhZGRiYzNiMSIsImVtYWlsIjoic2FtcGxlQHNyLmlvIiwiaWF0IjoxNjg4MjM3MDYyLCJleHAiOjE2ODgyNDA2NjJ9.QUtA69hWfLUqsYYIdH4gT4W2CcuVixoWz3sMLQB7KHo
 
+
+### login with google
+GET http://localhost:8080/api/user/google/login
+Content-Type: application/json
+
+### login with google
+GET http://localhost:8080/api/user/google-user
+Content-Type: application/json
 
