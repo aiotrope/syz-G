@@ -1,6 +1,5 @@
 import config from '../../utils/config'
-import passport from 'passport'
-import { Strategy, ExtractJwt } from 'passport-jwt'
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 
 import User from '../../models/user'
 
@@ -9,16 +8,22 @@ const options = {
   secretOrKey: config.jwt_secret,
   passReqToCallback: true,
 }
+export const jwtLogin = (passport) => {
+  passport.use(
+    new JwtStrategy(options, async (req, payload, done) => {
+      try {
+        const user = await User.findOne({ email: payload.email })
+        req.user = user
+        if (user) {
+          req.user = user // current user Obj
 
-passport.use(
-  new Strategy(options, async (req, payload, done) => {
-    const currentUser = await User.findById(payload.id)
-    if (currentUser) {
-      req.currentUser = currentUser
+          return done(null, user)
+        }
 
-      return done(null, currentUser)
-    }
-
-    return done(null, false)
-  })
-)
+        return done(null, false)
+      } catch (err) {
+        console.error(err)
+      }
+    })
+  )
+}

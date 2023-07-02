@@ -28,10 +28,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWYyNGY1Z
 
 
 ### login with google
-GET http://localhost:8080/api/user/google/login
+GET http://localhost:8080/api/google/login
 Content-Type: application/json
 
-### login with google
-GET http://localhost:8080/api/user/google-user
+### get google user by session
+GET http://localhost:8080/api/google/user
 Content-Type: application/json
 

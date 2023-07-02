@@ -1,39 +1,43 @@
-import { Strategy } from 'passport-local'
+import { Strategy as LocalStrategy } from 'passport-local'
 import bcrypt from 'bcrypt'
+import Joi from 'joi'
 
 import User from '../../models/user'
+import { signinSchema } from '../../utils/validators'
 
-const customFields = {
+const options = {
   usernameField: 'email',
   passwordField: 'password',
+  passReqToCallback: true,
 }
 
-const verifyAuthCredentialsCallback = (email, password, cb) => {
-  User.findOne({ email }).then((user) => {
-    if (!user) {
-      return cb(null, false)
-    } else {
-      const isCorrectPassword = bcrypt.compareSync(
-        password,
-        user.hashedPassword
-      )
-      if (!isCorrectPassword) {
-        return cb(null, false)
-      } else {
-        return cb(null, user)
+export const localLogin = (passport) => {
+  passport.use(
+    new LocalStrategy(options, async (req, email, password, done) => {
+      const { error } = Joi.validate(req.body, signinSchema)
+      if (error) {
+        return done(null, false, { message: error.details[0].message })
       }
-    }
-  })
-}
 
-export const localStrategy = (passport) => {
-  passport.use(new Strategy(customFields, verifyAuthCredentialsCallback))
+      try {
+        const user = await User.findOne({ email: email })
 
-  passport.serializeUser((user, cb) => cb(null, user.id))
+        if (!user) {
+          return done(null, false, { message: 'User does not exists.' })
+        }
 
-  passport.deserializeUser((id, cb) =>
-    User.findById(id)
-      .then((user) => cb(null, user))
-      .catch((err) => cb(err))
+        const isCorrectPassword = bcrypt.compareSync(
+          password,
+          user.hashedPassword
+        )
+        if (!isCorrectPassword) {
+          return done(null, false)
+        } else {
+          return done(null, user)
+        }
+      } catch (err) {
+        return done(err)
+      }
+    })
   )
 }
