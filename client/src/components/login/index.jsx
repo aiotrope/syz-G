@@ -77,18 +77,20 @@ const Login = () => {
     prepare()
   }, [accessToken, mounted, navigate])
 
-  const handleGoogleLogin = async () => {
-    try {
-      const googleLoginURL = 'http://localhost:8080/api/user/google/login'
-      const newWindow = window.open(googleLoginURL, '_self')
-      if (newWindow.closed) {
-        const fetchUser = await authService.getGoogleUser()
-        localStorage.setItem('googleUserAccess', fetchUser?.data)
-      }
-    } catch (err) {
-      console.error(err.message)
+  /* const handleGoogleLogin = async () => {
+    let timer
+    const googleLoginURL = 'http://localhost:8080/api/google/login'
+    const newWindow = window.open(googleLoginURL, '_self')
+
+    if (newWindow) {
+      timer = setInterval(() => {
+        if (newWindow.closed) {
+          authService.getGoogleUser()
+          if (timer) clearInterval(timer)
+        }
+      }, 500)
     }
-  }
+  } */
 
   if (isLoading) {
     return (
@@ -153,7 +155,7 @@ const Login = () => {
         <strong>OR</strong>
       </div>
       <div className="d-grid my-3">
-        <Button variant="light" size="lg" onClick={handleGoogleLogin}>
+        <Button variant="light" size="lg" href="http://localhost:8080/api/google">
           Login via Gmail
         </Button>
       </div>
