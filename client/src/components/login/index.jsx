@@ -77,9 +77,9 @@ const Login = () => {
     prepare()
   }, [accessToken, mounted, navigate])
 
-  /* const handleGoogleLogin = async () => {
+  const handleGoogleLogin = async () => {
     let timer
-    const googleLoginURL = 'http://localhost:8080/api/google/login'
+    const googleLoginURL = 'http://localhost:8080/api/google'
     const newWindow = window.open(googleLoginURL, '_self')
 
     if (newWindow) {
@@ -90,7 +90,7 @@ const Login = () => {
         }
       }, 500)
     }
-  } */
+  }
 
   if (isLoading) {
     return (
@@ -155,7 +155,7 @@ const Login = () => {
         <strong>OR</strong>
       </div>
       <div className="d-grid my-3">
-        <Button variant="light" size="lg" href="http://localhost:8080/api/google">
+        <Button variant="light" size="lg" onClick={() => handleGoogleLogin()}>
           Login via Gmail
         </Button>
       </div>

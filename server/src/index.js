@@ -7,7 +7,7 @@ import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
 import passport from 'passport'
 //import session from 'express-session'
-import cookieSession from 'cookie-session'
+//import cookieSession from 'cookie-session'
 import dbConnection from './utils/db'
 import loggingMiddleware from './middlewares/logging'
 import errorMiddleware from './middlewares/error'
@@ -19,7 +19,7 @@ import googleRouter from './routes/google'
 import { jwtLogin } from './services/passport/jwt'
 import { googleLogin } from './services/passport/google'
 import { localLogin } from './services/passport/local'
-import User from './models/user'
+//import User from './models/user'
 
 const app = express()
 
@@ -38,29 +38,21 @@ app.use(cookieParser())
     secret: config.session_secret,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 24 * 60 * 60 * 10000 }, // 24 hrs // true for https
+    cookie: { maxAge: 24 * 60 * 60 * 10000, httpOnly: false }, // 24 hrs // true for https
   })
 ) */
-
+/*
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
     keys: [config.cookie_secret1, config.cookie_secret2],
+    httpOnly: false
   })
-)
+) */
 
 app.use(passport.initialize())
 
-app.use(passport.session())
-
-passport.serializeUser((user, done) => {
-  done(null, user.id)
-})
-
-passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id)
-  done(null, user)
-})
+//app.use(passport.session())
 
 jwtLogin(passport)
 googleLogin(passport)

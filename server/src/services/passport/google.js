@@ -17,8 +17,6 @@ export const googleLogin = (passport) => {
       options,
       async (req, accessToken, refreshToken, profile, done) => {
         const user = await User.findOne({ googleId: profile.id })
-        req.user = user
-        req.session.currentUser = user
         if (!user) {
           const newUser = await User.create({
             email: profile.emails?.[0].value,
@@ -29,13 +27,12 @@ export const googleLogin = (passport) => {
           })
 
           if (newUser) {
-            //.session.googleId = newUser.googleId
+            req.user = newUser
             return done(null, newUser)
           }
         }
         if (user) {
-          //req.session.googleId = user.googleId
-          console.log(req.user)
+          req.user = user
           return done(null, user)
         }
       }

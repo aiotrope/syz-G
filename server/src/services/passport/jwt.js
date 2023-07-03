@@ -13,9 +13,9 @@ export const jwtLogin = (passport) => {
     new JwtStrategy(options, async (req, payload, done) => {
       try {
         const user = await User.findOne({ email: payload.email })
-        req.user = user
+        req.currentUser = user
         if (user) {
-          req.user = user // current user Obj
+          req.currentUser = user // current user Obj
 
           return done(null, user)
         }
