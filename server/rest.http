@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ### get google user by session
 GET http://localhost:8080/api/google/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTIxNDlkNDU0NzU5ZDFhODA1ZWU5YiIsImVtYWlsIjoiYWlkYXRhaW5kdXN0cmllc0BnbWFpbC5jb20iLCJpYXQiOjE2ODgzNDkwODUsImV4cCI6MTY4ODM1MjY4NX0.WsiOmAhmKmBo5xSNIYXLqlhoFDsJp_6tK1xugVDSf34
+
 
 ### get google user by session
 GET http://localhost:8080/api/google/callback

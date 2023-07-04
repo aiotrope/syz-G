@@ -1,4 +1,3 @@
-//require('express-async-errors')
 import createHttpError from 'http-errors'
 
 import logger from '../utils/logger'

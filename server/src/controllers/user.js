@@ -83,7 +83,7 @@ const signin = async (req, res) => {
       email: user.email,
     }
 
-    const token = jwt.sign(payload, config.jwt_secret, { expiresIn: '1h' })
+    const token = jwt.sign(payload, config.jwt_secret, { expiresIn: '2h' })
 
     const decoded = jwt.verify(token, config.jwt_secret)
 

@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify'
 
 import UnAuthTopNav from './components/header/unauthTopNav'
 import AuthTopNav from './components/header/authTopNav'
-import Router from './components/router'
+import Router from './components/router/router'
 
 import { useAuth } from './contexts/authContext'
 

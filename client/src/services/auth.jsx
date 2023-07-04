@@ -42,19 +42,12 @@ const removeAccessTokens = () => {
   localStorage.removeItem('access')
 }
 
-const getGoogleUser = async (req, res) => {
-  try {
-    const response = await axios.get('/api/google/callback', {
-      withCredentials: true,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    })
-    if (response.data) {
-      console.log('Google user', response.data)
-      localStorage.setItem('googleAccess', JSON.stringify(response.data.access))
-      return response.data
-    }
-  } catch (err) {
-    console.error(err)
+const getGoogleUserToken = async () => {
+  const response = await axios.get('/api/google/user', {
+    withCredentials: true,
+  })
+  if (response.data) {
+    return response.data
   }
 }
 
@@ -64,5 +57,5 @@ export const authService = {
   getAccessToken,
   getUserById,
   removeAccessTokens,
-  getGoogleUser,
+  getGoogleUserToken,
 }

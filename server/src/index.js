@@ -4,39 +4,29 @@ require('express-async-errors')
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import helmet from 'helmet'
+import session from 'express-session'
 import mongoSanitize from 'express-mongo-sanitize'
 import passport from 'passport'
-import session from 'express-session'
+
 import dbConnection from './utils/mongo'
-import RedisStore from 'connect-redis'
 import loggingMiddleware from './middlewares/logging'
 import errorMiddleware from './middlewares/error'
-
 import userRouter from './routes/user'
 import googleRouter from './routes/google'
-
 import { googleLogin } from './services/passport/google'
-import { redisClient } from './utils/redis'
+import cache from './utils/redis'
+import corsMiddleware from './middlewares/cors'
 import logger from './utils/logger'
-//import User from './models/user'
 
 const app = express()
 
-let redisStore = new RedisStore({
-  client: redisClient,
-})
-
 app.use(express.static('../client/build'))
-
-app.use(express.json())
-
-app.use(express.urlencoded({ extended: true }))
 
 app.use(cookieParser())
 
 app.use(
   session({
-    store: redisStore,
+    store: cache.redisStore,
     secret: [config.cookie_secret1, config.cookie_secret2],
     name: config.cookie_name,
     resave: false,
@@ -45,7 +35,7 @@ app.use(
       secure: process.env.NODE_ENV === 'production' ? true : false, // if true only transmit cookie over https
       httpOnly: false, // if true prevent client side JS from reading the cookie
       maxAge: 2 * 60 * 60 * 1000,
-      sameSite: 'lax',
+      sameSite: 'none',
     },
   })
 )
@@ -66,15 +56,13 @@ if (process.env === 'development') {
   )
 }
 
-app.use(function (req, res, next) {
-  res.header('Content-Type', 'application/json;charset=UTF-8')
-  res.header('Access-Control-Allow-Credentials', true)
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
-  next()
-})
+app.use(corsMiddleware.cors)
+
+app.use(express.json())
+
+app.use(express.urlencoded({ extended: true }))
+
+app.disable('x-powered-by')
 
 app.use(helmet())
 

@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT
 
 const FRONTEND_URL = process.env.FRONTEND_URL
 
@@ -30,6 +30,13 @@ const COOKIE_NAME = process.env.COOKIE_NAME
 
 const REDIS_URL = process.env.REDIS_URL
 
+const REDIS_PORT = process.env.REDIS_PORT
+
+const REDIS_HOST = process.env.REDIS_HOST
+
+const REDIS_PASSWORD = process.env.REDIS_PASSWORD
+
+
 const config = {
   port: PORT,
   frontend_url: FRONTEND_URL,
@@ -44,6 +51,9 @@ const config = {
   cookie_secret1: COOKIE_SECRET1,
   cookie_secret2: COOKIE_SECRET2,
   redis_url: REDIS_URL,
+  redis_host: REDIS_HOST,
+  redis_port: REDIS_PORT,
+  redis_password: REDIS_PASSWORD,
   cookie_name: COOKIE_NAME,
 }
 

@@ -1,7 +1,9 @@
 import config from '../../utils/config'
 import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2'
+import jwt from 'jsonwebtoken'
 
+import cache from '../../utils/redis'
 import User from '../../models/user'
 
 const options = {
@@ -17,6 +19,7 @@ export const googleLogin = (passport) => {
       options,
       async (req, accessToken, refreshToken, profile, done) => {
         const user = await User.findOne({ googleId: profile.id })
+
         if (!user) {
           const newUser = await User.create({
             email: profile.email,
@@ -27,11 +30,40 @@ export const googleLogin = (passport) => {
           })
 
           if (newUser) {
+            let payload = {
+              id: newUser.id,
+              email: newUser.email,
+            }
+
+            let token = jwt.sign(payload, config.jwt_secret, {
+              expiresIn: '2h',
+            })
+
+            await cache.setAsync('currentUser', JSON.stringify(newUser))
+
+            await cache.setAsync('access', JSON.stringify(token))
+
             return done(null, newUser)
           }
         }
         if (user) {
-          req.user = user
+          let payload = {
+            id: user.id,
+            email: user.email,
+          }
+
+          let token = jwt.sign(payload, config.jwt_secret, {
+            expiresIn: '2h',
+          })
+
+          await cache.setAsync('currentUser', JSON.stringify(user))
+
+          await cache.setAsync('access', JSON.stringify(token))
+
+          const savedUser = await cache.getAsync('currentUser')
+
+          console.log('USER FROM STRA: ', JSON.parse(savedUser))
+
           return done(null, user)
         }
       }

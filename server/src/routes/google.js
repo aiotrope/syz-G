@@ -1,11 +1,10 @@
-import config from '../utils/config'
 import express from 'express'
 import passport from 'passport'
 
 import googleController from '../controllers/google'
-import { checkAuthenticated } from '../middlewares/auth'
-import jwt from 'jsonwebtoken'
-//import logger from '../utils/logger'
+import { checkAuthSession } from '../middlewares/auth'
+import cache from '../utils/redis'
+import logger from '../utils/logger'
 
 const router = express.Router()
 
@@ -17,27 +16,17 @@ router.get(
 router.get(
   '/callback',
   passport.authenticate('google', {
-    //successRedirect: 'http://localhost:5173',
+    successRedirect: 'http://localhost:5173/login/success',
     failureRedirect: 'http://localhost:5173/login',
-    session: false,
+    session: true,
   }),
-  (req, res) => {
-    const user = req.user
-    if (user) {
-      const payload = {
-        id: user.id,
-        email: user.email,
-      }
-      const token = jwt.sign(payload, config.jwt_secret, { expiresIn: '1h' })
-      res.cookie('googleAccess', token)
-      //res.status(200).json({ access: token })
-      res.redirect('http://localhost:5173')
-    } else {
-      return res.redirect('http://localhost:5173/login')
-    }
+  async (req, res) => {
+    const savedUser = await cache.getAsync('currentUser')
+    logger.warn('USER from CB SESS ', JSON.parse(savedUser))
+    res.cookie('googleUser', JSON.parse(savedUser))
   }
 )
 
-router.get('/user', checkAuthenticated, googleController.getGoogleUser)
+router.get('/user', checkAuthSession, googleController.getGoogleUser)
 
 export default router
