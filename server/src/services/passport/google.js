@@ -1,8 +1,8 @@
 import config from '../../utils/config'
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
+import passport from 'passport'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2'
 
 import User from '../../models/user'
-//import logger from '../../utils/logger'
 
 const options = {
   clientID: config.google_client_id,
@@ -19,15 +19,14 @@ export const googleLogin = (passport) => {
         const user = await User.findOne({ googleId: profile.id })
         if (!user) {
           const newUser = await User.create({
-            email: profile.emails?.[0].value,
+            email: profile.email,
             username: profile.displayName,
             googleId: profile.id,
-            // photo: profile.photos[0].value
+            // photo: profile.picture
             // req.isAuthenticated()
           })
 
           if (newUser) {
-            req.user = newUser
             return done(null, newUser)
           }
         }
@@ -40,12 +39,11 @@ export const googleLogin = (passport) => {
   )
 }
 
-/* passport.serializeUser((user, done) => {
-  done(null, user.id)
+passport.serializeUser((user, done) => {
+  done(null, user)
 })
 
 passport.deserializeUser(async (id, done) => {
   const user = await User.findById(id)
   done(null, user)
 })
- */

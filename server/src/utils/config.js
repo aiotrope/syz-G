@@ -26,6 +26,10 @@ const COOKIE_SECRET1 = process.env.COOKIE_SECRET1
 
 const COOKIE_SECRET2 = process.env.COOKIE_SECRET2
 
+const COOKIE_NAME = process.env.COOKIE_NAME
+
+const REDIS_URL = process.env.REDIS_URL
+
 const config = {
   port: PORT,
   frontend_url: FRONTEND_URL,
@@ -39,6 +43,8 @@ const config = {
   session_secret: SESSION_SECRET,
   cookie_secret1: COOKIE_SECRET1,
   cookie_secret2: COOKIE_SECRET2,
+  redis_url: REDIS_URL,
+  cookie_name: COOKIE_NAME,
 }
 
 export default config

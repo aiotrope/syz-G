@@ -6,24 +6,25 @@ import cors from 'cors'
 import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
 import passport from 'passport'
-//import session from 'express-session'
-//import cookieSession from 'cookie-session'
-import dbConnection from './utils/db'
+import session from 'express-session'
+import dbConnection from './utils/mongo'
+import RedisStore from 'connect-redis'
 import loggingMiddleware from './middlewares/logging'
 import errorMiddleware from './middlewares/error'
 
-import logger from './utils/logger'
-
 import userRouter from './routes/user'
 import googleRouter from './routes/google'
-import { jwtLogin } from './services/passport/jwt'
+
 import { googleLogin } from './services/passport/google'
-import { localLogin } from './services/passport/local'
+import { redisClient } from './utils/redis'
+import logger from './utils/logger'
 //import User from './models/user'
 
 const app = express()
 
-dbConnection()
+let redisStore = new RedisStore({
+  client: redisClient,
+})
 
 app.use(express.static('../client/build'))
 
@@ -33,30 +34,27 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cookieParser())
 
-/* app.use(
+app.use(
   session({
-    secret: config.session_secret,
+    store: redisStore,
+    secret: [config.cookie_secret1, config.cookie_secret2],
+    name: config.cookie_name,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 24 * 60 * 60 * 10000, httpOnly: false }, // 24 hrs // true for https
+    cookie: {
+      secure: process.env.NODE_ENV === 'production' ? true : false, // if true only transmit cookie over https
+      httpOnly: false, // if true prevent client side JS from reading the cookie
+      maxAge: 2 * 60 * 60 * 1000,
+      sameSite: 'lax',
+    },
   })
-) */
-/*
-app.use(
-  cookieSession({
-    maxAge: 24 * 60 * 60 * 1000,
-    keys: [config.cookie_secret1, config.cookie_secret2],
-    httpOnly: false
-  })
-) */
+)
 
 app.use(passport.initialize())
 
-//app.use(passport.session())
+app.use(passport.session())
 
-jwtLogin(passport)
 googleLogin(passport)
-localLogin(passport)
 
 if (process.env === 'development') {
   app.use(
@@ -81,6 +79,8 @@ app.use(function (req, res, next) {
 app.use(helmet())
 
 app.use(require('sanitize').middleware)
+
+dbConnection()
 
 app.use(mongoSanitize())
 
