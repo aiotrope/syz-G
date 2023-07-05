@@ -64,8 +64,6 @@ const logout = async (id) => {
   if (response.status === 204) {
     return response
   }
-
-
 }
 
 export const authService = {
@@ -76,5 +74,5 @@ export const authService = {
   getGoogleUser,
   getGoogleUserInfo,
   logout,
-  clearLocalStorage
+  clearLocalStorage,
 }

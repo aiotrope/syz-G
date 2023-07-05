@@ -89,7 +89,7 @@ const Login = () => {
   }, [googleUserInfo, mounted, navigate])
 
   const google = () => {
-    window.open('http://localhost:8080/api/google/', '_self')
+    window.open(process.env.REACT_APP_LOGIN_URL, '_self')
   }
   if (isLoading) {
     return (

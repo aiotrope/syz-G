@@ -19,9 +19,9 @@ const Router = () => {
       <Route exact path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/doc" element={<Documentation />} />
-      <Route exact path="/signup" element={authenticated ? <Navigate to="/dashboard" /> : <Signup />} />
+      <Route path="/signup" element={authenticated ? <Navigate to="/dashboard" /> : <Signup />} />
       <Route path="/login" element={authenticated ? <Navigate to="/dashboard" /> : <Login />} />
-      <Route path="/dashboard" element={<Dashboard /> } />
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/account" element={<Account />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

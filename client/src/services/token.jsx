@@ -1,5 +1,3 @@
-
-
 const getAuthTokens = () => {
   const authTokens = JSON.parse(localStorage.getItem('tokens'))
   if (authTokens) return authTokens

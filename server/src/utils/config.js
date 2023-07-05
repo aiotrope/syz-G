@@ -42,6 +42,9 @@ const REDIS_HOST = process.env.REDIS_HOST
 
 const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 
+const SUCCESS_REDIRECT = process.env.SUCCESS_REDIRECT
+
+const FAILURE_REDIRECT = process.env.FAILURE_REDIRECT
 
 const config = {
   port: PORT,
@@ -64,6 +67,8 @@ const config = {
   redis_port: REDIS_PORT,
   redis_password: REDIS_PASSWORD,
   cookie_name: COOKIE_NAME,
+  success_redirect: SUCCESS_REDIRECT,
+  failure_redirect: FAILURE_REDIRECT,
 }
 
 export default config

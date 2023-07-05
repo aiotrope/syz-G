@@ -18,10 +18,6 @@ router.get(
   userController.getJwtUserById
 )
 
-router.delete(
-  '/signout/:id',
-  checkAuthSession,
-  userController.signout
-)
+router.delete('/signout/:id', checkAuthSession, userController.signout)
 
 export default router

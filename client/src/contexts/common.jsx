@@ -30,12 +30,8 @@ export const CommonProvider = ({ children }) => {
 }
 
 export const useCommon = () => {
-  const {
-    mounted,
-    signedEmail,
-    addSignedEmail,
-    removeSignedEmail,
-  } = React.useContext(CommonContext)
+  const { mounted, signedEmail, addSignedEmail, removeSignedEmail } =
+    React.useContext(CommonContext)
   return {
     mounted,
     signedEmail,

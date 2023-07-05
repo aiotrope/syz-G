@@ -46,7 +46,9 @@ const AuthTopNav = () => {
                 <Nav.Link>{authenticatedUser?.username}</Nav.Link>
               </LinkContainer>
               <Nav.Item>
-                <Button onClick={() => logout()} variant='warning'>Logout</Button>
+                <Button onClick={() => logout()} variant="warning">
+                  Logout
+                </Button>
               </Nav.Item>
             </Nav>
           </Navbar.Collapse>

@@ -6,7 +6,6 @@ import logger from './logger'
 
 let getAsync
 let setAsync
-let flushAllAsync
 let redisClient
 let redisStore
 
@@ -19,8 +18,6 @@ if (!config.redis_url) {
   getAsync = redisIsDisabled
 
   setAsync = redisIsDisabled
-
-  flushAllAsync = redisIsDisabled
 } else {
   redisClient = new ioredis(config.redis_url)
 
@@ -29,8 +26,6 @@ if (!config.redis_url) {
   getAsync = promisify(redisClient.get).bind(redisClient)
 
   setAsync = promisify(redisClient.set).bind(redisClient)
-
-  flushAllAsync = promisify(redisClient.flushall).bind(redisClient)
 }
 
 const cache = {
@@ -38,7 +33,6 @@ const cache = {
   redisStore,
   getAsync,
   setAsync,
-  flushAllAsync
 }
 
 export default cache

@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
   React.useEffect(() => {
     const isAuthenticated = async () => {
       try {
-        if ((accessToken && mounted)) {
+        if (accessToken && mounted) {
           const decoded = jwt_decode(accessToken)
           let response = await authService.getUserById(decoded.id)
           console.log(response)
@@ -41,7 +41,9 @@ export const AuthProvider = ({ children }) => {
   }, [accessToken, mounted])
 
   return (
-    <AuthContext.Provider value={{ authenticated, setAuthenticated, authenticatedUser, setAuthenticatedUser }}>
+    <AuthContext.Provider
+      value={{ authenticated, setAuthenticated, authenticatedUser, setAuthenticatedUser }}
+    >
       {children}
     </AuthContext.Provider>
   )

@@ -13,7 +13,7 @@ import loggingMiddleware from './middlewares/logging'
 import errorMiddleware from './middlewares/error'
 import userRouter from './routes/user'
 import googleRouter from './routes/google'
-//import { jwtLogin } from './services/passport/jwt'
+import { jwtLogin } from './services/passport/jwt'
 import { googleLogin } from './services/passport/google'
 import { fbLogin } from './services/passport/fb'
 import cache from './utils/redis'
@@ -37,7 +37,7 @@ app.use(
       secure: process.env.NODE_ENV === 'production' ? true : false, // if true only transmit cookie over https
       httpOnly: false, // if true prevent client side JS from reading the cookie
       maxAge: 2 * 60 * 60 * 1000,
-      sameSite: 'none',
+      sameSite: process.env.NODE_ENV === 'production' ? 'lax' : 'none',
     },
   })
 )
@@ -50,17 +50,15 @@ googleLogin(passport)
 
 fbLogin(passport)
 
-//jwtLogin(passport)
+jwtLogin(passport)
 
-if (process.env === 'development') {
-  app.use(
-    cors({
-      origin: 'http://localhost:5173',
-      credentials: true,
-      optionsSuccessStatus: 200,
-    })
-  )
-}
+app.use(
+  cors({
+    origin: config.frontend_url,
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+)
 
 app.use(corsMiddleware.cors)
 

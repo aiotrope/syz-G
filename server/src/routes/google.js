@@ -1,3 +1,4 @@
+import config from '../utils/config'
 import express from 'express'
 import passport from 'passport'
 
@@ -16,8 +17,8 @@ router.get(
 router.get(
   '/callback',
   passport.authenticate('google', {
-    successRedirect: 'http://localhost:5173/dashboard',
-    failureRedirect: 'http://localhost:5173/login',
+    successRedirect: config.success_redirect,
+    failureRedirect: config.failure_redirect,
     session: true,
   }),
   async (req, res) => {
