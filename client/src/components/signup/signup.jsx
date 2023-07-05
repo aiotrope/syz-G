@@ -56,12 +56,12 @@ const Signup = () => {
   const { addSignedEmail } = useCommon()
 
   const onSubmit = async (userData) => {
-    console.log(userData)
+    //console.log(userData)
     try {
       const result = await mutateAsync(userData)
       addSignedEmail(userData.email)
       if (result) {
-        console.log(result)
+        //console.log(result)
 
         toast.success(result.message)
 

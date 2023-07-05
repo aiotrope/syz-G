@@ -11,10 +11,11 @@ import { authService } from '../../services/auth'
 const AuthTopNav = () => {
   const { setAuthenticatedUser, setAuthenticated, authenticatedUser } = useAuth()
   const logout = () => {
-    toast.info(`${authenticatedUser.username} logged out`)
     setAuthenticated(false)
     setAuthenticatedUser(null)
     authService.removeAccessTokens()
+    authService.removeGoogleUser()
+    toast.info(`${authenticatedUser.username} logged out`)
   }
   return (
     <header role="banner">
@@ -38,7 +39,7 @@ const AuthTopNav = () => {
             </Nav>
             <Nav>
               <LinkContainer to="/account">
-                <Nav.Link>{authenticatedUser.username}</Nav.Link>
+                <Nav.Link>{authenticatedUser?.username}</Nav.Link>
               </LinkContainer>
               <Nav.Item>
                 <Button onClick={() => logout()} variant='warning'>Logout</Button>

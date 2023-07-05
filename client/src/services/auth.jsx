@@ -42,7 +42,7 @@ const removeAccessTokens = () => {
   localStorage.removeItem('access')
 }
 
-const getGoogleUserToken = async () => {
+const getGoogleUser = async () => {
   const response = await axios.get('/api/google/user', {
     withCredentials: true,
   })
@@ -51,11 +51,23 @@ const getGoogleUserToken = async () => {
   }
 }
 
+const getGoogleUserInfo = () => {
+  const user = JSON.parse(localStorage.getItem('googleUser'))
+  return user
+}
+
+const removeGoogleUser = () => {
+  localStorage.removeItem('googleUser')
+}
+
+
 export const authService = {
   createUser,
   login,
   getAccessToken,
   getUserById,
   removeAccessTokens,
-  getGoogleUserToken,
+  getGoogleUser,
+  getGoogleUserInfo,
+  removeGoogleUser
 }

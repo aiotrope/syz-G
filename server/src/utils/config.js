@@ -18,6 +18,12 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
 
 const GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL
 
+const FB_CLIENT_ID = process.env.FB_CLIENT_ID
+
+const FB_CLIENT_SECRET = process.env.FB_CLIENT_SECRET
+
+const FB_CALLBACK_URL = process.env.FB_CALLBACK_URL
+
 const JWT_SECRET = process.env.JWT_SECRET
 
 const SESSION_SECRET = process.env.SESSION_SECRET
@@ -46,6 +52,9 @@ const config = {
   google_client_id: GOOGLE_CLIENT_ID,
   google_client_secret: GOOGLE_CLIENT_SECRET,
   google_callback_url: GOOGLE_CALLBACK_URL,
+  fb_client_id: FB_CLIENT_ID,
+  fb_client_secret: FB_CLIENT_SECRET,
+  fb_callback_url: FB_CALLBACK_URL,
   jwt_secret: JWT_SECRET,
   session_secret: SESSION_SECRET,
   cookie_secret1: COOKIE_SECRET1,

@@ -1,7 +1,7 @@
 import cache from '../utils/redis'
 import logger from '../utils/logger'
 
-const getGoogleUser = async (req, res) => {
+const getFbUser = async (req, res) => {
   try {
     const savedUser = await cache.getAsync('currentUser')
     //const sess = req.session
@@ -21,5 +21,5 @@ const getGoogleUser = async (req, res) => {
 }
 
 export default {
-  getGoogleUser,
+  getFbUser,
 }

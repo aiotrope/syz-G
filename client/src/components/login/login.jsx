@@ -71,7 +71,7 @@ const Login = () => {
   useEffect(() => {
     const prepare = async () => {
       if (accessToken && mounted) {
-        navigate('/')
+        navigate('/dashboard')
       }
     }
     prepare()

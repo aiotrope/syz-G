@@ -1,7 +1,7 @@
 import express from 'express'
 import passport from 'passport'
 
-import googleController from '../controllers/google'
+import fbController from '../controllers/fb'
 import { checkAuthSession } from '../middlewares/auth'
 //import cache from '../utils/redis'
 import logger from '../utils/logger'
@@ -10,12 +10,12 @@ const router = express.Router()
 
 router.get(
   '/',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
+  passport.authenticate('facebook', { scope: ['profile', 'email'] })
 )
 
 router.get(
   '/callback',
-  passport.authenticate('google', {
+  passport.authenticate('facebook', {
     successRedirect: 'http://localhost:5173/dashboard',
     failureRedirect: 'http://localhost:5173/login',
     session: true,
@@ -27,6 +27,6 @@ router.get(
   }
 )
 
-router.get('/user', checkAuthSession, googleController.getGoogleUser)
+router.get('/user', checkAuthSession, fbController.getFbUser)
 
 export default router

@@ -23,6 +23,11 @@ const UserSchema = new Schema(
       required: false,
       default: null,
     },
+    facebookId: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   {
     toJSON: { virtuals: true },
