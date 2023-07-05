@@ -26,9 +26,5 @@
   "bugs": {
     "url": "https://github.com/aiotrope/xzymous/issues"
   },
-  "homepage": "https://github.com/aiotrope/xzymous#readme",
-  "engines": {
-    "node": "16.20.1",
-    "npm": "9.7.2"
-  }
+  "homepage": "https://github.com/aiotrope/xzymous#readme"
 }
