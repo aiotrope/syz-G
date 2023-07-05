@@ -9,7 +9,6 @@
     "build": "npm run build:client && npm run build:server",
     "dev:server": "NODE_ENV=development cd server/ && npm run dev",
     "dev:client": "NODE_ENV=development cd client/ && npm start",
-    "dev": "NODE_ENV=development npm run dev:server && npm run dev:client",
     "start": "NODE_ENV=production cd server && npm run start",
     "format:client": "cd client/ && npm run format",
     "format:server": "cd server/ && npm run format",
