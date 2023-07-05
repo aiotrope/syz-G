@@ -1,6 +1,11 @@
 import dotenv from 'dotenv'
+import path from 'path'
 
-dotenv.config()
+if (process.env === 'development') {
+  dotenv.config({ path: path.resolve(__dirname, '../../.env') })
+} else {
+  dotenv.config()
+}
 
 const PORT = process.env.PORT
 
