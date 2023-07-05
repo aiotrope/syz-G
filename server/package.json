@@ -7,12 +7,17 @@
     "node": "16.20.1"
   },
   "scripts": {
-    "build": "rm -rf dist && babel src --out-dir dist --copy-files",
+    "build:server": "rm -rf dist && babel src --out-dir dist --copy-files",
+    "build:client": "cd ../client && rm -rf build/ && npm install && npm run build",
+    "build": "npm run build:client && cd ../server && npm install && npm run build:server",
     "dev": "NODE_ENV=development nodemon --exec babel-node ./src/index.js",
     "start": "NODE_ENV=production node ./dist/index.js",
-    "format": "prettier --write \"src/**/*.js\"",
-    "linting": "eslint --ignore-path .eslintignore './src/**/*.{ts,js}'",
-    "lint": "npm run linting -- --fix"
+    "format:client": "cd ../client && npm run format",
+    "format:server": "prettier --write \"src/**/*.js\"",
+    "format": "npm run format:client && cd ../server && npm run format:server",
+    "lint:client": "cd ../client && npm run linting -- --fix",
+    "linting:server": "eslint --ignore-path .eslintignore './src/**/*.{ts,js}'",
+    "lint": "npm run lint:client && cd ../server && npm run linting:server -- --fix"
   },
   "dependencies": {
     "@babel/runtime": "^7.22.6",
