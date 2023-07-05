@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 
 import User from '../models/user'
 import { signupSchema, signinSchema } from '../utils/validators'
+import cache from '../utils/redis'
 
 //import logger from '../utils/logger'
 
@@ -115,9 +116,34 @@ const getJwtUserById = async (req, res) => {
   }
 }
 
+const signout = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const user = await User.findById(id).select({
+      hashedPassword: 0,
+    })
+
+    if (user.id !== id) throw Error('No permissions to delete user session')
+
+    await cache.redisClient.flushall()
+
+    await req.session.destroy
+
+    await req.session.destroy()
+
+    req.session = null
+
+    return res.status(204).end()
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
+  }
+}
+
 export default {
   getAll,
   signup,
   signin,
   getJwtUserById,
+  signout,
 }

@@ -54,6 +54,9 @@ const errorHandler = (error, req, res, next) => {
   if (error.message === 'Incorrect login credentials') {
     return res.status(401).json({ error: error.message })
   }
+  if (error.message === 'No permissions to delete user session') {
+    return res.status(403).json({ error: error.message })
+  }
 
   next(error)
 }

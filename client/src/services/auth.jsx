@@ -38,8 +38,8 @@ const getUserById = async (id) => {
   if (response.status === 200 && response.data) return response.data
 }
 
-const removeAccessTokens = () => {
-  localStorage.removeItem('access')
+const clearLocalStorage = () => {
+  localStorage.clear()
 }
 
 const getGoogleUser = async () => {
@@ -56,18 +56,25 @@ const getGoogleUserInfo = () => {
   return user
 }
 
-const removeGoogleUser = () => {
-  localStorage.removeItem('googleUser')
-}
+const logout = async (id) => {
+  const response = await axios.delete(`/api/user/signout/${id}`, {
+    withCredentials: true,
+  })
 
+  if (response.status === 204) {
+    return response
+  }
+
+
+}
 
 export const authService = {
   createUser,
   login,
   getAccessToken,
   getUserById,
-  removeAccessTokens,
   getGoogleUser,
   getGoogleUserInfo,
-  removeGoogleUser
+  logout,
+  clearLocalStorage
 }

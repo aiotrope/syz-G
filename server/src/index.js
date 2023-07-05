@@ -13,7 +13,7 @@ import loggingMiddleware from './middlewares/logging'
 import errorMiddleware from './middlewares/error'
 import userRouter from './routes/user'
 import googleRouter from './routes/google'
-import { jwtLogin } from './services/passport/jwt'
+//import { jwtLogin } from './services/passport/jwt'
 import { googleLogin } from './services/passport/google'
 import { fbLogin } from './services/passport/fb'
 import cache from './utils/redis'
@@ -50,7 +50,7 @@ googleLogin(passport)
 
 fbLogin(passport)
 
-jwtLogin(passport)
+//jwtLogin(passport)
 
 if (process.env === 'development') {
   app.use(

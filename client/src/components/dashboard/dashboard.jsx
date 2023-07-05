@@ -18,7 +18,6 @@ const Dashboard = () => {
           setAuthenticated(true)
           setAuthenticatedUser(response?.googleUser)
           localStorage.setItem('googleUser', JSON.stringify(response?.googleUser))
-          toast.success(response.success)
         }
       } catch (err) {
         toast.error(err.response)

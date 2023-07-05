@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
@@ -10,12 +11,15 @@ import { authService } from '../../services/auth'
 
 const AuthTopNav = () => {
   const { setAuthenticatedUser, setAuthenticated, authenticatedUser } = useAuth()
-  const logout = () => {
+
+  const navigate = useNavigate()
+  const logout = async () => {
+    await authService.logout(authenticatedUser?.id)
     setAuthenticated(false)
     setAuthenticatedUser(null)
-    authService.removeAccessTokens()
-    authService.removeGoogleUser()
-    toast.info(`${authenticatedUser.username} logged out`)
+    await authService.clearLocalStorage()
+    toast.info(`${authenticatedUser?.username} logged out`)
+    navigate('/')
   }
   return (
     <header role="banner">

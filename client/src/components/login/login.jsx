@@ -32,6 +32,8 @@ const Login = () => {
 
   const accessToken = authService.getAccessToken()
 
+  const googleUserInfo = authService.getGoogleUserInfo()
+
   const { isLoading, reset, mutateAsync } = useMutation({
     mutationFn: authService.login,
     onSuccess: () => {
@@ -76,6 +78,15 @@ const Login = () => {
     }
     prepare()
   }, [accessToken, mounted, navigate])
+
+  useEffect(() => {
+    const prepare = async () => {
+      if (googleUserInfo && mounted) {
+        navigate('/dashboard')
+      }
+    }
+    prepare()
+  }, [googleUserInfo, mounted, navigate])
 
   const google = () => {
     window.open('http://localhost:8080/api/google/', '_self')
