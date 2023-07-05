@@ -1,3 +1,3 @@
 # xzymous
-CT30A3204 capstone project
+CT30A3204 capstone project.
 
