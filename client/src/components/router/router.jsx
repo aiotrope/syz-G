@@ -8,7 +8,7 @@ import Login from '../login/login'
 import NotFound from '../404/404'
 import Account from '../account/account'
 import Dashboard from '../dashboard/dashboard'
-import Privacy from '../privacy/privacy'
+import PrivacyPolicy from '../privacyPolicy/privacy'
 
 import { useAuth } from '../../contexts/authContext'
 
@@ -17,14 +17,14 @@ const Router = () => {
 
   return (
     <Routes>
-      <Route exact path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/doc" element={<Documentation />} />
       <Route path="/signup" element={authenticated ? <Navigate to="/dashboard" /> : <Signup />} />
       <Route path="/login" element={authenticated ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/account" element={<Account />} />
-      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

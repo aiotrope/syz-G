@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify'
 
 import UnAuthTopNav from './components/header/unauthTopNav'
 import AuthTopNav from './components/header/authTopNav'
+import Footer from './components/footer/footer'
 import Router from './components/router/router'
 
 import { useAuth } from './contexts/authContext'
@@ -21,6 +22,10 @@ const App = () => {
         <Container>
           <ToastContainer />
           <Router />
+          <footer>
+            <hr />
+            <Footer />
+          </footer>
         </Container>
       </main>
     </BrowserRouter>

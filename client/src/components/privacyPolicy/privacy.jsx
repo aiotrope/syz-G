@@ -2,12 +2,12 @@ import React from 'react'
 
 import Container from 'react-bootstrap/Container'
 
-const Privacy = () => {
+const PrivacyPolicy = () => {
   return (
     <Container>
       <h1>Privacy Policy</h1>
 
-      <p>Effective date: February 12, 2023</p>
+      <p>Effective date: July 6, 2023</p>
 
       <p>
         Xzymous (&quot;us&quot;, &quot;we&quot;, or &quot;our&quot;) operates
@@ -403,4 +403,4 @@ const Privacy = () => {
   )
 }
 
-export default Privacy
+export default PrivacyPolicy
