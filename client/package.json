@@ -27,11 +27,12 @@
   },
   "scripts": {
     "start": "PORT=5173 react-scripts start",
-    "build": "react-scripts build",
+    "build": "rm -rf build/ && npm install && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "linting": "eslint --ignore-path .eslintignore \"**/*.+(js|jsx|ts|tsx)\"",
-    "format": "prettier --ignore-path .prettierignore --write \"**/*.+(js|jsx|json|md|ts|tsx|css|scss)\""
+    "format": "prettier --ignore-path .prettierignore --write \"**/*.+(js|jsx|json|md|ts|tsx|css|scss)\"",
+    "lint": "npm run linting -- --fix"
   },
   "browserslist": {
     "production": [
