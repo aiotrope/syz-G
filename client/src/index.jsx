@@ -7,8 +7,6 @@ import App from './App'
 import { CommonProvider } from './contexts/common'
 import { AuthProvider } from './contexts/authContext'
 
-import reportWebVitals from './reportWebVitals'
-
 const root = ReactDOM.createRoot(document.getElementById('root'))
 const queryClient = new QueryClient()
 
@@ -41,5 +39,3 @@ if (process.env.NODE_ENV !== 'production') {
     </React.StrictMode>
   )
 }
-
-reportWebVitals()

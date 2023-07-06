@@ -8,7 +8,7 @@ import Login from '../login/login'
 import NotFound from '../404/404'
 import Account from '../account/account'
 import Dashboard from '../dashboard/dashboard'
-import PrivacyPolicy from '../privacyPolicy/privacy'
+import Privacy from '../privacy/privacy'
 
 import { useAuth } from '../../contexts/authContext'
 
@@ -24,7 +24,7 @@ const Router = () => {
       <Route path="/login" element={authenticated ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/account" element={<Account />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/privacy-policy" element={<Privacy />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

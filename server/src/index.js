@@ -20,6 +20,8 @@ import cache from './utils/redis'
 import corsMiddleware from './middlewares/cors'
 import logger from './utils/logger'
 
+const redisStore = require('connect-redis')(session)
+
 const app = express()
 
 app.use(express.static('../client/build'))
@@ -28,7 +30,7 @@ app.use(cookieParser())
 
 app.use(
   session({
-    store: cache.redisStore,
+    store: new redisStore({ client: cache.redisClient }),
     secret: [config.cookie_secret1, config.cookie_secret2],
     name: config.cookie_name,
     resave: false,

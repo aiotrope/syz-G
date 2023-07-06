@@ -131,7 +131,7 @@ out
 
 .DS_Store
 
-# dist/
+dist/
 
-# build/
+build/
 

@@ -1,6 +1,7 @@
 import config from './config'
 import ioredis from 'ioredis'
-import RedisStore from 'connect-redis'
+//import connectRedis from 'connect-redis'
+//import session from 'express-session'
 import { promisify } from 'util'
 import logger from './logger'
 
@@ -8,6 +9,8 @@ let getAsync
 let setAsync
 let redisClient
 let redisStore
+
+
 
 if (!config.redis_url) {
   const redisIsDisabled = () => {
@@ -21,7 +24,7 @@ if (!config.redis_url) {
 } else {
   redisClient = new ioredis(config.redis_url)
 
-  redisStore = new RedisStore({ client: redisClient })
+  //redisStore = new connectRedis(session)({ client: redisClient })
 
   getAsync = promisify(redisClient.get).bind(redisClient)
 
