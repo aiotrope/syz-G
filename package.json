@@ -2,7 +2,7 @@
   "name": "xzymous",
   "version": "1.0.0",
   "description": "CT30A3204 capstone project.",
-  "main": "./server/dist/index.js",
+  "main": "./server/index.mjs",
   "engines": {
     "node": "14.17.0"
   },
