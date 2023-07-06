@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build:client": "cd client && yarn run build",
-    "build": "yarn run build:client",
+    "build:server": "cd server && yarn install",
+    "build": "yarn run build:client && yarn run build:server",
     "dev:server": "NODE_ENV=development cd server/ && yarn run dev",
     "dev:client": "NODE_ENV=development cd client/ && yarn start",
     "start": "NODE_ENV=production cd server && yarn run start",

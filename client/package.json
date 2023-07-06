@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "PORT=5173 react-scripts start",
-    "build": "react-scripts build",
+    "build": "yarn install && rm -rf build && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "linting": "eslint --ignore-path .eslintignore \"**/*.+(js|jsx|ts|tsx)\"",
