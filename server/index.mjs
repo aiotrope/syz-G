@@ -8,7 +8,7 @@ import session from 'express-session'
 import mongoSanitize from 'express-mongo-sanitize'
 import passport from 'passport'
 import connectRedis from 'connect-redis'
-import sanitize from 'sanitize'
+import * as sanitize from 'sanitize'
 
 import dbConnection from './utils/mongo.mjs'
 import loggingMiddleware from './middlewares/logging.mjs'
