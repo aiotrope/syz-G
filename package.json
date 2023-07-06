@@ -7,18 +7,18 @@
     "node": "14.17.0"
   },
   "scripts": {
-    "build:client": "cd client && yarn run build",
-    "build:server": "cd server && yarn install",
-    "build": "yarn run build:client && yarn run build:server",
-    "dev:server": "NODE_ENV=development cd server/ && yarn run dev",
-    "dev:client": "NODE_ENV=development cd client/ && yarn start",
-    "start": "NODE_ENV=production cd server && yarn run start",
-    "format:client": "cd client/ && yarn run format",
-    "format:server": "cd server/ && yarn run format",
-    "format": "yarn run format:client && yarn run format:server",
-    "lint:client": "cd client/ && yarn run lint",
-    "lint:server": "cd server/ && yarn run lint",
-    "lint": "yarn run lint:client && yarn run lint:server"
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm i",
+    "build": "npm run build:client && npm run build:server",
+    "dev:server": "NODE_ENV=development cd server/ && npm run dev",
+    "dev:client": "NODE_ENV=development cd client/ && npm start",
+    "start": "NODE_ENV=production cd server/ && npm run start",
+    "format:client": "cd client/ && npm run format",
+    "format:server": "cd server/ && npm run format",
+    "format": "npm run format:client && npm run format:server",
+    "lint:client": "cd client/ && npm run lint",
+    "lint:server": "cd server/ && npm run lint",
+    "lint": "npm run lint:client && npm run lint:server"
   },
   "repository": {
     "type": "git",

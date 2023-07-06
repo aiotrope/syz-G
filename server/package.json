@@ -8,7 +8,7 @@
     "start": "NODE_ENV=production node index.mjs",
     "format": "prettier --write \"src/**/*.js\"",
     "linting": "eslint --ignore-path .eslintignore './src/**/*.{ts,mjs, js}'",
-    "lint": "yarn run linting -- --fix"
+    "lint": "npm run linting -- --fix"
   },
   "type": "module",
   "dependencies": {
