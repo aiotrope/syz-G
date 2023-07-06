@@ -1,9 +1,7 @@
-import config from './config'
+import config from './config.mjs'
 import ioredis from 'ioredis'
-//import connectRedis from 'connect-redis'
-//import session from 'express-session'
 import { promisify } from 'util'
-import logger from './logger'
+import logger from './logger.mjs'
 
 let getAsync
 let setAsync
@@ -23,8 +21,6 @@ if (!config.redis_url) {
   setAsync = redisIsDisabled
 } else {
   redisClient = new ioredis(config.redis_url)
-
-  //redisStore = new connectRedis(session)({ client: redisClient })
 
   getAsync = promisify(redisClient.get).bind(redisClient)
 

@@ -1,6 +1,6 @@
-import config from './config'
+import config from './config.mjs'
 import mongoose from 'mongoose'
-import logger from './logger'
+import logger from './logger.mjs'
 
 let dbURL
 

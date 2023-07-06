@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors'
-import cache from '../utils/redis'
+import cache from '../utils/redis.mjs'
 
 export const checkAuthSession = async (req, res, next) => {
   const sess = req.session

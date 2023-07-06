@@ -1,22 +1,21 @@
-import config from '../utils/config'
+import config from '../utils/config.mjs'
 import express from 'express'
 import passport from 'passport'
 
-import fbController from '../controllers/fb'
-import { checkAuthSession } from '../middlewares/auth'
-//import cache from '../utils/redis'
-import logger from '../utils/logger'
+import googleController from '../controllers/google.mjs'
+import { checkAuthSession } from '../middlewares/auth.mjs'
+import logger from '../utils/logger.mjs'
 
 const router = express.Router()
 
 router.get(
   '/',
-  passport.authenticate('facebook', { scope: ['profile', 'email'] })
+  passport.authenticate('google', { scope: ['profile', 'email'] })
 )
 
 router.get(
   '/callback',
-  passport.authenticate('facebook', {
+  passport.authenticate('google', {
     successRedirect: config.success_redirect,
     failureRedirect: config.failure_redirect,
     session: true,
@@ -28,6 +27,6 @@ router.get(
   }
 )
 
-router.get('/user', checkAuthSession, fbController.getFbUser)
+router.get('/user', checkAuthSession, googleController.getGoogleUser)
 
-export default router
+export { router as googleRouter }

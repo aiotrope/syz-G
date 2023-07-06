@@ -1,11 +1,11 @@
-import config from '../utils/config'
-require('express-async-errors')
+import config from '../utils/config.mjs'
+import 'express-async-errors'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-import User from '../models/user'
-import { signupSchema, signinSchema } from '../utils/validators'
-import cache from '../utils/redis'
+import User from '../models/user.mjs'
+import { signupSchema, signinSchema } from '../utils/validators.mjs'
+import cache from '../utils/redis.mjs'
 
 //import logger from '../utils/logger'
 

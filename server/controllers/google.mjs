@@ -1,5 +1,5 @@
-import cache from '../utils/redis'
-import logger from '../utils/logger'
+import cache from '../utils/redis.mjs'
+import logger from '../utils/logger.mjs'
 
 const getGoogleUser = async (req, res) => {
   try {

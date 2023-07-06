@@ -1,26 +1,28 @@
-import config from './utils/config'
+import config from './utils/config.mjs'
 import express from 'express'
-require('express-async-errors')
+import 'express-async-errors'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import helmet from 'helmet'
 import session from 'express-session'
 import mongoSanitize from 'express-mongo-sanitize'
 import passport from 'passport'
+import connectRedis from 'connect-redis'
+import sanitize from 'sanitize'
 
-import dbConnection from './utils/mongo'
-import loggingMiddleware from './middlewares/logging'
-import errorMiddleware from './middlewares/error'
-import userRouter from './routes/user'
-import googleRouter from './routes/google'
-import { jwtLogin } from './services/passport/jwt'
-import { googleLogin } from './services/passport/google'
-import { fbLogin } from './services/passport/fb'
-import cache from './utils/redis'
-import corsMiddleware from './middlewares/cors'
-import logger from './utils/logger'
+import dbConnection from './utils/mongo.mjs'
+import loggingMiddleware from './middlewares/logging.mjs'
+import errorMiddleware from './middlewares/error.mjs'
+import { userRouter } from './routes/user.mjs'
+import { googleRouter } from './routes/google.mjs'
+import { jwtLogin } from './services/passport/jwt.mjs'
+import { googleLogin } from './services/passport/google.mjs'
+import { fbLogin } from './services/passport/fb.mjs'
+import cache from './utils/redis.mjs'
+import corsMiddleware from './middlewares/cors.mjs'
+import logger from './utils/logger.mjs'
 
-const redisStore = require('connect-redis')(session)
+let RedisStore = connectRedis(session)
 
 const app = express()
 
@@ -30,14 +32,14 @@ app.use(cookieParser())
 
 app.use(
   session({
-    store: new redisStore({ client: cache.redisClient }),
+    store: new RedisStore({ client: cache.redisClient }),
     secret: [config.cookie_secret1, config.cookie_secret2],
     name: config.cookie_name,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === 'production' ? true : false, // if true only transmit cookie over https
-      httpOnly: false, // if true prevent client side JS from reading the cookie
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+      httpOnly: false,
       maxAge: 2 * 60 * 60 * 1000,
       sameSite: process.env.NODE_ENV === 'production' ? 'lax' : 'none',
     },
@@ -72,7 +74,7 @@ app.disable('x-powered-by')
 
 app.use(helmet())
 
-app.use(require('sanitize').middleware)
+app.use(sanitize.middleware)
 
 dbConnection()
 
