@@ -1,8 +1,8 @@
 import express from 'express'
 import passport from 'passport'
 
-import userController from '../controllers/user.mjs'
-import { checkAuthSession } from '../middlewares/auth.mjs'
+import userController from '../controllers/user'
+import { checkAuthSession } from '../middlewares/auth'
 
 const router = express.Router()
 
@@ -20,4 +20,4 @@ router.get(
 
 router.delete('/signout/:id', checkAuthSession, userController.signout)
 
-export { router as userRouter }
+export default router

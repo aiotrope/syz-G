@@ -1,10 +1,10 @@
-import config from '../utils/config.mjs'
+import config from '../utils/config'
 import express from 'express'
 import passport from 'passport'
 
-import fbController from '../controllers/fb.mjs'
-import { checkAuthSession } from '../middlewares/auth.mjs'
-import logger from '../utils/logger.mjs'
+import fbController from '../controllers/fb'
+import { checkAuthSession } from '../middlewares/auth'
+import logger from '../utils/logger'
 
 const router = express.Router()
 
@@ -29,4 +29,4 @@ router.get(
 
 router.get('/user', checkAuthSession, fbController.getFbUser)
 
-export { router as fbRouter }
+export default router

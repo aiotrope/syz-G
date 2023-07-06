@@ -1,10 +1,10 @@
-import config from '../utils/config.mjs'
+import config from '../utils/config'
 import express from 'express'
 import passport from 'passport'
 
-import googleController from '../controllers/google.mjs'
-import { checkAuthSession } from '../middlewares/auth.mjs'
-import logger from '../utils/logger.mjs'
+import googleController from '../controllers/google'
+import { checkAuthSession } from '../middlewares/auth'
+import logger from '../utils/logger'
 
 const router = express.Router()
 
@@ -29,4 +29,4 @@ router.get(
 
 router.get('/user', checkAuthSession, googleController.getGoogleUser)
 
-export { router as googleRouter }
+export default router

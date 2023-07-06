@@ -13,7 +13,7 @@ const Footer = () => {
           </LinkContainer>
         </Nav.Item>
         <Nav.Item>
-          <LinkContainer to='/privacy-policy'>
+          <LinkContainer to='/privacy'>
             <Nav.Link className="text-secondary">Privacy Terms</Nav.Link>
           </LinkContainer>
         </Nav.Item>

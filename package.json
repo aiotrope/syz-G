@@ -2,13 +2,13 @@
   "name": "xzymous",
   "version": "1.0.0",
   "description": "CT30A3204 capstone project.",
-  "main": "./server/index.mjs",
+  "main": "./server/dist/index.js",
   "engines": {
-    "node": "14.17.0"
+    "node": "16.20.1"
   },
   "scripts": {
     "build:client": "cd client && npm run build",
-    "build:server": "cd server && npm i",
+    "build:server": "cd server && npm run build",
     "build": "npm run build:client && npm run build:server",
     "dev:server": "NODE_ENV=development cd server/ && npm run dev",
     "dev:client": "NODE_ENV=development cd client/ && npm start",
@@ -25,5 +25,9 @@
     "url": "git@github.com-aiotrope:aiotrope/xzymous.git"
   },
   "author": "Arnel Imperial",
-  "license": "0BSD"
+  "license": "0BSD",
+  "cacheDirectories": [
+    "server/node_modules",
+    "client/node_modules"
+  ]
 }

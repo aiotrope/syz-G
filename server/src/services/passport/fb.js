@@ -1,23 +1,23 @@
-import config from '../../utils/config.mjs'
+import config from '../../utils/config'
 import passport from 'passport'
-import { Strategy as GoogleStrategy } from 'passport-google-oauth2'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
 
-import cache from '../../utils/redis.mjs'
-import User from '../../models/user.mjs'
+import cache from '../../utils/redis'
+import User from '../../models/user'
 
 const options = {
-  clientID: config.google_client_id,
-  clientSecret: config.google_client_secret,
-  callbackURL: config.google_callback_url,
+  clientID: config.fb_client_id,
+  clientSecret: config.fb_client_secret,
+  callbackURL: config.fb_callback_url,
   passReqToCallback: true,
 }
 
-export const googleLogin = (passport) => {
+export const fbLogin = (passport) => {
   passport.use(
-    new GoogleStrategy(
+    new FacebookStrategy(
       options,
-      async (req, accessToken, refreshToken, profile, done) => {
-        const user = await User.findOne({ googleId: profile.id })
+      async (req, accessToken, refreshToken, profile, cb) => {
+        const user = await User.findOne({ facebookId: profile.id })
         const sess = req.session
 
         if (!user) {
@@ -33,25 +33,25 @@ export const googleLogin = (passport) => {
             await cache.setAsync('currentUser', JSON.stringify(newUser))
             sess.user = JSON.stringify(newUser)
 
-            return done(null, newUser)
+            return cb(null, newUser)
           }
         }
         if (user) {
           await cache.setAsync('currentUser', JSON.stringify(user))
           sess.user = JSON.stringify(user)
 
-          return done(null, user)
+          return cb(null, user)
         }
       }
     )
   )
 }
 
-passport.serializeUser((user, done) => {
-  done(null, user)
+passport.serializeUser((user, cb) => {
+  cb(null, user)
 })
 
-passport.deserializeUser(async (id, done) => {
+passport.deserializeUser(async (id, cb) => {
   const user = await User.findById(id)
-  done(null, user)
+  cb(null, user)
 })

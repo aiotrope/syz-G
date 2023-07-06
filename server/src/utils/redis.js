@@ -1,14 +1,13 @@
-import config from './config.mjs'
+import config from './config'
 import ioredis from 'ioredis'
+import RedisStore from 'connect-redis'
 import { promisify } from 'util'
-import logger from './logger.mjs'
+import logger from './logger'
 
 let getAsync
 let setAsync
 let redisClient
 let redisStore
-
-
 
 if (!config.redis_url) {
   const redisIsDisabled = () => {
@@ -25,6 +24,10 @@ if (!config.redis_url) {
   getAsync = promisify(redisClient.get).bind(redisClient)
 
   setAsync = promisify(redisClient.set).bind(redisClient)
+
+  redisStore = new RedisStore({
+    client: redisClient,
+  })
 }
 
 const cache = {

@@ -1,6 +1,6 @@
-import config from '../../utils/config.mjs'
+import config from '../../utils/config'
 import { Strategy as jwtStrategy, ExtractJwt } from 'passport-jwt'
-import User from '../../models/user.mjs'
+import User from '../../models/user'
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

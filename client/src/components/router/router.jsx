@@ -24,7 +24,7 @@ const Router = () => {
       <Route path="/login" element={authenticated ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/account" element={<Account />} />
-      <Route path="/privacy-policy" element={<Privacy />} />
+      <Route path="/privacy" element={<Privacy />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
