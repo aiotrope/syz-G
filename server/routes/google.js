@@ -1,10 +1,10 @@
-import config from '../utils/config'
-import express from 'express'
-import passport from 'passport'
+const config = require( '../config')
+const express = require( 'express')
+const passport = require( 'passport')
 
-import googleController from '../controllers/google'
-import { checkAuthSession } from '../middlewares/auth'
-import logger from '../utils/logger'
+const googleController = require( '../controllers/google')
+const { checkAuthSession } = require( '../middlewares/auth')
+const logger = require( '../utils/logger')
 
 const router = express.Router()
 
@@ -22,11 +22,11 @@ router.get(
   }),
   async (req, res) => {
     const sess = req.sess
-    logger.warn('USER from CB SESS ', JSON.parse(sess.user))
+    logger.warn('USER = require( CB SESS ', JSON.parse(sess.user))
     res.cookie('googleUser', JSON.parse(sess.user))
   }
 )
 
 router.get('/user', checkAuthSession, googleController.getGoogleUser)
 
-export default router
+module.exports = router

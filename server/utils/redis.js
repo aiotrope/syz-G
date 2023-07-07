@@ -1,8 +1,8 @@
-import config from './config'
-import ioredis from 'ioredis'
-import RedisStore from 'connect-redis'
-import { promisify } from 'util'
-import logger from './logger'
+const config = require('../config')
+const ioredis = require('ioredis')
+const RedisStore = require('connect-redis').default
+const { promisify } = require('util')
+const logger = require('./logger')
 
 let getAsync
 let setAsync
@@ -37,4 +37,4 @@ const cache = {
   setAsync,
 }
 
-export default cache
+module.exports = cache

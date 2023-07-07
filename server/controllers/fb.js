@@ -1,12 +1,12 @@
-import cache from '../utils/redis'
-import logger from '../utils/logger'
+const cache = require('../utils/redis')
+const logger = require('../utils/logger')
 
 const getFbUser = async (req, res) => {
   try {
     const savedUser = await cache.getAsync('currentUser')
     //const sess = req.session
 
-    logger.warn('USER FROM Google route ', JSON.parse(savedUser))
+    logger.warn('USER = require( Google route ', JSON.parse(savedUser))
 
     const userEmail = JSON.parse(savedUser).email
     console.log(userEmail)
@@ -20,6 +20,8 @@ const getFbUser = async (req, res) => {
   }
 }
 
-export default {
+const fbController = {
   getFbUser,
 }
+
+module.exports = fbController

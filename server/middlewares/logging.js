@@ -1,6 +1,6 @@
-import morgan from 'morgan'
+const morgan = require( 'morgan')
 
-import logger from '../utils/logger'
+const logger = require( '../utils/logger')
 
 const stream = {
   write: (message) => logger.http(message),
@@ -21,4 +21,4 @@ const loggingMiddleware = {
   logging,
 }
 
-export default loggingMiddleware
+module.exports = loggingMiddleware

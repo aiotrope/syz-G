@@ -1,6 +1,6 @@
-import config from './config'
-import mongoose from 'mongoose'
-import logger from './logger'
+const config = require('../config')
+const mongoose = require('mongoose')
+const logger = require('./logger')
 
 let dbURL
 
@@ -13,17 +13,11 @@ const opts = {
 const dbConnection = () => {
   mongoose.set('strictQuery', false)
 
-  if (process.env.NODE_ENV === 'development') {
-    dbURL = config.mongo_url_dev
-  }
-
-  if (process.env.NODE_ENV === 'production') {
-    dbURL = config.mongo_url_prod
-  }
-
   if (process.env.NODE_ENV === 'test') {
     dbURL = config.mongo_url_test
   }
+
+  dbURL = config.mongo_url
 
   mongoose.connect(dbURL, opts)
 
@@ -37,4 +31,4 @@ const dbConnection = () => {
   })
 }
 
-export default dbConnection
+module.exports = dbConnection

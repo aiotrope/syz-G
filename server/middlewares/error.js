@@ -1,6 +1,6 @@
-import createHttpError from 'http-errors'
+const createHttpError = require( 'http-errors')
 
-import logger from '../utils/logger'
+const logger = require( '../utils/logger')
 
 const endPoint404 = (req, res, next) => {
   next(createHttpError(404))
@@ -65,4 +65,4 @@ const errorMiddleware = {
   errorHandler,
 }
 
-export default errorMiddleware
+module.exports = errorMiddleware

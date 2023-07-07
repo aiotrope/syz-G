@@ -1,10 +1,10 @@
-import config from '../utils/config'
-import express from 'express'
-import passport from 'passport'
+const config = require('../config')
+const express = require('express')
+const passport = require('passport')
 
-import fbController from '../controllers/fb'
-import { checkAuthSession } from '../middlewares/auth'
-import logger from '../utils/logger'
+const fbController = require('../controllers/fb')
+const auth = require('../middlewares/auth')
+const logger = require('../utils/logger')
 
 const router = express.Router()
 
@@ -22,11 +22,11 @@ router.get(
   }),
   async (req, res) => {
     const sess = req.sess
-    logger.warn('USER from CB SESS ', JSON.parse(sess.user))
+    logger.warn('USER = require( CB SESS ', JSON.parse(sess.user))
     res.cookie('googleUser', JSON.parse(sess.user))
   }
 )
 
-router.get('/user', checkAuthSession, fbController.getFbUser)
+router.get('/user', auth.checkAuthSession, fbController.getFbUser)
 
-export default router
+module.exports = router

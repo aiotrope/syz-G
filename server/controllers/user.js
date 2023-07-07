@@ -1,13 +1,13 @@
-import config from '../utils/config'
+const config = require('../config')
 require('express-async-errors')
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
-import User from '../models/user'
-import { signupSchema, signinSchema } from '../utils/validators'
-import cache from '../utils/redis'
+const User = require('../models/user')
+const validators = require('../utils/validators')
+const cache = require('../utils/redis')
 
-//import logger from '../utils/logger'
+//const logger = require( '../utils/logger'
 
 // return an array of users objects with id, email, username, isStaff and timestamps
 
@@ -34,7 +34,7 @@ const signup = async (req, res) => {
   if (foundUser) throw Error('Cannot use the email provided')
 
   try {
-    const validData = signupSchema.validate(req.body)
+    const validData = validators.signupSchema.validate(req.body)
 
     if (validData.error) {
       return res.status(400).json({ error: validData.error.details[0].message })
@@ -63,7 +63,7 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
   let { email, password } = req.body
 
-  const validData = signinSchema.validate(req.body)
+  const validData = validators.signinSchema.validate(req.body)
 
   if (validData.error) {
     return res.status(400).json({ error: validData.error.details.message })
@@ -140,10 +140,12 @@ const signout = async (req, res) => {
   }
 }
 
-export default {
+const userController = {
   getAll,
   signup,
   signin,
   getJwtUserById,
   signout,
 }
+
+module.exports = userController

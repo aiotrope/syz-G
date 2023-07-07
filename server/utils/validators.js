@@ -1,11 +1,11 @@
-import Joi from 'joi'
+const Joi = require('joi')
 
 const password_regex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~?/`!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/
 
 const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{3,}$/
 
-export const signupSchema = Joi.object()
+const signupSchema = Joi.object()
   .keys({
     email: Joi.string().trim().required().email(),
     username: Joi.string()
@@ -25,9 +25,16 @@ export const signupSchema = Joi.object()
   })
   .required()
 
-export const signinSchema = Joi.object()
+const signinSchema = Joi.object()
   .keys({
     email: Joi.string().trim().required().email(),
     password: Joi.string().trim().required(),
   })
   .required()
+
+const validators = {
+  signinSchema,
+  signupSchema,
+}
+
+module.exports = validators

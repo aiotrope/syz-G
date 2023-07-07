@@ -1,17 +1,13 @@
-import dotenv from 'dotenv'
-import path from 'path'
+//const path = require('path')
+const dotenv = require('dotenv')
 
-dotenv.config({
-  path: path.resolve(__dirname, '../../../.env'),
-})
+dotenv.config()
 
 const PORT = process.env.PORT
 
 const FRONTEND_URL = process.env.FRONTEND_URL
 
-const MONGO_URL_DEV = process.env.MONGO_URL_DEV
-
-const MONGO_URL_PROD = process.env.MONGO_URL_PROD
+const MONGO_URL = process.env.MONGO_URL
 
 const MONGO_URL_TEST = process.env.MONGO_URL_TEST
 
@@ -52,8 +48,7 @@ const FAILURE_REDIRECT = process.env.FAILURE_REDIRECT
 const config = {
   port: PORT,
   frontend_url: FRONTEND_URL,
-  mongo_url_dev: MONGO_URL_DEV,
-  mongo_url_prod: MONGO_URL_PROD,
+  mongo_url: MONGO_URL,
   mongo_url_test: MONGO_URL_TEST,
   google_client_id: GOOGLE_CLIENT_ID,
   google_client_secret: GOOGLE_CLIENT_SECRET,
@@ -74,4 +69,4 @@ const config = {
   failure_redirect: FAILURE_REDIRECT,
 }
 
-export default config
+module.exports = config
