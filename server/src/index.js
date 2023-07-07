@@ -1,6 +1,7 @@
 import config from './utils/config'
 import express from 'express'
 require('express-async-errors')
+import path from 'path'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import helmet from 'helmet'
@@ -22,7 +23,11 @@ import logger from './utils/logger'
 
 const app = express()
 
-app.use(express.static('../client/build'))
+//app.use(express.static('../../client/build'))
+
+app.use(express.static(path.join(__dirname, 'build')))
+
+app.use(express.static('build'))
 
 app.use(cookieParser())
 
@@ -76,11 +81,17 @@ dbConnection()
 
 app.use(mongoSanitize())
 
+
 app.use(loggingMiddleware.logging)
 
 app.use('/api/user', userRouter)
 
 app.use('/api/google', googleRouter)
+
+// All remaining requests return the React app, so it can handle routing.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
 app.use(errorMiddleware.endPoint404)
 

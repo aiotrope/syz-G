@@ -8,12 +8,12 @@ const Footer = () => {
     <Stack className="my-5">
       <Nav className="justify-content-center">
         <Nav.Item>
-          <LinkContainer to='/'>
+          <LinkContainer to="/">
             <Nav.Link className="text-secondary">Home</Nav.Link>
           </LinkContainer>
         </Nav.Item>
         <Nav.Item>
-          <LinkContainer to='/privacy'>
+          <LinkContainer to="/privacy">
             <Nav.Link className="text-secondary">Privacy Terms</Nav.Link>
           </LinkContainer>
         </Nav.Item>

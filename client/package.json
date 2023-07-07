@@ -2,9 +2,6 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "16.20.1"
-  },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
     "@tanstack/react-query": "^4.29.19",
@@ -18,24 +15,22 @@
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.1",
-    "react-js-pagination": "^3.0.3",
     "react-router-bootstrap": "^0.26.2",
     "react-router-dom": "^6.14.1",
     "react-scripts": "^5.0.1",
     "react-toastify": "^9.1.3",
-    "rimraf": "^5.0.1",
     "use-debounce": "^9.0.4",
     "web-vitals": "^3.3.2",
     "yup": "^1.2.0"
   },
   "scripts": {
-    "start": "PORT=5173 react-scripts start",
-    "build": "rimraf build/ && react-scripts build",
+    "start": "react-scripts start",
+    "build": "rimraf build/ && react-scripts build && cp -r build ../server/dist/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "linting": "eslint --ignore-path .eslintignore \"**/*.+(js|jsx|ts|tsx)\"",
     "format": "prettier --ignore-path .prettierignore --write \"**/*.+(js|jsx|json|md|ts|tsx|css|scss)\"",
-    "lint": "npm run linting -- --fix"
+    "lint": "yarn run linting -- --fix"
   },
   "browserslist": {
     "production": [
@@ -56,5 +51,6 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "prettier": "^3.0.0",
     "sass": "^1.63.6"
-  }
+  },
+  "proxy": "http://127.0.0.1:8080"
 }
