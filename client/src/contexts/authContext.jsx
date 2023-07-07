@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react-refresh/only-export-components */
 import React from 'react'
 import jwt_decode from 'jwt-decode'
 import { toast } from 'react-toastify'

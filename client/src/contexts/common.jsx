@@ -2,6 +2,7 @@ import React from 'react'
 
 export const CommonContext = React.createContext()
 
+// eslint-disable-next-line react/prop-types
 export const CommonProvider = ({ children }) => {
   const [signedEmail, setSignedEmail] = React.useState(null)
 
@@ -29,6 +30,7 @@ export const CommonProvider = ({ children }) => {
   return <CommonContext.Provider value={value}>{children}</CommonContext.Provider>
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCommon = () => {
   const { mounted, signedEmail, addSignedEmail, removeSignedEmail } =
     React.useContext(CommonContext)

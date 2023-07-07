@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
@@ -89,7 +89,7 @@ const Login = () => {
   }, [googleUserInfo, mounted, navigate])
 
   const google = () => {
-    window.open(process.env.REACT_APP_LOGIN_URL, '_self')
+    window.open(import.meta.env.LOGIN_URL, '_self')
   }
   if (isLoading) {
     return (
