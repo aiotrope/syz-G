@@ -1,0 +1,8 @@
+node_modules
+build/
+dist/
+client/**
+build/**
+dist/**
+build
+dist
