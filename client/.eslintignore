@@ -1,8 +1,0 @@
-node_modules
-build/
-dist/
-server/**
-build/**
-dist/**
-build
-dist
