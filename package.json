@@ -13,7 +13,7 @@
   "scripts": {
     "dev:server": "NODE_ENV=development cd server/ && yarn dev",
     "dev:client": "NODE_ENV=development cd client/ && yarn start", 
-    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "dev": "yarn run dev:server && yarn run dev:client ",
     "format:client": "cd client/ && yarn run format",
     "format:server": "cd server/ && yarn run format",
     "format": "npm-run-all format:client format:server",
