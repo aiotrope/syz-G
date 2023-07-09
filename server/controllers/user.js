@@ -82,7 +82,7 @@ const signin = async (req, res) => {
     const payload = {
       id: user.id,
       email: user.email,
-      username: user.email
+      username: user.email,
     }
 
     const token = jwt.sign(payload, config.jwt_secret, { expiresIn: '2h' })

@@ -7,4 +7,3 @@ export const About = () => {
     </Stack>
   )
 }
-

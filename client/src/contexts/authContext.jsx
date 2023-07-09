@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   //const accessToken = authService.getAccessToken()
 
- /*  React.useEffect(() => {
+  /*  React.useEffect(() => {
     const isAuthenticated = async () => {
       try {
         if (accessToken && mounted) {

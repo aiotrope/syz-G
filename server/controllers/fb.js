@@ -4,7 +4,6 @@ const logger = require('../utils/logger')
 const getFbUser = async (req, res) => {
   try {
     const savedUser = await cache.getAsync('currentUser')
-    //const sess = req.session
 
     logger.warn('USER = require( Google route ', JSON.parse(savedUser))
 

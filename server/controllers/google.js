@@ -1,6 +1,5 @@
 const config = require('../config')
 const cache = require('../utils/redis')
-//const logger = require('../utils/logger')
 const jwt = require('jsonwebtoken')
 
 const getGoogleUserAccessToken = async (req, res) => {

@@ -16,7 +16,7 @@ const jwtLogin = (passport) => {
       try {
         const user = await User.findById(payload.id)
         if (user) {
-          req.user = user // current user Obj
+          req.user = user
 
           return done(null, user)
         }

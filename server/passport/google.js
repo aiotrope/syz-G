@@ -1,5 +1,4 @@
 const config = require('../config')
-//const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const GoogleStrategy = require('passport-google-oauth2').Strategy
 
@@ -25,8 +24,6 @@ const googleLogin = (passport) => {
             email: profile.email,
             username: profile.displayName,
             googleId: profile.id,
-            // photo: profile.picture
-            // req.isAuthenticated()
           })
 
           if (newUser) {
