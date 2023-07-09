@@ -11,9 +11,14 @@
     "rimraf": "^5.0.1"
   },
   "scripts": {
-    "dev:server": "NODE_ENV=development cd server/ && yarn dev",
-    "dev:client": "NODE_ENV=development cd client/ && yarn start", 
-    "dev": "yarn run dev:server && yarn run dev:client ",
+    "install:root": "yarn install --frozen-lockfile",
+    "install:server": "cd server/ && yarn install --frozen-lockfile",
+    "install:client": "cd client/ && yarn install --frozen-lockfile",
+    "preinstall": "yarn install --frozen-lockfile",
+    "install": "npm-run-all install:server install:client",
+    "dev:server": "cd server/ && yarn dev",
+    "dev:client": "cd client/ && yarn start",
+    "dev": "NODE_ENV=development yarn run dev:server & yarn run dev:client",
     "format:client": "cd client/ && yarn run format",
     "format:server": "cd server/ && yarn run format",
     "format": "npm-run-all format:client format:server",
@@ -21,9 +26,7 @@
     "lint:server": "cd server/ && yarn run lint",
     "lint": "npm-run-all lint:client lint:server",
     "build:client": "cd client/ && rimraf build/ && yarn run build",
-    "install:server": "cd server/ && yarn install --frozen-lockfile",
-    "install:root": "yarn install --frozen-lockfile",
-    "build": "yarn run install:root && yarn run build:client",
+    "build": "yarn run build:client",
     "start": "NODE_ENV=production cd server/ && yarn start"
   }
 }
