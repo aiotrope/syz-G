@@ -56,9 +56,11 @@ app.use('/api/user', userRouter)
 
 app.use('/api/google', googleRouter)
 
-app.get('*', function (request, response) {
-  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
-})
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', function (request, response) {
+    response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
+  })
+}
 
 app.use(errorMiddleware.endPoint404)
 

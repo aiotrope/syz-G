@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+const baseUrl = process.env.REACT_APP_BASE_URL
+
 const createUser = async (data) => {
-  const response = await axios.post('/api/user/signup', data, {
+  const response = await axios.post(`${baseUrl}/api/user/signup`, data, {
     withCredentials: true,
     headers: { 'Content-Type': 'application/json' },
   })
@@ -11,7 +13,7 @@ const createUser = async (data) => {
 }
 
 const login = async (credentials) => {
-  const response = await axios.post('/api/user/signin', credentials, {
+  const response = await axios.post(`${baseUrl}/api/user/signin`, credentials, {
     withCredentials: true,
     headers: { 'Content-Type': 'application/json' },
   })
@@ -31,7 +33,7 @@ const getAccessToken = () => {
 const getUserById = async (id) => {
   const accessToken = getAccessToken()
 
-  const response = await axios.get(`/api/user/${id}`, {
+  const response = await axios.get(`${baseUrl}/api/user/${id}`, {
     withCredentials: true,
     headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
   })
@@ -43,7 +45,7 @@ const clearLocalStorage = () => {
 }
 
 const getGoogleUserAccessToken = async () => {
-  const response = await axios.get('/api/google/user', {
+  const response = await axios.get(`${baseUrl}/api/google/user`, {
     withCredentials: true,
   })
   if (response.data) {
@@ -57,7 +59,7 @@ const getGoogleUserInfo = () => {
 }
 
 const logout = async (id) => {
-  const response = await axios.delete(`/api/user/signout/${id}`, {
+  const response = await axios.delete(`${baseUrl}/api/user/signout/${id}`, {
     withCredentials: true,
   })
 
