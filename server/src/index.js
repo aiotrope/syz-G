@@ -57,7 +57,7 @@ app.use(mongoSanitize())
 
 app.use(loggingMiddleware.logging)
 
-app.use('/', indexRouter)
+app.use('/api', indexRouter)
 
 app.use('/api/user', userRouter)
 
