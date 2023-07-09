@@ -1,0 +1,17 @@
+{
+    "name": "xzymous-api",
+    "version": 2,
+    "public": true,
+    "builds": [
+      {
+        "src": "server/index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/server/index.js"
+      }
+    ]
+  }
