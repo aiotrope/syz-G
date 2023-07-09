@@ -44,7 +44,7 @@ app.use(_express.default.urlencoded({
 app.disable('x-powered-by');
 app.use((0, _expressMongoSanitize.default)());
 app.use(_logging.default.logging);
-app.use('/api', _index.default);
+app.use('/', _index.default);
 app.use('/api/user', _user.default);
 app.use('/api/google', _google2.default);
 (0, _mongo.default)();
