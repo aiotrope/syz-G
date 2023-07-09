@@ -4,7 +4,6 @@ require('express-async-errors')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize')
 const passport = require('passport')
 
@@ -48,8 +47,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.disable('x-powered-by')
-
-app.use(helmet())
 
 app.use(mongoSanitize())
 
