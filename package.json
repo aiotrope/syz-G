@@ -23,7 +23,7 @@
     "build:client": "cd client/ && rimraf build/ && yarn run build",
     "install:server": "cd server/ && yarn install --frozen-lockfile",
     "install:root": "yarn install --frozen-lockfile",
-    "build": "yarn run install:root && yarn run install:server && yarn run build:client",
+    "build": "npm-run-all install:server build:client",
     "start": "NODE_ENV=production cd server/ && yarn start"
   }
 }
