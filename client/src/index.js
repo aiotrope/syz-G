@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { RecoilRoot } from 'recoil'
 
-import App from './App'
+import { App } from './App'
 import { CommonProvider } from './contexts/common'
 import { AuthProvider } from './contexts/authContext'
 import './sass/_index.scss'
@@ -18,7 +19,9 @@ if (process.env.NODE_ENV !== 'production') {
         <QueryClientProvider client={queryClient}>
           <CommonProvider>
             <AuthProvider>
-              <App />
+              <RecoilRoot>
+                <App />
+              </RecoilRoot>
             </AuthProvider>
           </CommonProvider>
         </QueryClientProvider>
@@ -31,7 +34,9 @@ if (process.env.NODE_ENV !== 'production') {
       <QueryClientProvider client={queryClient}>
         <CommonProvider>
           <AuthProvider>
-            <App />
+            <RecoilRoot>
+              <App />
+            </RecoilRoot>
           </AuthProvider>
         </CommonProvider>
       </QueryClientProvider>

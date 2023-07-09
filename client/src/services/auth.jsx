@@ -42,13 +42,13 @@ const clearLocalStorage = () => {
   localStorage.clear()
 }
 
-const getGoogleUser = async () => {
+const getGoogleUserAccessToken = async () => {
   const response = await axios.get('/api/google/user', {
     withCredentials: true,
   })
   if (response.data) {
     return response.data
-  }
+  } else if (response.data === undefined) return null
 }
 
 const getGoogleUserInfo = () => {
@@ -71,7 +71,7 @@ export const authService = {
   login,
   getAccessToken,
   getUserById,
-  getGoogleUser,
+  getGoogleUserAccessToken,
   getGoogleUserInfo,
   logout,
   clearLocalStorage,

@@ -3,14 +3,18 @@ const express = require('express')
 const passport = require('passport')
 
 const googleController = require('../controllers/google')
-const { checkAuthSession } = require('../middlewares/auth')
-const logger = require('../utils/logger')
+const ensureAuth = require('../middlewares/auth')
+//const cache = require('../utils/redis')
+//const logger = require('../utils/logger')
 
 const router = express.Router()
 
 router.get(
   '/',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    session: false,
+  })
 )
 
 router.get(
@@ -18,15 +22,14 @@ router.get(
   passport.authenticate('google', {
     successRedirect: config.success_redirect,
     failureRedirect: config.failure_redirect,
-    session: true,
-  }),
-  async (req, res) => {
-    const sess = req.sess
-    logger.warn('USER = require( CB SESS ', JSON.parse(sess.user))
-    res.cookie('googleUser', JSON.parse(sess.user))
-  }
+    session: false,
+  })
 )
 
-router.get('/user', checkAuthSession, googleController.getGoogleUser)
+router.get(
+  '/user',
+  ensureAuth.checkAuth,
+  googleController.getGoogleUserAccessToken
+)
 
 module.exports = router

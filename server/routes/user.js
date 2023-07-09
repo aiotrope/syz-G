@@ -2,7 +2,7 @@ const express = require('express')
 const passport = require('passport')
 
 const userController = require('../controllers/user')
-const { checkAuthSession } = require('../middlewares/auth')
+const ensureAuth = require('../middlewares/auth')
 
 const router = express.Router()
 
@@ -18,6 +18,6 @@ router.get(
   userController.getJwtUserById
 )
 
-router.delete('/signout/:id', checkAuthSession, userController.signout)
+router.delete('/signout/:id', ensureAuth.checkAuth, userController.signout)
 
 module.exports = router

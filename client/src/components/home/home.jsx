@@ -1,6 +1,6 @@
 import { useAuth } from '../../contexts/authContext'
 
-const Home = () => {
+export const Home = () => {
   const { authenticated } = useAuth()
   console.log(authenticated)
   return (
@@ -10,4 +10,3 @@ const Home = () => {
   )
 }
 
-export default Home

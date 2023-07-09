@@ -5,7 +5,7 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const helmet = require('helmet')
-const session = require('express-session')
+//const session = require('express-session')
 const mongoSanitize = require('express-mongo-sanitize')
 const passport = require('passport')
 
@@ -18,7 +18,7 @@ const googleRouter = require('./routes/google')
 const jwtLogin = require('./passport/jwt')
 const googleLogin = require('./passport/google')
 const fbLogin = require('./passport/fb')
-const cache = require('./utils/redis')
+//const cache = require('./utils/redis')
 const corsMiddleware = require('./middlewares/cors')
 
 const app = express()
@@ -29,7 +29,7 @@ app.use(express.static(path.resolve(__dirname, '../client/build')))
 
 app.use(cookieParser())
 
-app.use(
+/* app.use(
   session({
     store: cache.redisStore,
     secret: [config.cookie_secret1, config.cookie_secret2],
@@ -43,11 +43,11 @@ app.use(
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     },
   })
-)
+) */
 
 app.use(passport.initialize())
 
-app.use(passport.session())
+//app.use(passport.session())
 
 jwtLogin(passport)
 googleLogin(passport)

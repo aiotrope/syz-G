@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 
-const UnAuthTopNav = () => {
+export const UnAuthTopNav = () => {
   return (
     <header role="banner">
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
@@ -39,4 +39,3 @@ const UnAuthTopNav = () => {
   )
 }
 
-export default UnAuthTopNav

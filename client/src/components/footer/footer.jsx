@@ -2,7 +2,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import Stack from 'react-bootstrap/Stack'
 import Nav from 'react-bootstrap/Nav'
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <Stack className="my-5">
       <Nav className="justify-content-center">
@@ -31,4 +31,3 @@ const Footer = () => {
   )
 }
 
-export default Footer

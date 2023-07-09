@@ -40,6 +40,5 @@
     "eslint-config-prettier": "^8.8.0",
     "nodemon": "^2.0.22",
     "prettier": "^3.0.0"
-  },
-  "proxy": "http://localhost:8080"
+  }
 }

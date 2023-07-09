@@ -1,8 +1,8 @@
 import React from 'react'
-import jwt_decode from 'jwt-decode'
+/* import jwt_decode from 'jwt-decode'
 import { toast } from 'react-toastify'
 import { authService } from '../services/auth'
-import { useCommon } from './common'
+import { useCommon } from './common' */
 
 const AuthContext = React.createContext({
   authenticated: null,
@@ -16,11 +16,11 @@ export const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = React.useState(null)
   const [authenticatedUser, setAuthenticatedUser] = React.useState(null)
 
-  const { mounted } = useCommon()
+  //const { mounted } = useCommon()
 
-  const accessToken = authService.getAccessToken()
+  //const accessToken = authService.getAccessToken()
 
-  React.useEffect(() => {
+ /*  React.useEffect(() => {
     const isAuthenticated = async () => {
       try {
         if (accessToken && mounted) {
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
     isAuthenticated()
-  }, [accessToken, mounted])
+  }, [accessToken, mounted]) */
 
   return (
     <AuthContext.Provider

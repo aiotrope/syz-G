@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+import jwt_decode from 'jwt-decode'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { LinkContainer } from 'react-router-bootstrap'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
@@ -6,19 +8,29 @@ import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 
-import { useAuth } from '../../contexts/authContext'
+import { jwt_atom } from '../../recoil/auth'
+
+//import { useAuth } from '../../contexts/authContext'
 import { authService } from '../../services/auth'
 
-const AuthTopNav = () => {
-  const { setAuthenticatedUser, setAuthenticated, authenticatedUser } = useAuth()
+export const AuthTopNav = () => {
+  /* eslint-disable-next-line no-unused-vars */
+  const [_, setJWT] = useRecoilState(jwt_atom)
+  /* eslint-enable-next-line no-unused-vars */
+
+  const token = useRecoilValue(jwt_atom)
+
+  const decoded = jwt_decode(token)
 
   const navigate = useNavigate()
+
   const logout = async () => {
-    await authService.logout(authenticatedUser?.id)
-    setAuthenticated(false)
-    setAuthenticatedUser(null)
+    setJWT('')
+    localStorage.removeItem('loggedInUser')
+    toast.info(`${decoded.username} logged out`)
+    await authService.logout(decoded.id)
     await authService.clearLocalStorage()
-    toast.info(`${authenticatedUser?.username} logged out`)
+
     navigate('/')
   }
   return (
@@ -43,7 +55,7 @@ const AuthTopNav = () => {
             </Nav>
             <Nav>
               <LinkContainer to="/account">
-                <Nav.Link>{authenticatedUser?.username}</Nav.Link>
+                <Nav.Link>{decoded?.username}</Nav.Link>
               </LinkContainer>
               <Nav.Item>
                 <Button onClick={() => logout()} variant="warning">
@@ -57,5 +69,3 @@ const AuthTopNav = () => {
     </header>
   )
 }
-
-export default AuthTopNav

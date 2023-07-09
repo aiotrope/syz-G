@@ -82,6 +82,7 @@ const signin = async (req, res) => {
     const payload = {
       id: user.id,
       email: user.email,
+      username: user.email
     }
 
     const token = jwt.sign(payload, config.jwt_secret, { expiresIn: '2h' })
@@ -128,15 +129,9 @@ const signout = async (req, res) => {
 
     await cache.redisClient.flushall()
 
-    await req.session.destroy
-
-    await req.session.destroy()
-
-    req.session = null
-
     return res.status(204).end()
   } catch (err) {
-    return res.status(422).json({ error: err.message })
+    res.redirect('/api/user/signin')
   }
 }
 

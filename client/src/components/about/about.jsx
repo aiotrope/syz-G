@@ -1,6 +1,6 @@
 import Stack from 'react-bootstrap/Stack'
 
-const About = () => {
+export const About = () => {
   return (
     <Stack className="col-lg mx-auto">
       <h2>About Page</h2>
@@ -8,4 +8,3 @@ const About = () => {
   )
 }
 
-export default About

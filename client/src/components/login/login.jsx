@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
@@ -16,6 +17,8 @@ import { toast } from 'react-toastify'
 import { authService } from '../../services/auth'
 import { useCommon } from '../../contexts/common'
 
+import { jwt_atom } from '../../recoil/auth'
+
 const schema = yup
   .object({
     email: yup.string().trim().email().required('Enter your registered email'),
@@ -23,18 +26,27 @@ const schema = yup
   })
   .required()
 
-const Login = () => {
-  //const queryClient = useQueryClient()
+export const Login = () => {
+  /* eslint-disable-next-line no-unused-vars */
+  const [_, setJWT] = useRecoilState(jwt_atom)
+  /* eslint-enable-next-line no-unused-vars */
+
+  const queryClient = useQueryClient()
 
   const navigate = useNavigate()
 
   const { mounted } = useCommon()
 
-  const accessToken = authService.getAccessToken()
+  const _jwt = useRecoilValue(jwt_atom)
 
-  const googleUserInfo = authService.getGoogleUserInfo()
-
-  const { isLoading, reset, mutateAsync } = useMutation(authService.login)
+  const { isLoading, reset, mutateAsync } = useMutation({
+    mutationFn: authService.login,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['user'],
+      })
+    },
+  })
 
   const {
     register,
@@ -51,11 +63,7 @@ const Login = () => {
       if (result) {
         navigate('/')
         toast.success(result.message)
-        let timer
-        setTimeout(() => {
-          window.location.reload()
-          clearTimeout(timer)
-        }, 6000)
+        setJWT(result.access)
       }
     } catch (err) {
       console.error(err.response.data.error)
@@ -65,25 +73,17 @@ const Login = () => {
 
   useEffect(() => {
     const prepare = async () => {
-      if (accessToken && mounted) {
+      if (_jwt && mounted) {
         navigate('/dashboard')
       }
     }
     prepare()
-  }, [accessToken, mounted, navigate])
-
-  useEffect(() => {
-    const prepare = async () => {
-      if (googleUserInfo && mounted) {
-        navigate('/dashboard')
-      }
-    }
-    prepare()
-  }, [googleUserInfo, mounted, navigate])
+  }, [_jwt, mounted, navigate])
 
   const google = () => {
     window.open(process.env.REACT_APP_LOGIN_URL, '_self')
   }
+
   if (isLoading) {
     return (
       <Spinner animation="grow" className="spinner">
@@ -114,7 +114,7 @@ const Login = () => {
             id="email"
             size="lg"
           />
-          {errors.username?.message && (
+          {errors.email?.message && (
             <FormControl.Feedback type="invalid">{errors.email?.message}</FormControl.Feedback>
           )}
         </FormGroup>
@@ -154,5 +154,3 @@ const Login = () => {
     </Stack>
   )
 }
-
-export default Login

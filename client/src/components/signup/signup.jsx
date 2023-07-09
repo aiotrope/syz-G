@@ -30,7 +30,7 @@ const schema = yup
   })
   .required()
 
-const Signup = () => {
+export const Signup = () => {
   const queryClient = useQueryClient()
   const { isLoading, reset, mutateAsync } = useMutation({
     mutationFn: authService.createUser,
@@ -174,4 +174,3 @@ const Signup = () => {
   )
 }
 
-export default Signup

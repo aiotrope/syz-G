@@ -1,4 +1,4 @@
-const Documentation = () => {
+export const Documentation = () => {
   return (
     <div>
       <h2>Docs Page</h2>
@@ -6,4 +6,3 @@ const Documentation = () => {
   )
 }
 
-export default Documentation

@@ -1,18 +1,17 @@
-const createHttpError = require('http-errors')
+//const createHttpError = require('http-errors')
 const cache = require('../utils/redis')
 
-const checkAuthSession = async (req, res, next) => {
-  const sess = req.session
-  const currentUser = await cache.getAsync('currentUser')
-  if (sess || currentUser) {
+const checkAuth = async (req, res, next) => {
+  const access = await cache.getAsync('access')
+  if (access) {
     return next()
   } else {
-    next(createHttpError(401))
+    res.redirect('/api/user/signin')
   }
 }
 
-const auth = {
-  checkAuthSession,
+const ensureAuth = {
+  checkAuth,
 }
 
-module.exports = auth
+module.exports = ensureAuth

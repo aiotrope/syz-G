@@ -1,27 +1,29 @@
+const config = require('../config')
 const cache = require('../utils/redis')
-const logger = require('../utils/logger')
+//const logger = require('../utils/logger')
+const jwt = require('jsonwebtoken')
 
-const getGoogleUser = async (req, res) => {
+const getGoogleUserAccessToken = async (req, res) => {
   try {
-    const savedUser = await cache.getAsync('currentUser')
-    //const sess = req.session
+    const savedToken = await cache.getAsync('access')
 
-    logger.warn('USER = require( Google route ', JSON.parse(savedUser))
+    const parseToken = JSON.parse(savedToken)
 
-    const userEmail = JSON.parse(savedUser).email
-    console.log(userEmail)
+    const decoded = jwt.verify(parseToken, config.jwt_secret)
 
-    return res.status(200).json({
-      success: `${userEmail} signed-in`,
-      googleUser: JSON.parse(savedUser),
-    })
+    if (decoded) {
+      return res.status(200).json({
+        success: `${decoded.email} signed-in`,
+        access: parseToken,
+      })
+    }
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }
 }
 
 const googleController = {
-  getGoogleUser,
+  getGoogleUserAccessToken,
 }
 
 module.exports = googleController

@@ -1,5 +1,6 @@
 const config = require('../config')
-const passport = require('passport')
+//const passport = require('passport')
+const jwt = require('jsonwebtoken')
 const GoogleStrategy = require('passport-google-oauth2').Strategy
 
 const cache = require('../utils/redis')
@@ -18,7 +19,6 @@ const googleLogin = (passport) => {
       options,
       async (req, accessToken, refreshToken, profile, done) => {
         const user = await User.findOne({ googleId: profile.id })
-        const sess = req.session
 
         if (!user) {
           const newUser = await User.create({
@@ -30,15 +30,33 @@ const googleLogin = (passport) => {
           })
 
           if (newUser) {
-            await cache.setAsync('currentUser', JSON.stringify(newUser))
-            sess.user = JSON.stringify(newUser)
+            let payload = {
+              id: newUser.id,
+              email: newUser.email,
+              username: newUser.username,
+            }
+
+            let token = jwt.sign(payload, config.jwt_secret, {
+              expiresIn: '2h',
+            })
+
+            await cache.setAsync('access', JSON.stringify(token))
 
             return done(null, newUser)
           }
         }
         if (user) {
-          await cache.setAsync('currentUser', JSON.stringify(user))
-          sess.user = JSON.stringify(user)
+          let payload = {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+          }
+
+          let token = jwt.sign(payload, config.jwt_secret, {
+            expiresIn: '2h',
+          })
+
+          await cache.setAsync('access', JSON.stringify(token))
 
           return done(null, user)
         }
@@ -47,13 +65,13 @@ const googleLogin = (passport) => {
   )
 }
 
-passport.serializeUser((user, done) => {
+/* passport.serializeUser((user, done) => {
   done(null, user)
 })
 
 passport.deserializeUser(async (id, done) => {
   const user = await User.findById(id)
   done(null, user)
-})
+}) */
 
 module.exports = googleLogin

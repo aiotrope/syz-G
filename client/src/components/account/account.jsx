@@ -1,6 +1,6 @@
 import Container from 'react-bootstrap/Container'
 
-const Account = () => {
+export const Account = () => {
   return (
     <Container className="wrapper">
       <h2>User&apos;s account</h2>
@@ -9,4 +9,3 @@ const Account = () => {
   )
 }
 
-export default Account
