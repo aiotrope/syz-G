@@ -1,6 +1,5 @@
 const config = require('./config')
 const express = require('express')
-const http = require('http')
 require('express-async-errors')
 const path = require('path')
 const cookieParser = require('cookie-parser')
@@ -23,8 +22,6 @@ const logger = require('./utils/logger')
 const port = config.port
 
 const app = express()
-
-const server = http.createServer(app)
 
 dbConnection()
 
@@ -72,7 +69,8 @@ app.use(errorMiddleware.endPoint404)
 
 app.use(errorMiddleware.errorHandler)
 
-server.listen(port, () => {
+app.listen(port, () => {
   logger.http(`Server is running on port ${port}`)
 })
 
+module.exports = app
