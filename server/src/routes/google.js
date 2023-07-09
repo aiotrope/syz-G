@@ -1,11 +1,9 @@
-const config = require('../config')
-const express = require('express')
-const passport = require('passport')
+import config from '../config'
+import express from 'express'
+import passport from 'passport'
 
-const googleController = require('../controllers/google')
-const ensureAuth = require('../middlewares/auth')
-//const cache = require('../utils/redis')
-//const logger = require('../utils/logger')
+import googleController from '../controllers/google'
+import ensureAuth from '../middlewares/auth'
 
 const router = express.Router()
 
@@ -32,4 +30,4 @@ router.get(
   googleController.getGoogleUserAccessToken
 )
 
-module.exports = router
+export default router

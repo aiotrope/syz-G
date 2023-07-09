@@ -1,10 +1,10 @@
-const config = require('../config')
-const express = require('express')
-const passport = require('passport')
+import config from '../config'
+import express from 'express'
+import passport from 'passport'
 
-const fbController = require('../controllers/fb')
-const auth = require('../middlewares/auth')
-const logger = require('../utils/logger')
+import fbController from '../controllers/fb'
+import ensureAuth from '../middlewares/auth'
+import logger from '../utils/logger'
 
 const router = express.Router()
 
@@ -27,6 +27,6 @@ router.get(
   }
 )
 
-router.get('/user', auth.checkAuthSession, fbController.getFbUser)
+router.get('/user', ensureAuth.checkAuth, fbController.getFbUserAccessToken)
 
-module.exports = router
+export default router

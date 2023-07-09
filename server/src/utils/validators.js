@@ -1,4 +1,4 @@
-const Joi = require('joi')
+import Joi from 'joi'
 
 const password_regex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~?/`!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/
@@ -37,4 +37,4 @@ const validators = {
   signupSchema,
 }
 
-module.exports = validators
+export default validators

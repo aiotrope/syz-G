@@ -1,6 +1,6 @@
-const config = require('../config')
-const cache = require('../utils/redis')
-const jwt = require('jsonwebtoken')
+import config from '../config'
+import jwt from 'jsonwebtoken'
+import cache from '../utils/redis'
 
 const getGoogleUserAccessToken = async (req, res) => {
   try {
@@ -25,4 +25,4 @@ const googleController = {
   getGoogleUserAccessToken,
 }
 
-module.exports = googleController
+export default googleController

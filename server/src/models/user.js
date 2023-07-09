@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+import { Schema, model } from 'mongoose'
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new Schema(
   {
     email: {
       type: String,
@@ -40,6 +40,6 @@ UserSchema.virtual('id').get(function () {
   return this._id.toHexString()
 })
 
-const User = mongoose.model('User', UserSchema)
+const User = model('User', UserSchema)
 
-module.exports = User
+export default User

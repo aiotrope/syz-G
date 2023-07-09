@@ -1,9 +1,9 @@
-const config = require('../config')
-const passport = require('passport')
-const FacebookStrategy = require('passport-facebook').Strategy
+import config from '../config'
+import jwt from 'jsonwebtoken'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
 
-const cache = require('../utils/redis')
-const User = require('../models/user')
+import cache from '../utils/redis'
+import User from '../models/user'
 
 const options = {
   clientID: config.fb_client_id,
@@ -12,7 +12,7 @@ const options = {
   passReqToCallback: true,
 }
 
-const fbLogin = (passport) => {
+export const fbLogin = (passport) => {
   passport.use(
     new FacebookStrategy(
       options,
@@ -30,8 +30,17 @@ const fbLogin = (passport) => {
           })
 
           if (newUser) {
-            await cache.setAsync('currentUser', JSON.stringify(newUser))
-            sess.user = JSON.stringify(newUser)
+            let payload = {
+              id: user.id,
+              email: user.email,
+              username: user.username,
+            }
+
+            let token = jwt.sign(payload, config.jwt_secret, {
+              expiresIn: '2h',
+            })
+
+            await cache.setAsync('access', JSON.stringify(token))
 
             return done(null, newUser)
           }
@@ -46,14 +55,3 @@ const fbLogin = (passport) => {
     )
   )
 }
-
-passport.serializeUser((user, done) => {
-  done(null, user)
-})
-
-passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id)
-  done(null, user)
-})
-
-module.exports = fbLogin

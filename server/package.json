@@ -2,15 +2,17 @@
   "name": "server",
   "version": "0.0.0",
   "private": true,
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon index.js",
-    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon --exec babel-node ./src/index.js",
+    "build": "rimraf dist && babel src --out-dir dist --copy-files",
+    "start": "NODE_ENV=production node ./dist/index.js",
     "format": "prettier --ignore-path .prettierignore --write \"**/*.+(js|jsx|json|md|ts|tsx|css|scss)\"",
     "linting": "eslint --ignore-path .eslintignore './**/*.{ts,mjs,js}'",
     "lint": "yarn run linting -- --fix"
   },
   "dependencies": {
+    "@babel/runtime": "^7.22.6",
     "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
@@ -31,6 +33,13 @@
     "winston": "^3.9.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.22.6",
+    "@babel/core": "^7.22.8",
+    "@babel/node": "^7.22.6",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
+    "@babel/plugin-transform-runtime": "^7.22.7",
+    "@babel/preset-env": "^7.22.7",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
     "nodemon": "^3.0.0",

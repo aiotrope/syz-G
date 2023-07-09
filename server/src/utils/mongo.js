@@ -1,6 +1,6 @@
-const config = require('../config')
-const mongoose = require('mongoose')
-const logger = require('./logger')
+import config from '../config'
+import mongoose from 'mongoose'
+import logger from './logger'
 
 let dbURL
 
@@ -31,4 +31,4 @@ const dbConnection = () => {
   })
 }
 
-module.exports = dbConnection
+export default dbConnection

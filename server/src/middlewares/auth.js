@@ -1,5 +1,4 @@
-//const createHttpError = require('http-errors')
-const cache = require('../utils/redis')
+import cache from '../utils/redis'
 
 const checkAuth = async (req, res, next) => {
   const access = await cache.getAsync('access')
@@ -14,4 +13,4 @@ const ensureAuth = {
   checkAuth,
 }
 
-module.exports = ensureAuth
+export default ensureAuth

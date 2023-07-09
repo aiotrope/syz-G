@@ -1,7 +1,7 @@
-const config = require('../config')
-const ioredis = require('ioredis')
-const { promisify } = require('util')
-const logger = require('./logger')
+import config from '../config'
+import ioredis from 'ioredis'
+import { promisify } from 'util'
+import logger from './logger'
 
 let getAsync
 let setAsync
@@ -30,4 +30,4 @@ const cache = {
   setAsync,
 }
 
-module.exports = cache
+export default cache

@@ -1,4 +1,4 @@
-const morgan = require('morgan')
+import morgan from 'morgan'
 
 const logger = require('../utils/logger')
 
@@ -21,4 +21,4 @@ const loggingMiddleware = {
   logging,
 }
 
-module.exports = loggingMiddleware
+export default loggingMiddleware

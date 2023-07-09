@@ -1,13 +1,11 @@
-const config = require('../config')
+import config from '../config'
 require('express-async-errors')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
-const User = require('../models/user')
-const validators = require('../utils/validators')
-const cache = require('../utils/redis')
-
-//const logger = require( '../utils/logger'
+import User from '../models/user'
+import validators from '../utils/validators'
+import cache from '../utils/redis'
 
 // return an array of users objects with id, email, username, isStaff and timestamps
 
@@ -143,4 +141,4 @@ const userController = {
   signout,
 }
 
-module.exports = userController
+export default userController

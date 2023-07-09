@@ -1,10 +1,9 @@
-const config = require('../config')
-const jwt = require('jsonwebtoken')
-const GoogleStrategy = require('passport-google-oauth2').Strategy
+import config from '../config'
+import jwt from 'jsonwebtoken'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2'
 
-const cache = require('../utils/redis')
-const User = require('../models/user')
-
+import cache from '../utils/redis'
+import User from '../models/user'
 const options = {
   clientID: config.google_client_id,
   clientSecret: config.google_client_secret,
@@ -12,7 +11,7 @@ const options = {
   passReqToCallback: true,
 }
 
-const googleLogin = (passport) => {
+export const googleLogin = (passport) => {
   passport.use(
     new GoogleStrategy(
       options,
@@ -61,14 +60,3 @@ const googleLogin = (passport) => {
     )
   )
 }
-
-/* passport.serializeUser((user, done) => {
-  done(null, user)
-})
-
-passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id)
-  done(null, user)
-}) */
-
-module.exports = googleLogin

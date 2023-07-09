@@ -1,8 +1,8 @@
-const express = require('express')
-const passport = require('passport')
+import express from 'express'
+import passport from 'passport'
 
-const userController = require('../controllers/user')
-const ensureAuth = require('../middlewares/auth')
+import userController from '../controllers/user'
+import ensureAuth from '../middlewares/auth'
 
 const router = express.Router()
 
@@ -20,4 +20,4 @@ router.get(
 
 router.delete('/signout/:id', ensureAuth.checkAuth, userController.signout)
 
-module.exports = router
+export default router

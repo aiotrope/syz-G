@@ -1,8 +1,6 @@
-const config = require('../config')
-const JwtStrategy = require('passport-jwt').Strategy
-const ExtractJwt = require('passport-jwt').ExtractJwt
-
-const User = require('../models/user')
+import config from '../config'
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
+import User from '../models/user'
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -10,7 +8,7 @@ const options = {
   passReqToCallback: true,
 }
 
-const jwtLogin = (passport) => {
+export const jwtLogin = (passport) => {
   passport.use(
     new JwtStrategy(options, async (req, payload, done) => {
       try {
@@ -28,5 +26,3 @@ const jwtLogin = (passport) => {
     })
   )
 }
-
-module.exports = jwtLogin
