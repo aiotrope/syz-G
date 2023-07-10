@@ -10,6 +10,7 @@ const options = {
   clientSecret: config.fb_client_secret,
   callbackURL: config.fb_callback_url,
   passReqToCallback: true,
+  profileFields: ['id', 'displayName', 'photos', 'email']
 }
 
 export const fbLogin = (passport) => {
@@ -17,15 +18,15 @@ export const fbLogin = (passport) => {
     new FacebookStrategy(
       options,
       async (req, accessToken, refreshToken, profile, done) => {
-        const user = await User.findOne({ googleId: profile.id })
+        const user = await User.findOne({ facebookId: profile.id })
         const sess = req.session
 
         if (!user) {
           const newUser = await User.create({
-            email: profile.email,
+            email: profile?.emails[0].value,
             username: profile.displayName,
-            googleId: profile.id,
-            // photo: profile.picture
+            facebookId: profile.id,
+            // photo: profile?.photos[0].value
             // req.isAuthenticated()
           })
 
