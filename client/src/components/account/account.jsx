@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useRecoilValue } from 'recoil'
 import jwt_decode from 'jwt-decode'
-
 import Stack from 'react-bootstrap/Stack'
 import Spinner from 'react-bootstrap/Spinner'
 import Row from 'react-bootstrap/Row'
@@ -13,6 +12,7 @@ import { toast } from 'react-toastify'
 import { authService } from '../../services/auth'
 import { convertBase64 } from '../../services/misc'
 import { jwt_atom } from '../../recoil/auth'
+import Loader from '../loader'
 
 export const Account = () => {
   const queryClient = useQueryClient()
@@ -25,7 +25,7 @@ export const Account = () => {
     mutationFn: authService.uploadAvatar,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['users', 'user'],
+        queryKey: ['users', 'user', 'user-avatar'],
       })
     },
   })
@@ -61,27 +61,33 @@ export const Account = () => {
   }
   return (
     <Stack className="col-md-5 mx-auto">
-      <h2>Profile</h2>
-      <div className="mt-5">
-        <Row>
-          <Col xs={12} md={8}>
-            <small>
-              User ID: <span className="text-info">{decoded.id}</span>
-            </small>
-            <p>Username: {decoded.username}</p>
-            <p>Email: {decoded.email}</p>
-          </Col>
-          <Col xs={6} md={4}>
-            <Image src={avatarUrl} thumbnail alt={`Profile photo of name`} />
-          </Col>
-        </Row>
-        <form>
-          <Form.Group className="mt-4">
-            <Form.Label htmlFor="avatar">Update profile picture</Form.Label>
-            <Form.Control type="file" size="sm" onChange={handleUpload} multiple id="avatar" />
-          </Form.Group>
-        </form>
-      </div>
+      {avatarQuery.isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <h2>Profile</h2>
+          <div className="mt-5">
+            <Row>
+              <Col xs={12} md={8}>
+                <small>
+                  User ID: <span className="text-info">{decoded.id}</span>
+                </small>
+                <p>Username: {decoded.username}</p>
+                <p>Email: {decoded.email}</p>
+              </Col>
+              <Col xs={6} md={4}>
+                <Image src={avatarUrl} thumbnail alt={`Profile photo of name`} />
+              </Col>
+            </Row>
+            <form>
+              <Form.Group className="mt-4">
+                <Form.Label htmlFor="avatar">Update profile picture</Form.Label>
+                <Form.Control type="file" size="sm" onChange={handleUpload} multiple id="avatar" />
+              </Form.Group>
+            </form>
+          </div>
+        </>
+      )}
     </Stack>
   )
 }
