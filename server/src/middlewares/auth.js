@@ -1,16 +1,37 @@
-import cache from '../utils/redis'
+import config from '../config'
+import createHttpError from 'http-errors'
+import jwt from 'jsonwebtoken'
 
-const checkAuth = async (req, res, next) => {
-  const access = await cache.getAsync('access')
-  if (access) {
-    return next()
+import User from '../models/user'
+
+const tokenExtractor = async (req, res, next) => {
+  const authorization = req.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    req.token = authorization.substring(7)
   } else {
-    res.redirect('/api/user/signin')
+    next(createHttpError(401))
   }
+  next()
 }
 
-const ensureAuth = {
-  checkAuth,
+const userExtractor = async (req, res, next) => {
+  const token = req.token
+
+  const decoded = jwt.verify(token, config.jwt_secret)
+
+  const currentUser = await User.findById(decoded.id)
+
+  if (!decoded) {
+    next(createHttpError(401))
+  }
+  req.user = currentUser
+
+  next()
 }
 
-export default ensureAuth
+const authMiddleware = {
+  tokenExtractor,
+  userExtractor,
+}
+
+export default authMiddleware

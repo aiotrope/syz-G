@@ -19,15 +19,13 @@ const login = async (credentials) => {
   })
 
   if (response.status === 200 && response.data) {
-    localStorage.setItem('access', JSON.stringify(response.data.access))
-
     return response.data
   }
 }
 
 const getAccessToken = () => {
-  const user = JSON.parse(localStorage.getItem('access'))
-  return user
+  const token = JSON.parse(localStorage.getItem('JWT'))
+  return token.jwt_atom
 }
 
 const getUserById = async (id) => {
@@ -40,32 +38,27 @@ const getUserById = async (id) => {
   if (response.status === 200 && response.data) return response.data
 }
 
-const clearLocalStorage = () => {
-  localStorage.clear()
+const clearJWTLocalStorage = () => {
+  window.localStorage.removeItem('JWT')
 }
 
-const getGoogleUserAccessToken = async () => {
-  const response = await axios.get(`${baseUrl}/api/google/user`, {
+const uploadAvatar = async (image) => {
+  const accessToken = getAccessToken()
+
+  const response = await axios.patch(`${baseUrl}/api/user/avatar`, image, {
     withCredentials: true,
+    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
   })
-  if (response.data) {
-    return response.data
-  } else if (response.data === undefined) return null
+
+  if (response.status === 201 && response.data) return response.data
 }
 
-const getGoogleUserInfo = () => {
-  const user = JSON.parse(localStorage.getItem('googleUser'))
-  return user
-}
-
-const logout = async (id) => {
-  const response = await axios.delete(`${baseUrl}/api/user/signout/${id}`, {
+const getUserAvatar = async (userId) => {
+  const response = await axios.get(`${baseUrl}/api/user/avatar/${userId}`, {
     withCredentials: true,
   })
 
-  if (response.status === 204) {
-    return response
-  }
+  if (response.status === 200 && response.data) return response.data
 }
 
 export const authService = {
@@ -73,8 +66,7 @@ export const authService = {
   login,
   getAccessToken,
   getUserById,
-  getGoogleUserAccessToken,
-  getGoogleUserInfo,
-  logout,
-  clearLocalStorage,
+  clearJWTLocalStorage,
+  uploadAvatar,
+  getUserAvatar,
 }

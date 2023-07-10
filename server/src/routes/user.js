@@ -1,8 +1,7 @@
 import express from 'express'
-import passport from 'passport'
 
 import userController from '../controllers/user'
-import ensureAuth from '../middlewares/auth'
+import authMiddleware from '../middlewares/auth'
 
 const router = express.Router()
 
@@ -12,12 +11,20 @@ router.post('/signin', userController.signin)
 
 router.get('/', userController.getAll)
 
-router.get(
-  '/:id',
-  passport.authenticate('jwt', { session: false }),
-  userController.getJwtUserById
+router.patch(
+  '/avatar',
+  authMiddleware.tokenExtractor,
+  authMiddleware.userExtractor,
+  userController.createAvatar
 )
 
-router.delete('/signout/:id', ensureAuth.checkAuth, userController.signout)
+router.get(
+  '/:id',
+  authMiddleware.tokenExtractor,
+  authMiddleware.userExtractor,
+  userController.getUserById
+)
+
+router.get('/avatar/:id', userController.getUserAvatar)
 
 export default router

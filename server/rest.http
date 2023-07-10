@@ -23,8 +23,8 @@ GET http://localhost:8080/api/user
 Content-Type: application/json
 
 ### get user by id
-GET http://localhost:8080/api/user/649f24f5d509e5a9addbc3b1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWYyNGY1ZDUwOWU1YTlhZGRiYzNiMSIsImVtYWlsIjoic2FtcGxlQHNyLmlvIiwiaWF0IjoxNjg4MjM3MDYyLCJleHAiOjE2ODgyNDA2NjJ9.QUtA69hWfLUqsYYIdH4gT4W2CcuVixoWz3sMLQB7KHo
+GET http://localhost:8080/api/user/64abe89bfc8a182fb81d747d
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YWJlODliZmM4YTE4MmZiODFkNzQ3ZCIsImVtYWlsIjoic2FtcGxlQHNyLmlvIiwidXNlcm5hbWUiOiJzYW1wbGVAc3IuaW8iLCJpYXQiOjE2ODg5ODkxMzMsImV4cCI6MTY4ODk5NjMzM30.9PVfpWRGnNylzrcN5mLwZ5LGsYMSR05aU4l1cvExass
 
 
 ### login with google

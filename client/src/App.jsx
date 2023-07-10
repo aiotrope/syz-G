@@ -7,15 +7,11 @@ import { UnAuthTopNav } from './components/header/unauthTopNav'
 import { AuthTopNav } from './components/header/authTopNav'
 import { Footer } from './components/footer/footer'
 import { Router } from './components/router/router'
-
-//import { useAuth } from './contexts/authContext'
 import { jwt_atom } from './recoil/auth'
 
 import './sass/_App.scss'
 
 export const App = () => {
-  //const { authenticated } = useAuth()
-
   const _jwt = useRecoilValue(jwt_atom)
 
   return (

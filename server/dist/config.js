@@ -27,6 +27,9 @@ var REDIS_HOST = process.env.REDIS_HOST;
 var REDIS_PASSWORD = process.env.REDIS_PASSWORD;
 var SUCCESS_REDIRECT = process.env.SUCCESS_REDIRECT;
 var FAILURE_REDIRECT = process.env.FAILURE_REDIRECT;
+var CLOUDINARY_NAME = process.env.CLOUDINARY_NAME;
+var CLOUDINARY_KEY = process.env.CLOUDINARY_KEY;
+var CLOUDINARY_SECRET = process.env.CLOUDINARY_SECRET;
 var config = {
   port: PORT,
   frontend_url: FRONTEND_URL,
@@ -48,6 +51,9 @@ var config = {
   redis_password: REDIS_PASSWORD,
   cookie_name: COOKIE_NAME,
   success_redirect: SUCCESS_REDIRECT,
-  failure_redirect: FAILURE_REDIRECT
+  failure_redirect: FAILURE_REDIRECT,
+  cloudinary_name: CLOUDINARY_NAME,
+  cloudinary_key: CLOUDINARY_KEY,
+  cloudinary_secret: CLOUDINARY_SECRET
 };
 module.exports = config;

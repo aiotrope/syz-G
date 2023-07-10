@@ -1,6 +1,5 @@
-import { useNavigate } from 'react-router-dom'
-import jwt_decode from 'jwt-decode'
 import { useRecoilValue, useRecoilState } from 'recoil'
+import jwt_decode from 'jwt-decode'
 import { LinkContainer } from 'react-router-bootstrap'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
@@ -9,8 +8,6 @@ import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 
 import { jwt_atom } from '../../recoil/auth'
-
-//import { useAuth } from '../../contexts/authContext'
 import { authService } from '../../services/auth'
 
 export const AuthTopNav = () => {
@@ -22,16 +19,10 @@ export const AuthTopNav = () => {
 
   const decoded = jwt_decode(token)
 
-  const navigate = useNavigate()
-
   const logout = async () => {
     setJWT('')
-    localStorage.removeItem('loggedInUser')
+    authService.clearJWTLocalStorage()
     toast.info(`${decoded.username} logged out`)
-    await authService.logout(decoded.id)
-    await authService.clearLocalStorage()
-
-    navigate('/')
   }
   return (
     <header role="banner">

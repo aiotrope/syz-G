@@ -39,7 +39,7 @@ var errorHandler = function errorHandler(error, req, res, next) {
   }
   if (error.name === 'JsonWebTokenError' || error.name === 'UnauthorizedError') {
     return res.status(401).json({
-      error: 'unauthorize: token maybe incorrect or missing!'
+      error: 'Token is incorrect or missing!'
     });
   }
   if (error.name === 'TokenExpiredError') {

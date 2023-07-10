@@ -15,7 +15,6 @@ import Stack from 'react-bootstrap/Stack'
 import Spinner from 'react-bootstrap/Spinner'
 import { toast } from 'react-toastify'
 import { authService } from '../../services/auth'
-import { useCommon } from '../../contexts/common'
 
 import { jwt_atom } from '../../recoil/auth'
 
@@ -35,15 +34,13 @@ export const Login = () => {
 
   const navigate = useNavigate()
 
-  const { mounted } = useCommon()
-
   const _jwt = useRecoilValue(jwt_atom)
 
   const { isLoading, reset, mutateAsync } = useMutation({
     mutationFn: authService.login,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['user'],
+        queryKey: ['users', 'user'],
       })
     },
   })
@@ -61,28 +58,29 @@ export const Login = () => {
     try {
       const result = await mutateAsync(formData)
       if (result) {
-        navigate('/')
+        navigate('/dashboard')
         toast.success(result.message)
         setJWT(result.access)
       }
     } catch (err) {
-      console.error(err.response.data.error)
+      //console.error(err.response.data.error)
       toast.error(err.response.data.error)
     }
   }
 
   useEffect(() => {
+    let mounted = true
     const prepare = async () => {
       if (_jwt && mounted) {
         navigate('/dashboard')
       }
     }
     prepare()
-  }, [_jwt, mounted, navigate])
 
-  const google = () => {
-    window.open(process.env.REACT_APP_LOGIN_URL, '_self')
-  }
+    return () => {
+      mounted = false
+    }
+  }, [_jwt, navigate])
 
   if (isLoading) {
     return (
@@ -143,14 +141,6 @@ export const Login = () => {
           </Button>
         </FormGroup>
       </Form>
-      <div className="text-center mt-4">
-        <strong>OR</strong>
-      </div>
-      <div className="d-grid my-3">
-        <Button variant="light" size="lg" onClick={google}>
-          Login via Gmail
-        </Button>
-      </div>
     </Stack>
   )
 }

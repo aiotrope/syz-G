@@ -10,12 +10,12 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 var _config = _interopRequireDefault(require("../config"));
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
+var _cloudinary = require("cloudinary");
 var _user = _interopRequireDefault(require("../models/user"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
-var _redis = _interopRequireDefault(require("../utils/redis"));
 require('express-async-errors');
+//import logger from '../utils/logger'
 // return an array of users objects with id, email, username, isStaff and timestamps
-
 var getAll = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(req, res) {
     var users;
@@ -98,7 +98,7 @@ var signup = /*#__PURE__*/function () {
           return user.save();
         case 18:
           return _context2.abrupt("return", res.status(201).json({
-            message: "".concat(user.email, " registered"),
+            message: "".concat(user.email, " created"),
             user: user
           }));
         case 19:
@@ -169,7 +169,7 @@ var signin = /*#__PURE__*/function () {
           payload = {
             id: user.id,
             email: user.email,
-            username: user.email
+            username: user.username
           };
           token = _jsonwebtoken.default.sign(payload, _config.default.jwt_secret, {
             expiresIn: '2h'
@@ -200,7 +200,7 @@ var signin = /*#__PURE__*/function () {
 
 // get user using params id
 
-var getJwtUserById = /*#__PURE__*/function () {
+var getUserById = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(req, res) {
     var id, user;
     return _regenerator.default.wrap(function _callee4$(_context4) {
@@ -209,80 +209,125 @@ var getJwtUserById = /*#__PURE__*/function () {
           id = req.params.id;
           _context4.prev = 1;
           _context4.next = 4;
-          return _user.default.findById(id).select({
-            hashedPassword: 0
-          });
+          return _user.default.findById(id);
         case 4:
           user = _context4.sent;
-          if (user) {
-            _context4.next = 7;
-            break;
-          }
-          return _context4.abrupt("return", res.status(404).json({
-            error: "Problem fetching user: ".concat(user)
-          }));
-        case 7:
           return _context4.abrupt("return", res.status(200).json(user));
-        case 10:
-          _context4.prev = 10;
+        case 8:
+          _context4.prev = 8;
           _context4.t0 = _context4["catch"](1);
           return _context4.abrupt("return", res.status(422).json({
             error: _context4.t0.message
           }));
-        case 13:
+        case 11:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[1, 10]]);
+    }, _callee4, null, [[1, 8]]);
   }));
-  return function getJwtUserById(_x7, _x8) {
+  return function getUserById(_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }();
-var signout = /*#__PURE__*/function () {
+var createAvatar = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(req, res) {
-    var id, user;
+    var image, opts, uploader, user;
     return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
-          id = req.params.id;
-          _context5.prev = 1;
-          _context5.next = 4;
-          return _user.default.findById(id).select({
-            hashedPassword: 0
+          image = req.body.image;
+          _cloudinary.v2.config({
+            cloud_name: _config.default.cloudinary_name,
+            api_key: _config.default.cloudinary_key,
+            api_secret: _config.default.cloudinary_secret
           });
-        case 4:
-          user = _context5.sent;
-          if (!(user.id !== id)) {
-            _context5.next = 7;
+          opts = {
+            overwrite: true,
+            invalidate: true,
+            resource_type: 'auto'
+          };
+          _context5.prev = 3;
+          _context5.next = 6;
+          return _cloudinary.v2.uploader.upload(image, opts);
+        case 6:
+          uploader = _context5.sent;
+          if (!uploader.secure_url) {
+            _context5.next = 16;
             break;
           }
-          throw Error('No permissions to delete user session');
-        case 7:
-          _context5.next = 9;
-          return _redis.default.redisClient.flushall();
-        case 9:
-          return _context5.abrupt("return", res.status(204).end());
-        case 12:
-          _context5.prev = 12;
-          _context5.t0 = _context5["catch"](1);
-          res.redirect('/api/user/signin');
+          _context5.next = 10;
+          return _user.default.findById(req.user.id);
+        case 10:
+          user = _context5.sent;
+          if (!user) {
+            _context5.next = 16;
+            break;
+          }
+          user.avatar = uploader.secure_url;
+          _context5.next = 15;
+          return user.save();
         case 15:
+          return _context5.abrupt("return", res.status(201).json({
+            message: "".concat(user.username, " avatar updated"),
+            avatar: user.avatar
+          }));
+        case 16:
+          _context5.next = 21;
+          break;
+        case 18:
+          _context5.prev = 18;
+          _context5.t0 = _context5["catch"](3);
+          return _context5.abrupt("return", res.status(422).json({
+            error: _context5.t0.message
+          }));
+        case 21:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[1, 12]]);
+    }, _callee5, null, [[3, 18]]);
   }));
-  return function signout(_x9, _x10) {
+  return function createAvatar(_x9, _x10) {
     return _ref5.apply(this, arguments);
+  };
+}();
+var getUserAvatar = /*#__PURE__*/function () {
+  var _ref6 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(req, res) {
+    var id, user;
+    return _regenerator.default.wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
+        case 0:
+          id = req.params.id;
+          _context6.prev = 1;
+          _context6.next = 4;
+          return _user.default.findById(id);
+        case 4:
+          user = _context6.sent;
+          return _context6.abrupt("return", res.status(200).json({
+            avatar: user.avatar
+          }));
+        case 8:
+          _context6.prev = 8;
+          _context6.t0 = _context6["catch"](1);
+          return _context6.abrupt("return", res.status(422).json({
+            error: _context6.t0.message
+          }));
+        case 11:
+        case "end":
+          return _context6.stop();
+      }
+    }, _callee6, null, [[1, 8]]);
+  }));
+  return function getUserAvatar(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }();
 var userController = {
   getAll: getAll,
   signup: signup,
   signin: signin,
-  getJwtUserById: getJwtUserById,
-  signout: signout
+  getUserById: getUserById,
+  createAvatar: createAvatar,
+  getUserAvatar: getUserAvatar
 };
 var _default = userController;
 exports.default = _default;

@@ -2,10 +2,12 @@ import config from '../config'
 require('express-async-errors')
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { v2 } from 'cloudinary'
 
 import User from '../models/user'
 import validators from '../utils/validators'
-import cache from '../utils/redis'
+
+//import logger from '../utils/logger'
 
 // return an array of users objects with id, email, username, isStaff and timestamps
 
@@ -49,7 +51,7 @@ const signup = async (req, res) => {
 
       await user.save()
 
-      return res.status(201).json({ message: `${user.email} registered`, user })
+      return res.status(201).json({ message: `${user.email} created`, user })
     }
   } catch (err) {
     return res.status(422).json({ error: err.message })
@@ -80,7 +82,7 @@ const signin = async (req, res) => {
     const payload = {
       id: user.id,
       email: user.email,
-      username: user.email,
+      username: user.username,
     }
 
     const token = jwt.sign(payload, config.jwt_secret, { expiresIn: '2h' })
@@ -98,16 +100,11 @@ const signin = async (req, res) => {
 
 // get user using params id
 
-const getJwtUserById = async (req, res) => {
+const getUserById = async (req, res) => {
   const { id } = req.params
-  try {
-    const user = await User.findById(id).select({
-      hashedPassword: 0,
-    })
 
-    if (!user) {
-      return res.status(404).json({ error: `Problem fetching user: ${user}` })
-    }
+  try {
+    const user = await User.findById(id)
 
     return res.status(200).json(user)
   } catch (err) {
@@ -115,21 +112,48 @@ const getJwtUserById = async (req, res) => {
   }
 }
 
-const signout = async (req, res) => {
-  const { id } = req.params
+const createAvatar = async (req, res) => {
+  const { image } = req.body
+
+  v2.config({
+    cloud_name: config.cloudinary_name,
+    api_key: config.cloudinary_key,
+    api_secret: config.cloudinary_secret,
+  })
+
+  const opts = {
+    overwrite: true,
+    invalidate: true,
+    resource_type: 'auto',
+  }
 
   try {
-    const user = await User.findById(id).select({
-      hashedPassword: 0,
-    })
+    const uploader = await v2.uploader.upload(image, opts)
 
-    if (user.id !== id) throw Error('No permissions to delete user session')
-
-    await cache.redisClient.flushall()
-
-    return res.status(204).end()
+    if (uploader.secure_url) {
+      let user = await User.findById(req.user.id)
+      if (user) {
+        user.avatar = uploader.secure_url
+        await user.save()
+        return res.status(201).json({
+          message: `${user.username} avatar updated`,
+          avatar: user.avatar,
+        })
+      }
+    }
   } catch (err) {
-    res.redirect('/api/user/signin')
+    return res.status(422).json({ error: err.message })
+  }
+}
+
+const getUserAvatar = async (req, res) => {
+  const { id } = req.params
+  try {
+    const user = await User.findById(id)
+
+    return res.status(200).json({ avatar: user.avatar })
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
   }
 }
 
@@ -137,8 +161,9 @@ const userController = {
   getAll,
   signup,
   signin,
-  getJwtUserById,
-  signout,
+  getUserById,
+  createAvatar,
+  getUserAvatar,
 }
 
 export default userController

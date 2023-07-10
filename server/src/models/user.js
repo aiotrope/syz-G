@@ -18,15 +18,11 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    googleId: {
+    avatar: {
       type: String,
       required: false,
-      default: null,
-    },
-    facebookId: {
-      type: String,
-      required: false,
-      default: null,
+      default:
+        'https://ui-avatars.com/api/?name=xz&bold=true&size=70&color=a0a0a0',
     },
   },
   {

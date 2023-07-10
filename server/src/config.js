@@ -45,6 +45,12 @@ const SUCCESS_REDIRECT = process.env.SUCCESS_REDIRECT
 
 const FAILURE_REDIRECT = process.env.FAILURE_REDIRECT
 
+const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME
+
+const CLOUDINARY_KEY = process.env.CLOUDINARY_KEY
+
+const CLOUDINARY_SECRET = process.env.CLOUDINARY_SECRET
+
 const config = {
   port: PORT,
   frontend_url: FRONTEND_URL,
@@ -67,6 +73,9 @@ const config = {
   cookie_name: COOKIE_NAME,
   success_redirect: SUCCESS_REDIRECT,
   failure_redirect: FAILURE_REDIRECT,
+  cloudinary_name: CLOUDINARY_NAME,
+  cloudinary_key: CLOUDINARY_KEY,
+  cloudinary_secret: CLOUDINARY_SECRET,
 }
 
 module.exports = config

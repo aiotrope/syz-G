@@ -14,7 +14,6 @@ import Spinner from 'react-bootstrap/Spinner'
 import { toast } from 'react-toastify'
 
 import { authService } from '../../services/auth'
-import { useCommon } from '../../contexts/common'
 
 const password_regex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~?/`!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/
@@ -52,16 +51,12 @@ export const Signup = () => {
     mode: 'all',
   })
 
-  const { addSignedEmail } = useCommon()
-
   const onSubmit = async (userData) => {
     //console.log(userData)
     try {
       const result = await mutateAsync(userData)
-      addSignedEmail(userData.email)
       if (result) {
         //console.log(result)
-
         toast.success(result.message)
 
         navigate('/login')
@@ -93,7 +88,7 @@ export const Signup = () => {
           </FormLabel>
           <FormControl
             type="text"
-            placeholder="Enter username"
+            placeholder="Two characters in length"
             {...register('username')}
             aria-invalid={errors.username?.message ? 'true' : 'false'}
             className={`${errors.username?.message ? 'is-invalid' : ''} `}
@@ -103,9 +98,7 @@ export const Signup = () => {
           {errors.username?.message && (
             <FormControl.Feedback type="invalid">{errors.username?.message}</FormControl.Feedback>
           )}
-          <Form.Text muted>
-            Username may contain only letters, numbers, and @/./+/-/_ characters.
-          </Form.Text>
+          <Form.Text muted>Contains only letters, numbers, and symbols.</Form.Text>
         </FormGroup>
         <FormGroup className="mb-3">
           <FormLabel htmlFor="email">
@@ -130,7 +123,7 @@ export const Signup = () => {
           </FormLabel>
           <FormControl
             type="password"
-            placeholder="Password"
+            placeholder="Eight characters long"
             {...register('password')}
             aria-invalid={errors.password?.message ? 'true' : 'false'}
             className={`${errors.password?.message ? 'is-invalid' : ''} `}
@@ -141,7 +134,7 @@ export const Signup = () => {
             <FormControl.Feedback type="invalid">{errors.password?.message}</FormControl.Feedback>
           )}
           <Form.Text id="passwordHelpBlock" muted>
-            8 characters long with small & capital letters, numbers and special characters.
+            1 small & capital letters, numbers and special characters.
           </Form.Text>
         </FormGroup>
         <FormGroup className="mb-5">
@@ -167,9 +160,6 @@ export const Signup = () => {
           </Button>
         </FormGroup>
       </Form>
-      <div className="text-center mt-2">
-        <strong>OR</strong>
-      </div>
     </Stack>
   )
 }

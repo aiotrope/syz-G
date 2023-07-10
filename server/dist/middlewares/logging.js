@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _morgan = _interopRequireDefault(require("morgan"));
-var logger = require('../utils/logger');
+var _logger = _interopRequireDefault(require("../utils/logger"));
 var stream = {
   write: function write(message) {
-    return logger.http(message);
+    return _logger.default.http(message);
   }
 };
 var skip = function skip() {
