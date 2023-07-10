@@ -25,6 +25,13 @@ router.get(
   userController.getUserById
 )
 
+router.patch(
+  '/bio',
+  authMiddleware.tokenExtractor,
+  authMiddleware.userExtractor,
+  userController.createUserBio
+)
+
 router.get('/avatar/:id', userController.getUserAvatar)
 
 export default router

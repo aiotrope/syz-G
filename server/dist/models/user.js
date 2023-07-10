@@ -14,8 +14,7 @@ var UserSchema = new _mongoose.Schema({
   username: {
     type: String,
     trim: true,
-    required: false,
-    default: null
+    required: true
   },
   hashedPassword: {
     type: String,
@@ -30,6 +29,11 @@ var UserSchema = new _mongoose.Schema({
     type: String,
     required: false,
     default: 'https://ui-avatars.com/api/?name=xz&bold=true&size=70&color=a0a0a0'
+  },
+  bio: {
+    type: String,
+    required: false,
+    default: null
   }
 }, {
   toJSON: {

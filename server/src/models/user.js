@@ -10,8 +10,7 @@ const UserSchema = new Schema(
     username: {
       type: String,
       trim: true,
-      required: false,
-      default: null,
+      required: true,
     },
     hashedPassword: { type: String, required: false, default: null },
     isStaff: {
@@ -23,6 +22,11 @@ const UserSchema = new Schema(
       required: false,
       default:
         'https://ui-avatars.com/api/?name=xz&bold=true&size=70&color=a0a0a0',
+    },
+    bio: {
+      type: String,
+      required: false,
+      default: null,
     },
   },
   {

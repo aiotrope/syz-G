@@ -32,9 +32,14 @@ const signinSchema = Joi.object()
   })
   .required()
 
+const bioSchema = Joi.object().keys({
+  bio: Joi().string().trim(),
+})
+
 const validators = {
   signinSchema,
   signupSchema,
+  bioSchema,
 }
 
 export default validators

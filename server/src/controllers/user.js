@@ -146,6 +146,31 @@ const createAvatar = async (req, res) => {
   }
 }
 
+const createUserBio = async (req, res) => {
+  const { bio } = req.body
+
+  const validData = validators.bioSchema.validate(bio)
+
+  if (validData.error) {
+    return res.status(400).json({ error: validData.error.details.message })
+  }
+
+  try {
+    const user = await User.findById(req.user.id)
+
+    if (user) {
+      user.bio = validData.value.bio
+      await user.save()
+
+      return res
+        .status(201)
+        .json({ message: `${user.username} bio added`, bio: user.bio })
+    }
+  } catch (err) {
+    return res.status(400).json({ error: err.message })
+  }
+}
+
 const getUserAvatar = async (req, res) => {
   const { id } = req.params
   try {
@@ -164,6 +189,7 @@ const userController = {
   getUserById,
   createAvatar,
   getUserAvatar,
+  createUserBio,
 }
 
 export default userController

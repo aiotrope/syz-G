@@ -18,9 +18,13 @@ var signinSchema = _joi.default.object().keys({
   email: _joi.default.string().trim().required().email(),
   password: _joi.default.string().trim().required()
 }).required();
+var bioSchema = _joi.default.object().keys({
+  bio: (0, _joi.default)().string().trim()
+});
 var validators = {
   signinSchema: signinSchema,
-  signupSchema: signupSchema
+  signupSchema: signupSchema,
+  bioSchema: bioSchema
 };
 var _default = validators;
 exports.default = _default;
