@@ -1,4 +1,5 @@
 import config from '../config'
+import passport from 'passport'
 import jwt from 'jsonwebtoken'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
 
@@ -56,3 +57,13 @@ export const fbLogin = (passport) => {
     )
   )
 }
+
+passport.serializeUser((user, done) => {
+  done(null, user)
+})
+
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findById(id)
+  done(null, user)
+})
+

@@ -1,6 +1,6 @@
 import morgan from 'morgan'
 
-const logger = require('../utils/logger')
+import logger from '../utils/logger'
 
 const stream = {
   write: (message) => logger.http(message),

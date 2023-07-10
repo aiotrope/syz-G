@@ -1,6 +1,7 @@
 import config from '../config'
-import jwt from 'jsonwebtoken'
+import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2'
+import jwt from 'jsonwebtoken'
 
 import cache from '../utils/redis'
 import User from '../models/user'
@@ -60,3 +61,11 @@ export const googleLogin = (passport) => {
     )
   )
 }
+passport.serializeUser((user, done) => {
+  done(null, user)
+})
+
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findById(id)
+  done(null, user)
+})
