@@ -48,9 +48,23 @@ const updateUserAvatar = async (data) => {
   if (response.status === 200 && response.data) return response.data
 }
 
+const deleteUserAccount = async () => {
+  const accessToken = authService.getAccessToken()
+
+  const user = jwtDecode(accessToken)
+
+  const response = await axios.delete(`${baseUrl}/api/user/${user.id}`, {
+    withCredentials: true,
+    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+  })
+
+  if (response.status === 204) return response
+}
+
 export const userService = {
   getUsers,
   getMe,
   updateUser,
   updateUserAvatar,
+  deleteUserAccount,
 }

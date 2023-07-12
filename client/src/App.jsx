@@ -19,7 +19,7 @@ export const App = () => {
       {_jwt ? <AuthTopNav /> : <UnAuthTopNav />}
       <main className="my-5">
         <Container>
-          <ToastContainer />
+          <ToastContainer theme="colored" />
           <Router />
           <footer>
             <hr />

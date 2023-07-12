@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -19,6 +19,7 @@ import moment from 'moment'
 import { userService } from '../../services/user'
 import { convertBase64 } from '../../services/misc'
 import { user_atom } from '../../recoil/auth'
+import { jwt_atom } from '../../recoil/auth'
 import Loader from '../loader'
 
 const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
@@ -29,6 +30,8 @@ export const Me = () => {
   const setUser = useSetRecoilState(user_atom)
 
   const user = useRecoilValue(user_atom)
+
+  const resetJWTAtom = useResetRecoilState(jwt_atom)
 
   const userQuery = useQuery({
     queryKey: ['user'],
@@ -85,7 +88,7 @@ export const Me = () => {
     reset({ ...defaultValues })
   }, [reset, user.bio, user.email, user.username])
 
-  const userMutate = useMutation({
+  const userMutation = useMutation({
     mutationFn: userService.updateUser,
     onSuccess: () => {
       reset()
@@ -95,7 +98,7 @@ export const Me = () => {
     },
   })
 
-  const avatarMutate = useMutation({
+  const avatarMutation = useMutation({
     mutationFn: userService.updateUserAvatar,
     onSuccess: () => {
       avatarForm.reset()
@@ -105,16 +108,24 @@ export const Me = () => {
     },
   })
 
+  const deleteMutation = useMutation({
+    mutationFn: userService.deleteUserAccount,
+    onSuccess: () => {
+      toast.info(`${user.email} account deleted`, { theme: 'colored' })
+      resetJWTAtom()
+    },
+  })
+
   const onSubmit = async (data) => {
     try {
-      const result = await userMutate.mutateAsync(data)
+      const result = await userMutation.mutateAsync(data)
       if (result) {
         //console.log(result.user)
-        toast.success(result.message)
+        toast.success(result.message, { theme: 'colored' })
         setUser(result.user)
       }
     } catch (err) {
-      toast.error(err.response.data.error)
+      toast.error(err.response.data.error, { theme: 'colored' })
     }
   }
 
@@ -122,19 +133,27 @@ export const Me = () => {
     const base64 = await convertBase64(data.image[0])
     //console.log(base64)
     try {
-      const result = await avatarMutate.mutateAsync({ image: base64 })
+      const result = await avatarMutation.mutateAsync({ image: base64 })
       if (result) {
-        toast.success(result.message)
+        toast.success(result.message, { theme: 'colored' })
         setUser(result.user)
       }
     } catch (err) {
-      toast.error(err.response.data.error)
+      toast.error(err.response.data.error, { theme: 'colored' })
+    }
+  }
+
+  const handleDeleteAccount = async () => {
+    try {
+      await deleteMutation.mutateAsync(user.id)
+    } catch (err) {
+      toast.error(err.response.data.error, { theme: 'colored' })
     }
   }
 
   return (
     <Stack className="col-md-5 mx-auto">
-      {userMutate.isLoading ? (
+      {userMutation.isLoading ? (
         <Loader />
       ) : (
         <>
@@ -241,6 +260,13 @@ export const Me = () => {
               </Button>
             </FormGroup>
           </Form>
+          <hr />
+          <div className="mt-5">
+            <h5>Account Deletion</h5>
+            <Button variant="outline-danger" size="md" onClick={handleDeleteAccount}>
+              Delete
+            </Button>
+          </div>
         </>
       )}
     </Stack>

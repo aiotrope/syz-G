@@ -32,4 +32,11 @@ router.patch(
   userController.updateUserAvatar
 )
 
+router.delete(
+  '/:id',
+  authMiddleware.tokenExtractor,
+  authMiddleware.userExtractor,
+  userController.deleteAccount
+)
+
 export default router

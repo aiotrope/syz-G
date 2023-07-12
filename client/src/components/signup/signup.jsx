@@ -57,12 +57,12 @@ export const Signup = () => {
       const result = await mutateAsync(userData)
       if (result) {
         //console.log(result)
-        toast.success(result.message)
+        toast.success(result.message, { theme: 'colored' })
 
         navigate('/login')
       }
     } catch (err) {
-      toast.error(err.response.data.error)
+      toast.error(err.response.data.error, { theme: 'colored' })
     }
   }
 

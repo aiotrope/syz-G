@@ -15,5 +15,6 @@ router.get('/all', _user.default.getAll);
 router.get('/me', _auth.default.tokenExtractor, _auth.default.userExtractor, _user.default.getMe);
 router.patch('/update/:id', _auth.default.tokenExtractor, _auth.default.userExtractor, _user.default.updateUser);
 router.patch('/update/avatar/:id', _auth.default.tokenExtractor, _auth.default.userExtractor, _user.default.updateUserAvatar);
+router.delete('/:id', _auth.default.tokenExtractor, _auth.default.userExtractor, _user.default.deleteAccount);
 var _default = router;
 exports.default = _default;

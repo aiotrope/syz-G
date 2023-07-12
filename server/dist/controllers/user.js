@@ -375,13 +375,52 @@ var updateUser = /*#__PURE__*/function () {
     return _ref6.apply(this, arguments);
   };
 }();
+var deleteAccount = /*#__PURE__*/function () {
+  var _ref7 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(req, res) {
+    var id;
+    return _regenerator.default.wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
+        case 0:
+          id = req.params.id;
+          if (!(req.user.id !== id)) {
+            _context7.next = 3;
+            break;
+          }
+          return _context7.abrupt("return", res.status(401).json({
+            error: 'Not authorize to delete the user'
+          }));
+        case 3:
+          _context7.prev = 3;
+          _context7.next = 6;
+          return _user.default.findByIdAndDelete(id);
+        case 6:
+          res.status(204).end();
+          _context7.next = 12;
+          break;
+        case 9:
+          _context7.prev = 9;
+          _context7.t0 = _context7["catch"](3);
+          return _context7.abrupt("return", res.status(400).json({
+            error: _context7.t0.message
+          }));
+        case 12:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7, null, [[3, 9]]);
+  }));
+  return function deleteAccount(_x13, _x14) {
+    return _ref7.apply(this, arguments);
+  };
+}();
 var userController = {
   getAll: getAll,
   signup: signup,
   signin: signin,
   getMe: getMe,
   updateUserAvatar: updateUserAvatar,
-  updateUser: updateUser
+  updateUser: updateUser,
+  deleteAccount: deleteAccount
 };
 var _default = userController;
 exports.default = _default;

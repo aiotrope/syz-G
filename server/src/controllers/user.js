@@ -186,6 +186,21 @@ const updateUser = async (req, res) => {
     return res.status(400).json({ error: err.message })
   }
 }
+
+const deleteAccount = async (req, res) => {
+  const { id } = req.params
+
+  if (req.user.id !== id)
+    return res.status(401).json({ error: 'Not authorize to delete the user' })
+
+  try {
+    await User.findByIdAndDelete(id)
+
+    res.status(204).end()
+  } catch (err) {
+    return res.status(400).json({ error: err.message })
+  }
+}
 const userController = {
   getAll,
   signup,
@@ -193,6 +208,7 @@ const userController = {
   getMe,
   updateUserAvatar,
   updateUser,
+  deleteAccount,
 }
 
 export default userController
