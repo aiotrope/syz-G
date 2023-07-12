@@ -12,3 +12,17 @@ export const jwt_atom = atom({
   default: '',
   effects_UNSTABLE: [persistAtom],
 })
+
+export const user_atom = atom({
+  key: 'user_atom',
+  default: {
+    id: null,
+    username: '',
+    email: '',
+    bio: '',
+    avatar: '',
+    isStaff: null,
+    createdAt: null,
+    updatedAt: null,
+  },
+})

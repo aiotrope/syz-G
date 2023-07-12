@@ -3,7 +3,7 @@ import Joi from 'joi'
 const password_regex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~?/`!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/
 
-const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{3,}$/
+const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
 
 const signupSchema = Joi.object()
   .keys({
@@ -11,7 +11,7 @@ const signupSchema = Joi.object()
     username: Joi.string()
       .pattern(
         username_regex,
-        'Username requires 2 characters long with letters, numbers and special characters'
+        'Username requires 4 characters long with letters, numbers and special characters'
       )
       .trim()
       .required(),
@@ -32,14 +32,24 @@ const signinSchema = Joi.object()
   })
   .required()
 
-const bioSchema = Joi.object().keys({
-  bio: Joi().string().trim(),
-})
+const updateUserSchema = Joi.object()
+  .keys({
+    email: Joi.string().trim().email().optional(),
+    username: Joi.string()
+      .pattern(
+        username_regex,
+        'Username requires 4 characters long with letters, numbers and special characters'
+      )
+      .trim()
+      .optional(),
+    bio: Joi.string().optional(),
+  })
+  .optional()
 
 const validators = {
   signinSchema,
   signupSchema,
-  bioSchema,
+  updateUserSchema,
 }
 
 export default validators

@@ -14,12 +14,12 @@ POST http://localhost:8080/api/user/signin
 Content-Type: application/json
 
 {
-   "email": "sample@sr.io",
+   "email": "sample1@sr.io",
    "password": "passworD1#"
 }
 
 ### all users
-GET http://localhost:8080/api/user
+GET http://localhost:8080/api/user/all
 Content-Type: application/json
 
 ### get user by id
@@ -34,6 +34,14 @@ Content-Type: application/json
 ### get google user by session
 GET http://localhost:8080/api/google/user
 
+### get Me
+GET http://localhost:8080/api/user/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YWQ2OWE3YTU2ZjQ4YzliYTQ4Yzc2ZCIsImVtYWlsIjoic2FtcGxlQHNyLmlvIiwidXNlcm5hbWUiOiJ1c2VybmFtZTEiLCJpYXQiOjE2ODkwOTkxNzksImV4cCI6MTY4OTEwNjM3OX0._6if1op53joSbVvO1pYsqM1TvAcl_EyfDr8aJOYFpl4
 
-### get google user by session
-GET http://localhost:8080/api/google/callback
+### update user
+GET http://localhost:8080/api/user/update/64ade915e11cda3c893daa35
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YWRlOTE1ZTExY2RhM2M4OTNkYWEzNSIsImVtYWlsIjoic2FtcGxlMUBzci5pbyIsInVzZXJuYW1lIjoidXNlcm5hbWUyIiwiaWF0IjoxNjg5MTIxNjU3LCJleHAiOjE2ODkxMjg4NTd9.SXQ2GYWT2V9R_3KjEtXZeqljiOnFPqcVXLzLufeTeVU
+
+{
+   "bio": "Hello Universe"
+}

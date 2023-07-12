@@ -19,14 +19,16 @@ const UserSchema = new Schema(
     },
     avatar: {
       type: String,
-      required: false,
+      required: true,
       default:
         'https://ui-avatars.com/api/?name=xz&bold=true&size=70&color=a0a0a0',
     },
     bio: {
       type: String,
-      required: false,
-      default: null,
+      required: true,
+      default: function () {
+        return `Hello, World! I'm ${this.username}`
+      },
     },
   },
   {
@@ -39,6 +41,11 @@ const UserSchema = new Schema(
 UserSchema.virtual('id').get(function () {
   return this._id.toHexString()
 })
+
+/* UserSchema.pre('save', function(next) {
+  this.bio = `Hello, World! I'm ${this.username}.`
+  next()
+}) */
 
 const User = model('User', UserSchema)
 

@@ -6,7 +6,7 @@ import { Documentation } from '../docs/docs'
 import { Signup } from '../signup/signup'
 import { Login } from '../login/login'
 import { NotFound } from '../404/404'
-import { Account } from '../account/account'
+import { Me } from '../Me/me'
 import { Dashboard } from '../dashboard/dashboard'
 import { Privacy } from '../privacy/privacy'
 
@@ -23,7 +23,7 @@ export const Router = () => {
       <Route path="/signup" element={_jwt ? <Navigate to="/dashboard" /> : <Signup />} />
       <Route path="/login" element={_jwt ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/dashboard" element={_jwt ? <Dashboard /> : <Navigate to="/login" />} />
-      <Route path="/account" element={_jwt ? <Account /> : <Navigate to="/login" />} />
+      <Route path="/me" element={_jwt ? <Me /> : <Navigate to="/login" />} />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

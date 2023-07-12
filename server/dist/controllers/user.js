@@ -25,8 +25,7 @@ var getAll = /*#__PURE__*/function () {
           _context.prev = 0;
           _context.next = 3;
           return _user.default.find({}).select({
-            hashedPassword: 0,
-            googleId: 0
+            hashedPassword: 0
           });
         case 3:
           users = _context.sent;
@@ -58,7 +57,7 @@ var getAll = /*#__PURE__*/function () {
 
 var signup = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(req, res) {
-    var foundUser, validData, saltRounds, hashed, user;
+    var foundUserEmail, foundUserUsername, validData, saltRounds, hashed, user;
     return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
@@ -67,54 +66,66 @@ var signup = /*#__PURE__*/function () {
             email: req.body.email
           });
         case 2:
-          foundUser = _context2.sent;
-          if (!foundUser) {
-            _context2.next = 5;
+          foundUserEmail = _context2.sent;
+          _context2.next = 5;
+          return _user.default.findOne({
+            username: req.body.username
+          });
+        case 5:
+          foundUserUsername = _context2.sent;
+          if (!foundUserEmail) {
+            _context2.next = 8;
             break;
           }
           throw Error('Cannot use the email provided');
-        case 5:
-          _context2.prev = 5;
+        case 8:
+          if (!foundUserUsername) {
+            _context2.next = 10;
+            break;
+          }
+          throw Error('Cannot use the username provided');
+        case 10:
+          _context2.prev = 10;
           validData = _validators.default.signupSchema.validate(req.body);
           if (!validData.error) {
-            _context2.next = 11;
+            _context2.next = 16;
             break;
           }
           return _context2.abrupt("return", res.status(400).json({
             error: validData.error.details[0].message
           }));
-        case 11:
+        case 16:
           saltRounds = 10;
-          _context2.next = 14;
+          _context2.next = 19;
           return _bcrypt.default.hash(req.body.password, saltRounds);
-        case 14:
+        case 19:
           hashed = _context2.sent;
           user = new _user.default({
             email: validData.value.email,
             username: validData.value.username,
             hashedPassword: hashed
           });
-          _context2.next = 18;
+          _context2.next = 23;
           return user.save();
-        case 18:
+        case 23:
           return _context2.abrupt("return", res.status(201).json({
             message: "".concat(user.email, " created"),
             user: user
           }));
-        case 19:
-          _context2.next = 24;
+        case 24:
+          _context2.next = 29;
           break;
-        case 21:
-          _context2.prev = 21;
-          _context2.t0 = _context2["catch"](5);
+        case 26:
+          _context2.prev = 26;
+          _context2.t0 = _context2["catch"](10);
           return _context2.abrupt("return", res.status(422).json({
             error: _context2.t0.message
           }));
-        case 24:
+        case 29:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[5, 21]]);
+    }, _callee2, null, [[10, 26]]);
   }));
   return function signup(_x3, _x4) {
     return _ref2.apply(this, arguments);
@@ -200,42 +211,44 @@ var signin = /*#__PURE__*/function () {
 
 // get user using params id
 
-var getUserById = /*#__PURE__*/function () {
+var getMe = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(req, res) {
-    var id, user;
+    var user;
     return _regenerator.default.wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
-          id = req.params.id;
-          _context4.prev = 1;
-          _context4.next = 4;
-          return _user.default.findById(id);
-        case 4:
+          _context4.prev = 0;
+          _context4.next = 3;
+          return _user.default.findById(req.user.id).select({
+            hashedPassword: 0
+          });
+        case 3:
           user = _context4.sent;
           return _context4.abrupt("return", res.status(200).json(user));
-        case 8:
-          _context4.prev = 8;
-          _context4.t0 = _context4["catch"](1);
+        case 7:
+          _context4.prev = 7;
+          _context4.t0 = _context4["catch"](0);
           return _context4.abrupt("return", res.status(422).json({
             error: _context4.t0.message
           }));
-        case 11:
+        case 10:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[1, 8]]);
+    }, _callee4, null, [[0, 7]]);
   }));
-  return function getUserById(_x7, _x8) {
+  return function getMe(_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }();
-var createAvatar = /*#__PURE__*/function () {
+var updateUserAvatar = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(req, res) {
-    var image, opts, uploader, user;
+    var image, id, opts, uploader, user;
     return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
-          image = req.body.image;
+          image = req.body.image; //base64 format
+          id = req.params.id;
           _cloudinary.v2.config({
             cloud_name: _config.default.cloudinary_name,
             api_key: _config.default.cloudinary_key,
@@ -246,58 +259,66 @@ var createAvatar = /*#__PURE__*/function () {
             invalidate: true,
             resource_type: 'auto'
           };
-          _context5.prev = 3;
-          _context5.next = 6;
-          return _cloudinary.v2.uploader.upload(image, opts);
-        case 6:
-          uploader = _context5.sent;
-          if (!uploader.secure_url) {
-            _context5.next = 16;
+          if (!(req.user.id !== id)) {
+            _context5.next = 6;
             break;
           }
-          _context5.next = 10;
-          return _user.default.findById(req.user.id);
-        case 10:
+          return _context5.abrupt("return", res.status(401).json({
+            error: 'Not authorize to update the user'
+          }));
+        case 6:
+          _context5.prev = 6;
+          _context5.next = 9;
+          return _cloudinary.v2.uploader.upload(image, opts);
+        case 9:
+          uploader = _context5.sent;
+          if (!uploader.secure_url) {
+            _context5.next = 19;
+            break;
+          }
+          _context5.next = 13;
+          return _user.default.findById(id);
+        case 13:
           user = _context5.sent;
           if (!user) {
-            _context5.next = 16;
+            _context5.next = 19;
             break;
           }
           user.avatar = uploader.secure_url;
-          _context5.next = 15;
+          _context5.next = 18;
           return user.save();
-        case 15:
-          return _context5.abrupt("return", res.status(201).json({
-            message: "".concat(user.username, " avatar updated"),
-            avatar: user.avatar
-          }));
-        case 16:
-          _context5.next = 21;
-          break;
         case 18:
-          _context5.prev = 18;
-          _context5.t0 = _context5["catch"](3);
+          return _context5.abrupt("return", res.status(200).json({
+            message: "".concat(user.username, " avatar updated"),
+            user: user
+          }));
+        case 19:
+          _context5.next = 24;
+          break;
+        case 21:
+          _context5.prev = 21;
+          _context5.t0 = _context5["catch"](6);
           return _context5.abrupt("return", res.status(422).json({
             error: _context5.t0.message
           }));
-        case 21:
+        case 24:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[3, 18]]);
+    }, _callee5, null, [[6, 21]]);
   }));
-  return function createAvatar(_x9, _x10) {
+  return function updateUserAvatar(_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
 }();
-var createUserBio = /*#__PURE__*/function () {
+var updateUser = /*#__PURE__*/function () {
   var _ref6 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(req, res) {
-    var bio, validData, user;
+    var id, validData, user;
     return _regenerator.default.wrap(function _callee6$(_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
-          bio = req.body.bio;
-          validData = _validators.default.bioSchema.validate(bio);
+          id = req.params.id;
+          validData = _validators.default.updateUserSchema.validate(req.body);
           if (!validData.error) {
             _context6.next = 4;
             break;
@@ -306,81 +327,61 @@ var createUserBio = /*#__PURE__*/function () {
             error: validData.error.details.message
           }));
         case 4:
-          _context6.prev = 4;
-          _context6.next = 7;
-          return _user.default.findById(req.user.id);
-        case 7:
-          user = _context6.sent;
-          if (!user) {
-            _context6.next = 13;
+          if (!(req.user.id !== id)) {
+            _context6.next = 6;
             break;
           }
-          user.bio = validData.value.bio;
-          _context6.next = 12;
-          return user.save();
-        case 12:
-          return _context6.abrupt("return", res.status(201).json({
-            message: "".concat(user.username, " bio added"),
-            bio: user.bio
+          return _context6.abrupt("return", res.status(401).json({
+            error: 'Not authorize to update the user'
           }));
-        case 13:
-          _context6.next = 18;
+        case 6:
+          _context6.prev = 6;
+          _context6.next = 9;
+          return _user.default.findById(req.user.id).select({
+            hashedPassword: 0
+          });
+        case 9:
+          user = _context6.sent;
+          if (!user) {
+            _context6.next = 17;
+            break;
+          }
+          user.username = validData.value.username;
+          user.email = validData.value.email;
+          user.bio = validData.value.bio;
+          _context6.next = 16;
+          return user.save();
+        case 16:
+          return _context6.abrupt("return", res.status(200).json({
+            message: "".concat(user.username, " profile updated"),
+            user: user
+          }));
+        case 17:
+          _context6.next = 22;
           break;
-        case 15:
-          _context6.prev = 15;
-          _context6.t0 = _context6["catch"](4);
+        case 19:
+          _context6.prev = 19;
+          _context6.t0 = _context6["catch"](6);
           return _context6.abrupt("return", res.status(400).json({
             error: _context6.t0.message
           }));
-        case 18:
+        case 22:
         case "end":
           return _context6.stop();
       }
-    }, _callee6, null, [[4, 15]]);
+    }, _callee6, null, [[6, 19]]);
   }));
-  return function createUserBio(_x11, _x12) {
+  return function updateUser(_x11, _x12) {
     return _ref6.apply(this, arguments);
-  };
-}();
-var getUserAvatar = /*#__PURE__*/function () {
-  var _ref7 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(req, res) {
-    var id, user;
-    return _regenerator.default.wrap(function _callee7$(_context7) {
-      while (1) switch (_context7.prev = _context7.next) {
-        case 0:
-          id = req.params.id;
-          _context7.prev = 1;
-          _context7.next = 4;
-          return _user.default.findById(id);
-        case 4:
-          user = _context7.sent;
-          return _context7.abrupt("return", res.status(200).json({
-            avatar: user.avatar
-          }));
-        case 8:
-          _context7.prev = 8;
-          _context7.t0 = _context7["catch"](1);
-          return _context7.abrupt("return", res.status(422).json({
-            error: _context7.t0.message
-          }));
-        case 11:
-        case "end":
-          return _context7.stop();
-      }
-    }, _callee7, null, [[1, 8]]);
-  }));
-  return function getUserAvatar(_x13, _x14) {
-    return _ref7.apply(this, arguments);
   };
 }();
 var userController = {
   getAll: getAll,
   signup: signup,
   signin: signin,
-  getUserById: getUserById,
-  createAvatar: createAvatar,
-  getUserAvatar: getUserAvatar,
-  createUserBio: createUserBio
+  getMe: getMe,
+  updateUserAvatar: updateUserAvatar,
+  updateUser: updateUser
 };
 var _default = userController;
 exports.default = _default;

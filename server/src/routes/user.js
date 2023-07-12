@@ -9,29 +9,27 @@ router.post('/signup', userController.signup)
 
 router.post('/signin', userController.signin)
 
-router.get('/', userController.getAll)
-
-router.patch(
-  '/avatar',
-  authMiddleware.tokenExtractor,
-  authMiddleware.userExtractor,
-  userController.createAvatar
-)
+router.get('/all', userController.getAll)
 
 router.get(
-  '/:id',
+  '/me',
   authMiddleware.tokenExtractor,
   authMiddleware.userExtractor,
-  userController.getUserById
+  userController.getMe
 )
 
 router.patch(
-  '/bio',
+  '/update/:id',
   authMiddleware.tokenExtractor,
   authMiddleware.userExtractor,
-  userController.createUserBio
+  userController.updateUser
 )
 
-router.get('/avatar/:id', userController.getUserAvatar)
+router.patch(
+  '/update/avatar/:id',
+  authMiddleware.tokenExtractor,
+  authMiddleware.userExtractor,
+  userController.updateUserAvatar
+)
 
 export default router

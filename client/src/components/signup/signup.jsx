@@ -18,7 +18,7 @@ import { authService } from '../../services/auth'
 const password_regex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~?/`!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/
 
-const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{2,}$/
+const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
 
 const schema = yup
   .object({
@@ -85,7 +85,7 @@ export const Signup = () => {
               </FormLabel>
               <FormControl
                 type="text"
-                placeholder="Two characters in length"
+                placeholder="Four characters in length"
                 {...register('username')}
                 aria-invalid={errors.username?.message ? 'true' : 'false'}
                 className={`${errors.username?.message ? 'is-invalid' : ''} `}

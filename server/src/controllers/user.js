@@ -15,7 +15,6 @@ const getAll = async (req, res) => {
   try {
     const users = await User.find({}).select({
       hashedPassword: 0,
-      googleId: 0,
     })
 
     if (!users) throw Error('Problem fetching users')
@@ -29,9 +28,13 @@ const getAll = async (req, res) => {
 //create new user with request body of email, password and confirm
 
 const signup = async (req, res) => {
-  const foundUser = await User.findOne({ email: req.body.email })
+  const foundUserEmail = await User.findOne({ email: req.body.email })
 
-  if (foundUser) throw Error('Cannot use the email provided')
+  const foundUserUsername = await User.findOne({ username: req.body.username })
+
+  if (foundUserEmail) throw Error('Cannot use the email provided')
+
+  if (foundUserUsername) throw Error('Cannot use the username provided')
 
   try {
     const validData = validators.signupSchema.validate(req.body)
@@ -100,11 +103,11 @@ const signin = async (req, res) => {
 
 // get user using params id
 
-const getUserById = async (req, res) => {
-  const { id } = req.params
-
+const getMe = async (req, res) => {
   try {
-    const user = await User.findById(id)
+    const user = await User.findById(req.user.id).select({
+      hashedPassword: 0,
+    })
 
     return res.status(200).json(user)
   } catch (err) {
@@ -112,8 +115,10 @@ const getUserById = async (req, res) => {
   }
 }
 
-const createAvatar = async (req, res) => {
-  const { image } = req.body
+const updateUserAvatar = async (req, res) => {
+  const { image } = req.body //base64 format
+
+  const { id } = req.params
 
   v2.config({
     cloud_name: config.cloudinary_name,
@@ -127,17 +132,20 @@ const createAvatar = async (req, res) => {
     resource_type: 'auto',
   }
 
+  if (req.user.id !== id)
+    return res.status(401).json({ error: 'Not authorize to update the user' })
+
   try {
     const uploader = await v2.uploader.upload(image, opts)
 
     if (uploader.secure_url) {
-      let user = await User.findById(req.user.id)
+      let user = await User.findById(id)
       if (user) {
         user.avatar = uploader.secure_url
         await user.save()
-        return res.status(201).json({
+        return res.status(200).json({
           message: `${user.username} avatar updated`,
-          avatar: user.avatar,
+          user: user,
         })
       }
     }
@@ -146,50 +154,45 @@ const createAvatar = async (req, res) => {
   }
 }
 
-const createUserBio = async (req, res) => {
-  const { bio } = req.body
+const updateUser = async (req, res) => {
+  const { id } = req.params
 
-  const validData = validators.bioSchema.validate(bio)
+  const validData = validators.updateUserSchema.validate(req.body)
 
-  if (validData.error) {
+  if (validData.error)
     return res.status(400).json({ error: validData.error.details.message })
-  }
+
+  if (req.user.id !== id)
+    return res.status(401).json({ error: 'Not authorize to update the user' })
 
   try {
-    const user = await User.findById(req.user.id)
+    let user = await User.findById(req.user.id).select({
+      hashedPassword: 0,
+    })
 
     if (user) {
+      user.username = validData.value.username
+      user.email = validData.value.email
       user.bio = validData.value.bio
-      await user.save()
 
-      return res
-        .status(201)
-        .json({ message: `${user.username} bio added`, bio: user.bio })
+      await user.save()
+      return res.status(200).json({
+        message: `${user.username} profile updated`,
+        user: user,
+      })
     }
   } catch (err) {
+    //console.log(req.user.id)
     return res.status(400).json({ error: err.message })
   }
 }
-
-const getUserAvatar = async (req, res) => {
-  const { id } = req.params
-  try {
-    const user = await User.findById(id)
-
-    return res.status(200).json({ avatar: user.avatar })
-  } catch (err) {
-    return res.status(422).json({ error: err.message })
-  }
-}
-
 const userController = {
   getAll,
   signup,
   signin,
-  getUserById,
-  createAvatar,
-  getUserAvatar,
-  createUserBio,
+  getMe,
+  updateUserAvatar,
+  updateUser,
 }
 
 export default userController

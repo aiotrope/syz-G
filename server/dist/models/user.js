@@ -27,13 +27,15 @@ var UserSchema = new _mongoose.Schema({
   },
   avatar: {
     type: String,
-    required: false,
+    required: true,
     default: 'https://ui-avatars.com/api/?name=xz&bold=true&size=70&color=a0a0a0'
   },
   bio: {
     type: String,
-    required: false,
-    default: null
+    required: true,
+    default: function _default() {
+      return "Hello, World! I'm ".concat(this.username);
+    }
   }
 }, {
   toJSON: {
@@ -47,6 +49,12 @@ var UserSchema = new _mongoose.Schema({
 UserSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
+
+/* UserSchema.pre('save', function(next) {
+  this.bio = `Hello, World! I'm ${this.username}.`
+  next()
+}) */
+
 var User = (0, _mongoose.model)('User', UserSchema);
-var _default = User;
-exports.default = _default;
+var _default2 = User;
+exports.default = _default2;

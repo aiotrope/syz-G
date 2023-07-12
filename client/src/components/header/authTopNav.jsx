@@ -1,27 +1,26 @@
-import { useRecoilValue, useRecoilState } from 'recoil'
-import jwt_decode from 'jwt-decode'
+import { useRecoilValue, useResetRecoilState } from 'recoil'
+import jwtDecode from 'jwt-decode'
 import { LinkContainer } from 'react-router-bootstrap'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
 import { toast } from 'react-toastify'
 
-import { jwt_atom } from '../../recoil/auth'
-import { authService } from '../../services/auth'
+import { jwt_atom, user_atom } from '../../recoil/auth'
 
 export const AuthTopNav = () => {
-  /* eslint-disable-next-line no-unused-vars */
-  const [_, setJWT] = useRecoilState(jwt_atom)
-  /* eslint-enable-next-line no-unused-vars */
+  const resetJWTAtom = useResetRecoilState(jwt_atom)
 
   const token = useRecoilValue(jwt_atom)
 
-  const decoded = jwt_decode(token)
+  const user = useRecoilValue(user_atom)
+
+  const decoded = jwtDecode(token)
 
   const logout = async () => {
-    setJWT('')
-    authService.clearJWTLocalStorage()
+    resetJWTAtom()
     toast.info(`${decoded.username} logged out`)
   }
   return (
@@ -45,8 +44,15 @@ export const AuthTopNav = () => {
               </LinkContainer>
             </Nav>
             <Nav>
-              <LinkContainer to="/account">
-                <Nav.Link>{decoded?.username}</Nav.Link>
+              <LinkContainer to="/me">
+                <Image
+                  src={user.avatar}
+                  alt={`Profile photo of name`}
+                  rounded
+                  height={30}
+                  width={30}
+                  className="mx-1 mb-1 mt-1"
+                />
               </LinkContainer>
               <Nav.Item>
                 <Button onClick={() => logout()} variant="warning">

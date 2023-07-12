@@ -52,6 +52,11 @@ var errorHandler = function errorHandler(error, req, res, next) {
       error: error.message
     });
   }
+  if (error.message === 'Cannot use the username provided') {
+    return res.status(403).json({
+      error: error.message
+    });
+  }
   if (error.message === 'Problem fetching users') {
     return res.status(422).json({
       error: error.message
