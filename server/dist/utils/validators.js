@@ -23,10 +23,22 @@ var updateUserSchema = _joi.default.object().keys({
   username: _joi.default.string().pattern(username_regex, 'Username requires 4 characters long with letters, numbers and special characters').trim().optional(),
   bio: _joi.default.string().optional()
 }).optional();
+var createPostSchema = _joi.default.object().keys({
+  title: _joi.default.string().min(5).required(),
+  tag: _joi.default.string().min(1).required(),
+  entry: _joi.default.string().min(10).required()
+}).required();
+var updatePostSchema = _joi.default.object().keys({
+  title: _joi.default.string().min(5).optional(),
+  language: _joi.default.string().trim().min(1).optional(),
+  entry: _joi.default.string().min(10).optional()
+});
 var validators = {
   signinSchema: signinSchema,
   signupSchema: signupSchema,
-  updateUserSchema: updateUserSchema
+  updateUserSchema: updateUserSchema,
+  createPostSchema: createPostSchema,
+  updatePostSchema: updatePostSchema
 };
 var _default = validators;
 exports.default = _default;

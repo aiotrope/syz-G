@@ -10,7 +10,6 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 var _logger = _interopRequireDefault(require("./logger"));
 var dbURL;
 var opts = {
-  autoIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
 };

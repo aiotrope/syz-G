@@ -14,14 +14,16 @@ var _error = _interopRequireDefault(require("./middlewares/error"));
 var _cors2 = _interopRequireDefault(require("./middlewares/cors"));
 var _user = _interopRequireDefault(require("./routes/user"));
 var _index = _interopRequireDefault(require("./routes/index"));
+var _post = _interopRequireDefault(require("./routes/post"));
 var _logger = _interopRequireDefault(require("./utils/logger"));
 require('express-async-errors');
 var port = _config.default.port;
 var app = (0, _express.default)();
 var httpServer = _http.default.createServer(app);
+(0, _mongo.default)();
 app.use((0, _cookieParser.default)());
 app.use((0, _cors.default)({
-  origin: _config.default.frontend_url,
+  origin: [_config.default.frontend_url, _config.default.backend_url],
   credentials: true,
   optionsSuccessStatus: 200
 }));
@@ -36,7 +38,7 @@ app.use((0, _helmet.default)());
 app.use(_logging.default.logging);
 app.use('/', _index.default);
 app.use('/api/user', _user.default);
-(0, _mongo.default)();
+app.use('/api/post', _post.default);
 app.use(_error.default.endPoint404);
 app.use(_error.default.errorHandler);
 httpServer.listen(port, function () {

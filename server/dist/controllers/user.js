@@ -11,9 +11,14 @@ var _config = _interopRequireDefault(require("../config"));
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 var _cloudinary = require("cloudinary");
+var _mongoose = _interopRequireDefault(require("mongoose"));
 var _user = _interopRequireDefault(require("../models/user"));
+var _post = _interopRequireDefault(require("../models/post"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
 require('express-async-errors');
+
+//import _ from 'lodash'
+
 //import logger from '../utils/logger'
 // return an array of users objects with id, email, username, isStaff and timestamps
 var getAll = /*#__PURE__*/function () {
@@ -26,7 +31,7 @@ var getAll = /*#__PURE__*/function () {
           _context.next = 3;
           return _user.default.find({}).select({
             hashedPassword: 0
-          });
+          }).populate('posts');
         case 3:
           users = _context.sent;
           if (users) {
@@ -147,7 +152,7 @@ var signin = /*#__PURE__*/function () {
             break;
           }
           return _context3.abrupt("return", res.status(400).json({
-            error: validData.error.details.message
+            error: validData.error.details[0].message
           }));
         case 4:
           _context3.prev = 4;
@@ -221,7 +226,7 @@ var getMe = /*#__PURE__*/function () {
           _context4.next = 3;
           return _user.default.findById(req.user.id).select({
             hashedPassword: 0
-          });
+          }).populate('posts');
         case 3:
           user = _context4.sent;
           return _context4.abrupt("return", res.status(200).json(user));
@@ -263,8 +268,8 @@ var updateUserAvatar = /*#__PURE__*/function () {
             _context5.next = 6;
             break;
           }
-          return _context5.abrupt("return", res.status(401).json({
-            error: 'Not authorize to update the user'
+          return _context5.abrupt("return", res.status(403).json({
+            error: "Not allowed to update ".concat(req.user.username)
           }));
         case 6:
           _context5.prev = 6;
@@ -324,15 +329,15 @@ var updateUser = /*#__PURE__*/function () {
             break;
           }
           return _context6.abrupt("return", res.status(400).json({
-            error: validData.error.details.message
+            error: validData.error.details[0].message
           }));
         case 4:
           if (!(req.user.id !== id)) {
             _context6.next = 6;
             break;
           }
-          return _context6.abrupt("return", res.status(401).json({
-            error: 'Not authorize to update the user'
+          return _context6.abrupt("return", res.status(403).json({
+            error: "Not allowed to update ".concat(req.user.username)
           }));
         case 6:
           _context6.prev = 6;
@@ -377,37 +382,52 @@ var updateUser = /*#__PURE__*/function () {
 }();
 var deleteAccount = /*#__PURE__*/function () {
   var _ref7 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(req, res) {
-    var id;
+    var id, user, userToDelete;
     return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
           id = req.params.id;
-          if (!(req.user.id !== id)) {
-            _context7.next = 3;
+          user = req.user;
+          if (!(user.id !== id)) {
+            _context7.next = 4;
             break;
           }
-          return _context7.abrupt("return", res.status(401).json({
-            error: 'Not authorize to delete the user'
+          return _context7.abrupt("return", res.status(403).json({
+            error: "Not allowed to update ".concat(req.user.username)
           }));
-        case 3:
-          _context7.prev = 3;
-          _context7.next = 6;
+        case 4:
+          _context7.prev = 4;
+          _context7.next = 7;
           return _user.default.findByIdAndDelete(id);
-        case 6:
+        case 7:
+          userToDelete = _context7.sent;
+          _context7.next = 10;
+          return _post.default.deleteMany({
+            user: _mongoose.default.Types.ObjectId(user.id)
+          });
+        case 10:
+          if (userToDelete) {
+            _context7.next = 12;
+            break;
+          }
+          return _context7.abrupt("return", res.status(404).json({
+            error: 'User not found'
+          }));
+        case 12:
           res.status(204).end();
-          _context7.next = 12;
+          _context7.next = 18;
           break;
-        case 9:
-          _context7.prev = 9;
-          _context7.t0 = _context7["catch"](3);
+        case 15:
+          _context7.prev = 15;
+          _context7.t0 = _context7["catch"](4);
           return _context7.abrupt("return", res.status(400).json({
             error: _context7.t0.message
           }));
-        case 12:
+        case 18:
         case "end":
           return _context7.stop();
       }
-    }, _callee7, null, [[3, 9]]);
+    }, _callee7, null, [[4, 15]]);
   }));
   return function deleteAccount(_x13, _x14) {
     return _ref7.apply(this, arguments);

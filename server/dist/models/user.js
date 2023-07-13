@@ -5,16 +5,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _mongoose = require("mongoose");
+var avatar_url = 'https://ui-avatars.com/api/?name=xz&bold=true&size=70&color=a0a0a0';
 var UserSchema = new _mongoose.Schema({
   email: {
     type: String,
     trim: true,
-    required: true
+    required: true,
+    unique: true
   },
   username: {
     type: String,
     trim: true,
-    required: true
+    required: true,
+    unique: true
   },
   hashedPassword: {
     type: String,
@@ -28,7 +31,7 @@ var UserSchema = new _mongoose.Schema({
   avatar: {
     type: String,
     required: true,
-    default: 'https://ui-avatars.com/api/?name=xz&bold=true&size=70&color=a0a0a0'
+    default: avatar_url
   },
   bio: {
     type: String,
@@ -36,7 +39,11 @@ var UserSchema = new _mongoose.Schema({
     default: function _default() {
       return "Hello, World! I'm ".concat(this.username);
     }
-  }
+  },
+  posts: [{
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: 'Post'
+  }]
 }, {
   toJSON: {
     virtuals: true
@@ -49,12 +56,12 @@ var UserSchema = new _mongoose.Schema({
 UserSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
-
-/* UserSchema.pre('save', function(next) {
-  this.bio = `Hello, World! I'm ${this.username}.`
-  next()
-}) */
-
+UserSchema.pre('save', function (next) {
+  if (this.avatar === null) {
+    this.avatar = avatar_url;
+  }
+  next();
+});
 var User = (0, _mongoose.model)('User', UserSchema);
 var _default2 = User;
 exports.default = _default2;
