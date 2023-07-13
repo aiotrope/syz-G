@@ -46,10 +46,26 @@ const updateUserSchema = Joi.object()
   })
   .optional()
 
+const createPostSchema = Joi.object()
+  .keys({
+    title: Joi.string().min(5).required(),
+    tag: Joi.string().min(1).required(),
+    entry: Joi.string().min(10).required(),
+  })
+  .required()
+
+const updatePostSchema = Joi.object().keys({
+  title: Joi.string().min(5).optional(),
+  language: Joi.string().trim().min(1).optional(),
+  entry: Joi.string().min(10).optional(),
+})
+
 const validators = {
   signinSchema,
   signupSchema,
   updateUserSchema,
+  createPostSchema,
+  updatePostSchema,
 }
 
 export default validators

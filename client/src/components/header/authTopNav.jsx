@@ -1,10 +1,12 @@
-import { useRecoilValue, useResetRecoilState } from 'recoil'
+import { useEffect } from 'react'
+import { useRecoilValue, useResetRecoilState, useRecoilState } from 'recoil'
 import jwtDecode from 'jwt-decode'
 import { LinkContainer } from 'react-router-bootstrap'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
+import Badge from 'react-bootstrap/Badge'
 import Image from 'react-bootstrap/Image'
 import { toast } from 'react-toastify'
 
@@ -15,9 +17,30 @@ export const AuthTopNav = () => {
 
   const token = useRecoilValue(jwt_atom)
 
-  const user = useRecoilValue(user_atom)
+  const userState = useRecoilValue(user_atom)
 
   const decoded = jwtDecode(token)
+
+  const [user, setUser] = useRecoilState(user_atom)
+
+  useEffect(() => {
+    let mounted = true
+
+    const prepareUser = async () => {
+      try {
+        if (userState && mounted) {
+          setUser(userState)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    prepareUser()
+
+    return () => {
+      mounted = false
+    }
+  }, [setUser, userState])
 
   const logout = async () => {
     resetJWTAtom()
@@ -39,21 +62,32 @@ export const AuthTopNav = () => {
               <LinkContainer to="/about">
                 <Nav.Link>About</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/doc">
-                <Nav.Link>Documentation</Nav.Link>
+              <LinkContainer to="/create-snippet">
+                <Nav.Link>
+                  <Badge bg="primary">Create Snippet</Badge>
+                </Nav.Link>
               </LinkContainer>
             </Nav>
             <Nav>
-              <LinkContainer to="/me">
-                <Image
-                  src={user.avatar}
-                  alt={`Profile photo of name`}
-                  rounded
-                  height={30}
-                  width={30}
-                  className="mx-1 mb-1 mt-1"
-                />
-              </LinkContainer>
+              {user.avatar ? (
+                <LinkContainer to="/me">
+                  <Image
+                    src={user.avatar}
+                    alt={`Profile photo of name`}
+                    rounded
+                    height={30}
+                    width={30}
+                    className="mx-1 mb-1 mt-1"
+                  />
+                </LinkContainer>
+              ) : (
+                <>
+                  <LinkContainer to="/me" className="username text-danger">
+                    <Nav.Link>{decoded.username}</Nav.Link>
+                  </LinkContainer>
+                </>
+              )}
+
               <Nav.Item>
                 <Button onClick={() => logout()} variant="warning">
                   Logout

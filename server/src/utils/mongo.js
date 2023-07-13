@@ -5,7 +5,6 @@ import logger from './logger'
 let dbURL
 
 const opts = {
-  autoIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }

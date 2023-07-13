@@ -25,7 +25,7 @@ const login = async (credentials) => {
 
 const getAccessToken = () => {
   const token = JSON.parse(localStorage.getItem('JWT'))
-  return token.jwt_atom
+  return token
 }
 
 export const authService = {

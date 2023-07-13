@@ -14,6 +14,7 @@ import corsMiddleware from './middlewares/cors'
 
 import userRouter from './routes/user'
 import indexRouter from './routes/index'
+import postRouter from './routes/post'
 
 import logger from './utils/logger'
 
@@ -23,11 +24,13 @@ const app = express()
 
 const httpServer = http.createServer(app)
 
+dbConnection()
+
 app.use(cookieParser())
 
 app.use(
   cors({
-    origin: config.frontend_url,
+    origin: [config.frontend_url, config.backend_url],
     credentials: true,
     optionsSuccessStatus: 200,
   })
@@ -51,7 +54,7 @@ app.use('/', indexRouter)
 
 app.use('/api/user', userRouter)
 
-dbConnection()
+app.use('/api/post', postRouter)
 
 app.use(errorMiddleware.endPoint404)
 

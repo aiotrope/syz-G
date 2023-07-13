@@ -7,21 +7,11 @@ const PORT = process.env.PORT
 
 const FRONTEND_URL = process.env.FRONTEND_URL
 
+const BACKEND_URL = process.env.BACKEND_URL
+
 const MONGO_URL = process.env.MONGO_URL
 
 const MONGO_URL_TEST = process.env.MONGO_URL_TEST
-
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
-
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
-
-const GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL
-
-const FB_CLIENT_ID = process.env.FB_CLIENT_ID
-
-const FB_CLIENT_SECRET = process.env.FB_CLIENT_SECRET
-
-const FB_CALLBACK_URL = process.env.FB_CALLBACK_URL
 
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -41,10 +31,6 @@ const REDIS_HOST = process.env.REDIS_HOST
 
 const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 
-const SUCCESS_REDIRECT = process.env.SUCCESS_REDIRECT
-
-const FAILURE_REDIRECT = process.env.FAILURE_REDIRECT
-
 const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME
 
 const CLOUDINARY_KEY = process.env.CLOUDINARY_KEY
@@ -54,14 +40,9 @@ const CLOUDINARY_SECRET = process.env.CLOUDINARY_SECRET
 const config = {
   port: PORT,
   frontend_url: FRONTEND_URL,
+  backend_url: BACKEND_URL,
   mongo_url: MONGO_URL,
   mongo_url_test: MONGO_URL_TEST,
-  google_client_id: GOOGLE_CLIENT_ID,
-  google_client_secret: GOOGLE_CLIENT_SECRET,
-  google_callback_url: GOOGLE_CALLBACK_URL,
-  fb_client_id: FB_CLIENT_ID,
-  fb_client_secret: FB_CLIENT_SECRET,
-  fb_callback_url: FB_CALLBACK_URL,
   jwt_secret: JWT_SECRET,
   session_secret: SESSION_SECRET,
   cookie_secret1: COOKIE_SECRET1,
@@ -71,8 +52,6 @@ const config = {
   redis_port: REDIS_PORT,
   redis_password: REDIS_PASSWORD,
   cookie_name: COOKIE_NAME,
-  success_redirect: SUCCESS_REDIRECT,
-  failure_redirect: FAILURE_REDIRECT,
   cloudinary_name: CLOUDINARY_NAME,
   cloudinary_key: CLOUDINARY_KEY,
   cloudinary_secret: CLOUDINARY_SECRET,

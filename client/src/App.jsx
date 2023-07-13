@@ -21,11 +21,10 @@ export const App = () => {
         <Container>
           <ToastContainer theme="colored" />
           <Router />
-          <footer>
-            <hr />
-            <Footer />
-          </footer>
         </Container>
+        <footer>
+          <Footer />
+        </footer>
       </main>
     </BrowserRouter>
   )

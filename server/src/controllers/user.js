@@ -3,8 +3,11 @@ require('express-async-errors')
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { v2 } from 'cloudinary'
+//import _ from 'lodash'
+import mongoose from 'mongoose'
 
 import User from '../models/user'
+import Post from '../models/post'
 import validators from '../utils/validators'
 
 //import logger from '../utils/logger'
@@ -13,9 +16,11 @@ import validators from '../utils/validators'
 
 const getAll = async (req, res) => {
   try {
-    const users = await User.find({}).select({
-      hashedPassword: 0,
-    })
+    const users = await User.find({})
+      .select({
+        hashedPassword: 0,
+      })
+      .populate('posts')
 
     if (!users) throw Error('Problem fetching users')
 
@@ -69,7 +74,7 @@ const signin = async (req, res) => {
   const validData = validators.signinSchema.validate(req.body)
 
   if (validData.error) {
-    return res.status(400).json({ error: validData.error.details.message })
+    return res.status(400).json({ error: validData.error.details[0].message })
   }
 
   try {
@@ -105,9 +110,11 @@ const signin = async (req, res) => {
 
 const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select({
-      hashedPassword: 0,
-    })
+    const user = await User.findById(req.user.id)
+      .select({
+        hashedPassword: 0,
+      })
+      .populate('posts')
 
     return res.status(200).json(user)
   } catch (err) {
@@ -133,7 +140,9 @@ const updateUserAvatar = async (req, res) => {
   }
 
   if (req.user.id !== id)
-    return res.status(401).json({ error: 'Not authorize to update the user' })
+    return res
+      .status(403)
+      .json({ error: `Not allowed to update ${req.user.username}` })
 
   try {
     const uploader = await v2.uploader.upload(image, opts)
@@ -160,10 +169,12 @@ const updateUser = async (req, res) => {
   const validData = validators.updateUserSchema.validate(req.body)
 
   if (validData.error)
-    return res.status(400).json({ error: validData.error.details.message })
+    return res.status(400).json({ error: validData.error.details[0].message })
 
   if (req.user.id !== id)
-    return res.status(401).json({ error: 'Not authorize to update the user' })
+    return res
+      .status(403)
+      .json({ error: `Not allowed to update ${req.user.username}` })
 
   try {
     let user = await User.findById(req.user.id).select({
@@ -190,11 +201,19 @@ const updateUser = async (req, res) => {
 const deleteAccount = async (req, res) => {
   const { id } = req.params
 
-  if (req.user.id !== id)
-    return res.status(401).json({ error: 'Not authorize to delete the user' })
+  const user = req.user
+
+  if (user.id !== id)
+    return res
+      .status(403)
+      .json({ error: `Not allowed to update ${req.user.username}` })
 
   try {
-    await User.findByIdAndDelete(id)
+    const userToDelete = await User.findByIdAndDelete(id)
+
+    await Post.deleteMany({ user: mongoose.Types.ObjectId(user.id) })
+
+    if (!userToDelete) return res.status(404).json({ error: 'User not found' })
 
     res.status(204).end()
   } catch (err) {

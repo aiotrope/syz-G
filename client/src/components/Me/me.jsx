@@ -20,7 +20,7 @@ import { userService } from '../../services/user'
 import { convertBase64 } from '../../services/misc'
 import { user_atom } from '../../recoil/auth'
 import { jwt_atom } from '../../recoil/auth'
-import Loader from '../loader'
+import Loader from '../misc/loader'
 
 const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
 
@@ -77,7 +77,7 @@ export const Me = () => {
 
   const avatarForm = useForm({
     resolver: yupResolver(updateAvatarSchema),
-    mode: 'all',
+    mode: 'onChange',
   })
 
   useEffect(() => {
@@ -235,13 +235,13 @@ export const Me = () => {
               </Button>
             </FormGroup>
           </Form>
-          <Form onSubmit={avatarForm.handleSubmit(onAvatarFormSubmit)}>
+          <Form onSubmit={avatarForm.handleSubmit(onAvatarFormSubmit)} className="mt-1 mb-5">
             <h4>Update your avatar</h4>
             <FormGroup className="mb-4">
-              <FormLabel htmlFor="image">Update profile photo</FormLabel>
+              <FormLabel htmlFor="image">Allowed size: up to 18 KB only.</FormLabel>
               <FormControl
                 type="file"
-                size="sm"
+                size="lg"
                 {...avatarForm.register('image')}
                 aria-invalid={avatarForm.formState.errors.image?.message ? 'true' : 'false'}
                 className={`${avatarForm.formState.errors.image?.message ? 'is-invalid' : ''} `}
@@ -255,16 +255,25 @@ export const Me = () => {
               )}
             </FormGroup>
             <FormGroup className="d-grid mt-3">
-              <Button variant="light" size="lg" type="submit">
+              <Button
+                variant="secondary"
+                size="lg"
+                type="submit"
+                disabled={!avatarForm.formState.isDirty}
+                aria-disabled={!avatarForm.formState.isDirty}
+              >
                 UPDATE AVATAR
               </Button>
             </FormGroup>
           </Form>
           <hr />
-          <div className="mt-5">
+          <div className="my-5 d-grid gap-2">
             <h5>Account Deletion</h5>
-            <Button variant="outline-danger" size="md" onClick={handleDeleteAccount}>
-              Delete
+            <p>
+              This action will delete your account profile, posts and comments from our records.
+            </p>
+            <Button variant="outline-danger" size="lg" onClick={handleDeleteAccount}>
+              Delete my account
             </Button>
           </div>
         </>

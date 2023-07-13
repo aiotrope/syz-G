@@ -14,7 +14,7 @@ POST http://localhost:8080/api/user/signin
 Content-Type: application/json
 
 {
-   "email": "sample1@sr.io",
+   "email": "sample@sr.io",
    "password": "passworD1#"
 }
 
@@ -43,5 +43,24 @@ GET http://localhost:8080/api/user/update/64ade915e11cda3c893daa35
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YWRlOTE1ZTExY2RhM2M4OTNkYWEzNSIsImVtYWlsIjoic2FtcGxlMUBzci5pbyIsInVzZXJuYW1lIjoidXNlcm5hbWUyIiwiaWF0IjoxNjg5MTIxNjU3LCJleHAiOjE2ODkxMjg4NTd9.SXQ2GYWT2V9R_3KjEtXZeqljiOnFPqcVXLzLufeTeVU
 
 {
-   "bio": "Hello Universe"
+   "bio": "Hello"
 }
+
+
+### create post
+POST http://localhost:8080/api/post
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YWYwYWNjZmEzZTBjNzY5YzllYTBjNSIsImVtYWlsIjoic2FtcGxlQHNyLmlvIiwidXNlcm5hbWUiOiJ1c2VybmFtZTEiLCJpYXQiOjE2ODkxOTMxNzIsImV4cCI6MTY4OTIwMDM3Mn0.Spa5ZJoTF3QsFK4GtAKtO-23qBh_FtRmZNlEJE02dRY
+
+
+{
+   "title":"My first post",
+   "tag":"javascript",
+   "entry":"My first entry"
+}
+
+
+### get all posts
+GET http://localhost:8080/api/post/all
+Content-Type: application/json
+
+

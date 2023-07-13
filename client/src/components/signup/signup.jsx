@@ -10,7 +10,7 @@ import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
 import FormLabel from 'react-bootstrap/FormLabel'
 import Stack from 'react-bootstrap/Stack'
-import Loader from '../loader'
+import Loader from '../misc/loader'
 import { toast } from 'react-toastify'
 
 import { authService } from '../../services/auth'

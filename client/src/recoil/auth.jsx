@@ -1,4 +1,4 @@
-import { atom } from 'recoil'
+import { atom, selector } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
 
 const { persistAtom } = recoilPersist({
@@ -22,7 +22,21 @@ export const user_atom = atom({
     bio: '',
     avatar: '',
     isStaff: null,
+    posts: null,
     createdAt: null,
     updatedAt: null,
   },
+})
+
+export const user_selector = selector({
+  key: 'user_selector',
+  get: ({ get }) => {
+    const user = get(user_atom)
+    return user
+  },
+})
+
+export const users_atom = atom({
+  key: 'users_atom',
+  default: [],
 })
