@@ -20,7 +20,7 @@ export const user_atom = atom({
     username: '',
     email: '',
     bio: '',
-    avatar: '',
+    avatar: null,
     isStaff: null,
     posts: null,
     createdAt: null,

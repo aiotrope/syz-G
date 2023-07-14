@@ -25,12 +25,14 @@ var updateUserSchema = _joi.default.object().keys({
 }).optional();
 var createPostSchema = _joi.default.object().keys({
   title: _joi.default.string().min(5).required(),
+  description: _joi.default.string().min(10).required(),
   tag: _joi.default.string().min(1).required(),
   entry: _joi.default.string().min(10).required()
 }).required();
 var updatePostSchema = _joi.default.object().keys({
   title: _joi.default.string().min(5).optional(),
-  language: _joi.default.string().trim().min(1).optional(),
+  description: _joi.default.string().min(10).optional(),
+  tag: _joi.default.string().trim().min(1).optional(),
   entry: _joi.default.string().min(10).optional()
 });
 var validators = {

@@ -8,6 +8,7 @@ exports.default = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _mongoose = _interopRequireDefault(require("mongoose"));
+var _isomorphicDompurify = require("isomorphic-dompurify");
 var _post = _interopRequireDefault(require("../models/post"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
 //import config from '../config'
@@ -45,9 +46,10 @@ var createPost = /*#__PURE__*/function () {
         case 10:
           _context.prev = 10;
           newPost = new _post.default({
-            title: validData.value.title,
+            title: (0, _isomorphicDompurify.sanitize)(validData.value.title),
             tag: validData.value.tag,
-            entry: validData.value.entry,
+            description: (0, _isomorphicDompurify.sanitize)(validData.value.description),
+            entry: (0, _isomorphicDompurify.sanitize)(validData.value.entry),
             user: _mongoose.default.Types.ObjectId(user.id)
           });
           _context.next = 14;
@@ -63,7 +65,7 @@ var createPost = /*#__PURE__*/function () {
           return user.save();
         case 19:
           return _context.abrupt("return", res.status(201).json({
-            message: "".concat(post.title, " created!"),
+            message: "You created new snippet: ".concat(post.title),
             post: post
           }));
         case 20:

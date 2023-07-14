@@ -18,6 +18,8 @@ router.get(
   userController.getMe
 )
 
+router.get('/:id', userController.getUserById)
+
 router.patch(
   '/update/:id',
   authMiddleware.tokenExtractor,

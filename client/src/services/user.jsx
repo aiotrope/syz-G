@@ -22,6 +22,13 @@ const getMe = async () => {
   if (response.status === 200 && response.data) return response.data
 }
 
+const getUserById = async (id) => {
+  const response = await axios.get(`${baseUrl}/api/user/${id}`, {
+    withCredentials: true,
+  })
+  if (response.status === 200 && response.data) return response.data
+}
+
 const updateUser = async (data) => {
   const accessToken = authService.getAccessToken()
 
@@ -67,4 +74,5 @@ export const userService = {
   updateUser,
   updateUserAvatar,
   deleteUserAccount,
+  getUserById,
 }

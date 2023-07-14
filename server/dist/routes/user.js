@@ -13,6 +13,7 @@ router.post('/signup', _user.default.signup);
 router.post('/signin', _user.default.signin);
 router.get('/all', _user.default.getAll);
 router.get('/me', _auth.default.tokenExtractor, _auth.default.userExtractor, _user.default.getMe);
+router.get('/:id', _user.default.getUserById);
 router.patch('/update/:id', _auth.default.tokenExtractor, _auth.default.userExtractor, _user.default.updateUser);
 router.patch('/update/avatar/:id', _auth.default.tokenExtractor, _auth.default.userExtractor, _user.default.updateUserAvatar);
 router.delete('/:id', _auth.default.tokenExtractor, _auth.default.userExtractor, _user.default.deleteAccount);

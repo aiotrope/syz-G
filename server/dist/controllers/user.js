@@ -12,6 +12,7 @@ var _bcrypt = _interopRequireDefault(require("bcrypt"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 var _cloudinary = require("cloudinary");
 var _mongoose = _interopRequireDefault(require("mongoose"));
+var _isomorphicDompurify = require("isomorphic-dompurify");
 var _user = _interopRequireDefault(require("../models/user"));
 var _post = _interopRequireDefault(require("../models/post"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
@@ -106,8 +107,8 @@ var signup = /*#__PURE__*/function () {
         case 19:
           hashed = _context2.sent;
           user = new _user.default({
-            email: validData.value.email,
-            username: validData.value.username,
+            email: (0, _isomorphicDompurify.sanitize)(validData.value.email),
+            username: (0, _isomorphicDompurify.sanitize)(validData.value.username),
             hashedPassword: hashed
           });
           _context2.next = 23;
@@ -246,11 +247,42 @@ var getMe = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-var updateUserAvatar = /*#__PURE__*/function () {
+var getUserById = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(req, res) {
-    var image, id, opts, uploader, user;
+    var id, user;
     return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
+        case 0:
+          id = req.params.id;
+          _context5.prev = 1;
+          _context5.next = 4;
+          return _user.default.findById(id).select({
+            hashedPassword: 0
+          }).populate('posts');
+        case 4:
+          user = _context5.sent;
+          return _context5.abrupt("return", res.status(200).json(user));
+        case 8:
+          _context5.prev = 8;
+          _context5.t0 = _context5["catch"](1);
+          return _context5.abrupt("return", res.status(422).json({
+            error: _context5.t0.message
+          }));
+        case 11:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5, null, [[1, 8]]);
+  }));
+  return function getUserById(_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+var updateUserAvatar = /*#__PURE__*/function () {
+  var _ref6 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(req, res) {
+    var image, id, opts, uploader, user;
+    return _regenerator.default.wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
         case 0:
           image = req.body.image; //base64 format
           id = req.params.id;
@@ -265,74 +297,6 @@ var updateUserAvatar = /*#__PURE__*/function () {
             resource_type: 'auto'
           };
           if (!(req.user.id !== id)) {
-            _context5.next = 6;
-            break;
-          }
-          return _context5.abrupt("return", res.status(403).json({
-            error: "Not allowed to update ".concat(req.user.username)
-          }));
-        case 6:
-          _context5.prev = 6;
-          _context5.next = 9;
-          return _cloudinary.v2.uploader.upload(image, opts);
-        case 9:
-          uploader = _context5.sent;
-          if (!uploader.secure_url) {
-            _context5.next = 19;
-            break;
-          }
-          _context5.next = 13;
-          return _user.default.findById(id);
-        case 13:
-          user = _context5.sent;
-          if (!user) {
-            _context5.next = 19;
-            break;
-          }
-          user.avatar = uploader.secure_url;
-          _context5.next = 18;
-          return user.save();
-        case 18:
-          return _context5.abrupt("return", res.status(200).json({
-            message: "".concat(user.username, " avatar updated"),
-            user: user
-          }));
-        case 19:
-          _context5.next = 24;
-          break;
-        case 21:
-          _context5.prev = 21;
-          _context5.t0 = _context5["catch"](6);
-          return _context5.abrupt("return", res.status(422).json({
-            error: _context5.t0.message
-          }));
-        case 24:
-        case "end":
-          return _context5.stop();
-      }
-    }, _callee5, null, [[6, 21]]);
-  }));
-  return function updateUserAvatar(_x9, _x10) {
-    return _ref5.apply(this, arguments);
-  };
-}();
-var updateUser = /*#__PURE__*/function () {
-  var _ref6 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(req, res) {
-    var id, validData, user;
-    return _regenerator.default.wrap(function _callee6$(_context6) {
-      while (1) switch (_context6.prev = _context6.next) {
-        case 0:
-          id = req.params.id;
-          validData = _validators.default.updateUserSchema.validate(req.body);
-          if (!validData.error) {
-            _context6.next = 4;
-            break;
-          }
-          return _context6.abrupt("return", res.status(400).json({
-            error: validData.error.details[0].message
-          }));
-        case 4:
-          if (!(req.user.id !== id)) {
             _context6.next = 6;
             break;
           }
@@ -342,95 +306,163 @@ var updateUser = /*#__PURE__*/function () {
         case 6:
           _context6.prev = 6;
           _context6.next = 9;
-          return _user.default.findById(req.user.id).select({
-            hashedPassword: 0
-          });
+          return _cloudinary.v2.uploader.upload(image, opts);
         case 9:
-          user = _context6.sent;
-          if (!user) {
-            _context6.next = 17;
+          uploader = _context6.sent;
+          if (!uploader.secure_url) {
+            _context6.next = 19;
             break;
           }
-          user.username = validData.value.username;
-          user.email = validData.value.email;
-          user.bio = validData.value.bio;
-          _context6.next = 16;
+          _context6.next = 13;
+          return _user.default.findById(id);
+        case 13:
+          user = _context6.sent;
+          if (!user) {
+            _context6.next = 19;
+            break;
+          }
+          user.avatar = (0, _isomorphicDompurify.sanitize)(uploader.secure_url);
+          _context6.next = 18;
           return user.save();
-        case 16:
+        case 18:
           return _context6.abrupt("return", res.status(200).json({
-            message: "".concat(user.username, " profile updated"),
+            message: "".concat(user.username, " avatar updated"),
             user: user
           }));
-        case 17:
-          _context6.next = 22;
-          break;
         case 19:
-          _context6.prev = 19;
+          _context6.next = 24;
+          break;
+        case 21:
+          _context6.prev = 21;
           _context6.t0 = _context6["catch"](6);
-          return _context6.abrupt("return", res.status(400).json({
+          return _context6.abrupt("return", res.status(422).json({
             error: _context6.t0.message
           }));
-        case 22:
+        case 24:
         case "end":
           return _context6.stop();
       }
-    }, _callee6, null, [[6, 19]]);
+    }, _callee6, null, [[6, 21]]);
   }));
-  return function updateUser(_x11, _x12) {
+  return function updateUserAvatar(_x11, _x12) {
     return _ref6.apply(this, arguments);
   };
 }();
-var deleteAccount = /*#__PURE__*/function () {
+var updateUser = /*#__PURE__*/function () {
   var _ref7 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(req, res) {
-    var id, user, userToDelete;
+    var id, validData, user;
     return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
           id = req.params.id;
-          user = req.user;
-          if (!(user.id !== id)) {
+          validData = _validators.default.updateUserSchema.validate(req.body);
+          if (!validData.error) {
             _context7.next = 4;
+            break;
+          }
+          return _context7.abrupt("return", res.status(400).json({
+            error: validData.error.details[0].message
+          }));
+        case 4:
+          if (!(req.user.id !== id)) {
+            _context7.next = 6;
             break;
           }
           return _context7.abrupt("return", res.status(403).json({
             error: "Not allowed to update ".concat(req.user.username)
           }));
+        case 6:
+          _context7.prev = 6;
+          _context7.next = 9;
+          return _user.default.findById(req.user.id).select({
+            hashedPassword: 0
+          });
+        case 9:
+          user = _context7.sent;
+          if (!user) {
+            _context7.next = 17;
+            break;
+          }
+          user.username = (0, _isomorphicDompurify.sanitize)(validData.value.username);
+          user.email = (0, _isomorphicDompurify.sanitize)(validData.value.email);
+          user.bio = (0, _isomorphicDompurify.sanitize)(validData.value.bio);
+          _context7.next = 16;
+          return user.save();
+        case 16:
+          return _context7.abrupt("return", res.status(200).json({
+            message: "".concat(user.username, " profile updated"),
+            user: user
+          }));
+        case 17:
+          _context7.next = 22;
+          break;
+        case 19:
+          _context7.prev = 19;
+          _context7.t0 = _context7["catch"](6);
+          return _context7.abrupt("return", res.status(400).json({
+            error: _context7.t0.message
+          }));
+        case 22:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7, null, [[6, 19]]);
+  }));
+  return function updateUser(_x13, _x14) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+var deleteAccount = /*#__PURE__*/function () {
+  var _ref8 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8(req, res) {
+    var id, user, userToDelete;
+    return _regenerator.default.wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
+          id = req.params.id;
+          user = req.user;
+          if (!(user.id !== id)) {
+            _context8.next = 4;
+            break;
+          }
+          return _context8.abrupt("return", res.status(403).json({
+            error: "Not allowed to update ".concat(req.user.username)
+          }));
         case 4:
-          _context7.prev = 4;
-          _context7.next = 7;
+          _context8.prev = 4;
+          _context8.next = 7;
           return _user.default.findByIdAndDelete(id);
         case 7:
-          userToDelete = _context7.sent;
-          _context7.next = 10;
+          userToDelete = _context8.sent;
+          _context8.next = 10;
           return _post.default.deleteMany({
             user: _mongoose.default.Types.ObjectId(user.id)
           });
         case 10:
           if (userToDelete) {
-            _context7.next = 12;
+            _context8.next = 12;
             break;
           }
-          return _context7.abrupt("return", res.status(404).json({
+          return _context8.abrupt("return", res.status(404).json({
             error: 'User not found'
           }));
         case 12:
           res.status(204).end();
-          _context7.next = 18;
+          _context8.next = 18;
           break;
         case 15:
-          _context7.prev = 15;
-          _context7.t0 = _context7["catch"](4);
-          return _context7.abrupt("return", res.status(400).json({
-            error: _context7.t0.message
+          _context8.prev = 15;
+          _context8.t0 = _context8["catch"](4);
+          return _context8.abrupt("return", res.status(400).json({
+            error: _context8.t0.message
           }));
         case 18:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
-    }, _callee7, null, [[4, 15]]);
+    }, _callee8, null, [[4, 15]]);
   }));
-  return function deleteAccount(_x13, _x14) {
-    return _ref7.apply(this, arguments);
+  return function deleteAccount(_x15, _x16) {
+    return _ref8.apply(this, arguments);
   };
 }();
 var userController = {
@@ -438,6 +470,7 @@ var userController = {
   signup: signup,
   signin: signin,
   getMe: getMe,
+  getUserById: getUserById,
   updateUserAvatar: updateUserAvatar,
   updateUser: updateUser,
   deleteAccount: deleteAccount

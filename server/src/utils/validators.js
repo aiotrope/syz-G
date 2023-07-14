@@ -49,6 +49,7 @@ const updateUserSchema = Joi.object()
 const createPostSchema = Joi.object()
   .keys({
     title: Joi.string().min(5).required(),
+    description: Joi.string().min(10).required(),
     tag: Joi.string().min(1).required(),
     entry: Joi.string().min(10).required(),
   })
@@ -56,7 +57,8 @@ const createPostSchema = Joi.object()
 
 const updatePostSchema = Joi.object().keys({
   title: Joi.string().min(5).optional(),
-  language: Joi.string().trim().min(1).optional(),
+  description: Joi.string().min(10).optional(),
+  tag: Joi.string().trim().min(1).optional(),
   entry: Joi.string().min(10).optional(),
 })
 

@@ -166,7 +166,7 @@ export const Me = () => {
             <Col className="my-4">
               <Image
                 src={user.avatar}
-                alt={`Profile photo of name`}
+                alt={`Profile photo of ${user.username}`}
                 thumbnail
                 height={80}
                 width={80}
@@ -238,7 +238,9 @@ export const Me = () => {
           <Form onSubmit={avatarForm.handleSubmit(onAvatarFormSubmit)} className="mt-1 mb-5">
             <h4>Update your avatar</h4>
             <FormGroup className="mb-4">
-              <FormLabel htmlFor="image">Allowed size: up to 18 KB only.</FormLabel>
+              <FormLabel htmlFor="image" className="text-warning">
+                Recommended file size: Less than 19 KB only.
+              </FormLabel>
               <FormControl
                 type="file"
                 size="lg"

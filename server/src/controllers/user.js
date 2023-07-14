@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 import { v2 } from 'cloudinary'
 //import _ from 'lodash'
 import mongoose from 'mongoose'
+import { sanitize } from 'isomorphic-dompurify'
 
 import User from '../models/user'
 import Post from '../models/post'
@@ -52,8 +53,8 @@ const signup = async (req, res) => {
       const hashed = await bcrypt.hash(req.body.password, saltRounds)
 
       const user = new User({
-        email: validData.value.email,
-        username: validData.value.username,
+        email: sanitize(validData.value.email),
+        username: sanitize(validData.value.username),
         hashedPassword: hashed,
       })
 
@@ -122,6 +123,22 @@ const getMe = async (req, res) => {
   }
 }
 
+const getUserById = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const user = await User.findById(id)
+      .select({
+        hashedPassword: 0,
+      })
+      .populate('posts')
+
+    return res.status(200).json(user)
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
+  }
+}
+
 const updateUserAvatar = async (req, res) => {
   const { image } = req.body //base64 format
 
@@ -150,7 +167,7 @@ const updateUserAvatar = async (req, res) => {
     if (uploader.secure_url) {
       let user = await User.findById(id)
       if (user) {
-        user.avatar = uploader.secure_url
+        user.avatar = sanitize(uploader.secure_url)
         await user.save()
         return res.status(200).json({
           message: `${user.username} avatar updated`,
@@ -182,9 +199,9 @@ const updateUser = async (req, res) => {
     })
 
     if (user) {
-      user.username = validData.value.username
-      user.email = validData.value.email
-      user.bio = validData.value.bio
+      user.username = sanitize(validData.value.username)
+      user.email = sanitize(validData.value.email)
+      user.bio = sanitize(validData.value.bio)
 
       await user.save()
       return res.status(200).json({
@@ -225,6 +242,7 @@ const userController = {
   signup,
   signin,
   getMe,
+  getUserById,
   updateUserAvatar,
   updateUser,
   deleteAccount,

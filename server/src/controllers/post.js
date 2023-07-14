@@ -1,5 +1,6 @@
 //import config from '../config'
 import mongoose from 'mongoose'
+import { sanitize } from 'isomorphic-dompurify'
 
 import Post from '../models/post'
 import validators from '../utils/validators'
@@ -21,9 +22,10 @@ const createPost = async (req, res) => {
 
   try {
     let newPost = new Post({
-      title: validData.value.title,
+      title: sanitize(validData.value.title),
       tag: validData.value.tag,
-      entry: validData.value.entry,
+      description: sanitize(validData.value.description),
+      entry: sanitize(validData.value.entry),
       user: mongoose.Types.ObjectId(user.id),
     })
 
@@ -35,7 +37,7 @@ const createPost = async (req, res) => {
       await user.save()
 
       return res.status(201).json({
-        message: `${post.title} created!`,
+        message: `You created new snippet: ${post.title}`,
         post: post,
       })
     }

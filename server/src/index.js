@@ -6,6 +6,7 @@ import http from 'http'
 import cors from 'cors'
 import mongoSanitize from 'express-mongo-sanitize'
 import helmet from 'helmet'
+import nocache from 'nocache'
 
 import dbConnection from './utils/mongo'
 import loggingMiddleware from './middlewares/logging'
@@ -49,6 +50,8 @@ app.use(mongoSanitize())
 app.use(helmet())
 
 app.use(loggingMiddleware.logging)
+
+app.use(nocache())
 
 app.use('/', indexRouter)
 

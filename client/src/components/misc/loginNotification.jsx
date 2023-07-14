@@ -10,7 +10,7 @@ export const LoginNotification = (props) => {
         <Modal.Title id="contained-modal-title-vcenter">Join Xzymous!</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h5>Login or signup to post your snippets, make comments or vote.</h5>
+        <h5>Login or signup to the platform to post a snippet, make comment or vote.</h5>
         <Stack gap={3} className="col-md-5 mx-auto">
           <Link to="/signup">
             <Button variant="outline-secondary" size="lg">
@@ -18,7 +18,7 @@ export const LoginNotification = (props) => {
             </Button>
           </Link>
           <Link to="/login">
-            <Button variant="light" size="md">
+            <Button variant="outline-secondary" size="lg">
               Already have an account?
             </Button>
           </Link>

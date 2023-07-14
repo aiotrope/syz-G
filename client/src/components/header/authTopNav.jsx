@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useRecoilValue, useResetRecoilState, useRecoilState } from 'recoil'
+import { useRecoilValue, useResetRecoilState } from 'recoil'
 import jwtDecode from 'jwt-decode'
 import { LinkContainer } from 'react-router-bootstrap'
 import Container from 'react-bootstrap/Container'
@@ -21,31 +20,12 @@ export const AuthTopNav = () => {
 
   const decoded = jwtDecode(token)
 
-  const [user, setUser] = useRecoilState(user_atom)
-
-  useEffect(() => {
-    let mounted = true
-
-    const prepareUser = async () => {
-      try {
-        if (userState && mounted) {
-          setUser(userState)
-        }
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    prepareUser()
-
-    return () => {
-      mounted = false
-    }
-  }, [setUser, userState])
-
   const logout = async () => {
     resetJWTAtom()
     toast.info(`${decoded.username} logged out`)
   }
+
+  console.log(userState)
   return (
     <header role="banner">
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
@@ -69,11 +49,11 @@ export const AuthTopNav = () => {
               </LinkContainer>
             </Nav>
             <Nav>
-              {user.avatar ? (
+              {userState.avatar ? (
                 <LinkContainer to="/me">
                   <Image
-                    src={user.avatar}
-                    alt={`Profile photo of name`}
+                    src={userState.avatar}
+                    alt={`Profile photo of ${userState.username}`}
                     rounded
                     height={30}
                     width={30}

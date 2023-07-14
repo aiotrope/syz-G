@@ -15,6 +15,11 @@ var PostSchema = new Schema({
     unique: true,
     required: true
   },
+  description: {
+    type: String,
+    min: 10,
+    required: true
+  },
   tag: {
     type: String,
     trim: true,
