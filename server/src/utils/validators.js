@@ -50,7 +50,7 @@ const createPostSchema = Joi.object()
   .keys({
     title: Joi.string().min(5).required(),
     description: Joi.string().min(10).required(),
-    tag: Joi.string().min(1).required(),
+    tag: Joi.array().items(Joi.string()),
     entry: Joi.string().min(10).required(),
   })
   .required()

@@ -17,7 +17,7 @@ const PostSchema = new Schema(
       min: 10,
       required: true,
     },
-    tag: { type: String, trim: true, min: 1, required: true },
+    tags: [{ type: String, trim: true, min: 1, required: true }],
     upVote: {
       type: Number,
       default: 0,

@@ -21,9 +21,11 @@ const createPost = async (req, res) => {
   }
 
   try {
-    let newPost = new Post({
+    const tag = sanitize(validData.value.tag)
+
+    const newPost = new Post({
       title: sanitize(validData.value.title),
-      tag: validData.value.tag,
+      tags: [tag],
       description: sanitize(validData.value.description),
       entry: sanitize(validData.value.entry),
       user: mongoose.Types.ObjectId(user.id),
@@ -84,16 +86,19 @@ const updatePost = async (req, res) => {
   if (validData.error) {
     return res.status(400).json({ error: validData.error.details[0].message })
   }
+
+  if (!post)
+    return res.status(404).json({ error: 'Code snippet post not found!' })
+
   try {
-    const postToUpdate = await Post.findByIdAndUpdate(post.id, req.body, {
-      new: true,
-    })
+    post.title = sanitize(validData.value.title)
+    post.tags = sanitize(validData.value.tag)
+    post.description = sanitize(validData.value.description)
+    post.entry = sanitize(validData.value.entry)
 
-    if (!postToUpdate) return res.status(404).json({ error: 'Post not found' })
+    await post.save()
 
-    res
-      .status(200)
-      .json({ message: `${post.title} updated`, post: postToUpdate })
+    res.status(200).json({ message: `${post.title} updated`, post: post })
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }

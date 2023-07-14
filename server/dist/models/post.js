@@ -20,12 +20,12 @@ var PostSchema = new Schema({
     min: 10,
     required: true
   },
-  tag: {
+  tags: [{
     type: String,
     trim: true,
     min: 1,
     required: true
-  },
+  }],
   upVote: {
     type: Number,
     default: 0

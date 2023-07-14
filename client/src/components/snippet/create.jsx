@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useForm } from 'react-hook-form'
@@ -25,12 +26,14 @@ const schema = yup
   .object({
     title: yup.string().min(5).required(),
     description: yup.string().min(10).required(),
-    tag: yup.string().min(1).required('You must provide the programming language of your code.'),
+    tag: yup.lazy((val) => (Array.isArray(val) ? yup.array().of(yup.string()) : yup.string())),
     entry: yup.string().min(10).required(),
   })
   .required()
 
 export const CreateSnippet = () => {
+  const [tag, setTag] = useState([])
+
   const queryClient = useQueryClient()
 
   const postMutation = useMutation({
@@ -45,6 +48,7 @@ export const CreateSnippet = () => {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -52,17 +56,28 @@ export const CreateSnippet = () => {
   })
 
   const setPosts = useSetRecoilState(posts_atom)
+
   const setPost = useSetRecoilState(post_atom)
 
   const posts = useRecoilValue(posts_atom)
+
   const post = useRecoilValue(post_atom)
+
+  const handleClickTag = (event) => {
+    event.preventDefault()
+    const tagValue = getValues('tag')
+    setTag((prevState) => [...prevState, sanitize(tagValue.toLowerCase())])
+    reset()
+    //console.log('Tag Value', tagValue)
+    //console.log('Tag', tag)
+  }
 
   const onSubmit = async (formData) => {
     try {
       const sanitzeData = {
         title: sanitize(formData.title),
         description: sanitize(formData.description),
-        tag: sanitize(formData.tag),
+        tag: tag,
         entry: sanitize(formData.entry),
       }
       const result = await postMutation.mutateAsync(sanitzeData)
@@ -79,6 +94,13 @@ export const CreateSnippet = () => {
   }
 
   console.log(posts)
+
+  const tagValue = tag?.map((t, idx) => (
+    <small key={idx}>
+      <span className="bg-light m-1">{t}</span>
+    </small>
+  ))
+
   return (
     <Stack className="col-md-9 mx-auto">
       <h2>Create Snippet</h2>
@@ -91,13 +113,22 @@ export const CreateSnippet = () => {
             placeholder="What programming language is your code related to?"
             style={{ height: '2rem' }}
             aria-invalid={errors.tag?.message ? 'true' : 'false'}
-            id="title"
+            id="tag"
             className={`${errors.tag?.message ? 'is-invalid' : ''} `}
           />
           {errors.tag?.message && (
             <Form.Control.Feedback type="invalid">{errors.tag?.message}</Form.Control.Feedback>
           )}
-          <Form.Text muted>This will use for tagging your post.</Form.Text>
+          <Form.Text muted>
+            Add at least one or more. Input will be transformed to lowercase.
+          </Form.Text>
+          <div className="mb-2">
+            <Button type="button" size="sm" onClick={handleClickTag}>
+              Add language
+            </Button>
+            <br />
+            {tag ? tagValue : null}
+          </div>
         </FloatingLabel>
         <FloatingLabel label="Snippet title" className="mb-2">
           <Form.Control
@@ -120,7 +151,7 @@ export const CreateSnippet = () => {
             placeholder="Description"
             style={{ height: '2rem' }}
             aria-invalid={errors.description?.message ? 'true' : 'false'}
-            id="title"
+            id="description"
             className={`${errors.description?.message ? 'is-invalid' : ''} `}
           />
           {errors.description?.message && (

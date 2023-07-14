@@ -15,7 +15,7 @@ var _validators = _interopRequireDefault(require("../utils/validators"));
 
 var createPost = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(req, res) {
-    var title, user, foundPost, validData, newPost, post;
+    var title, user, foundPost, validData, tag, newPost, post;
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -45,43 +45,44 @@ var createPost = /*#__PURE__*/function () {
           }));
         case 10:
           _context.prev = 10;
+          tag = (0, _isomorphicDompurify.sanitize)(validData.value.tag);
           newPost = new _post.default({
             title: (0, _isomorphicDompurify.sanitize)(validData.value.title),
-            tag: validData.value.tag,
+            tags: [tag],
             description: (0, _isomorphicDompurify.sanitize)(validData.value.description),
             entry: (0, _isomorphicDompurify.sanitize)(validData.value.entry),
             user: _mongoose.default.Types.ObjectId(user.id)
           });
-          _context.next = 14;
+          _context.next = 15;
           return _post.default.create(newPost);
-        case 14:
+        case 15:
           post = _context.sent;
           if (!post) {
-            _context.next = 20;
+            _context.next = 21;
             break;
           }
           user.posts = user.posts.concat(post);
-          _context.next = 19;
+          _context.next = 20;
           return user.save();
-        case 19:
+        case 20:
           return _context.abrupt("return", res.status(201).json({
             message: "You created new snippet: ".concat(post.title),
             post: post
           }));
-        case 20:
-          _context.next = 25;
+        case 21:
+          _context.next = 26;
           break;
-        case 22:
-          _context.prev = 22;
+        case 23:
+          _context.prev = 23;
           _context.t0 = _context["catch"](10);
           return _context.abrupt("return", res.status(422).json({
             error: _context.t0.message
           }));
-        case 25:
+        case 26:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[10, 22]]);
+    }, _callee, null, [[10, 23]]);
   }));
   return function createPost(_x, _x2) {
     return _ref.apply(this, arguments);
@@ -156,7 +157,7 @@ var getPosts = /*#__PURE__*/function () {
 }();
 var updatePost = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(req, res) {
-    var id, post, validData, postToUpdate;
+    var id, post, validData;
     return _regenerator.default.wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
@@ -182,38 +183,39 @@ var updatePost = /*#__PURE__*/function () {
             error: validData.error.details[0].message
           }));
         case 9:
-          _context4.prev = 9;
-          _context4.next = 12;
-          return _post.default.findByIdAndUpdate(post.id, req.body, {
-            new: true
-          });
-        case 12:
-          postToUpdate = _context4.sent;
-          if (postToUpdate) {
-            _context4.next = 15;
+          if (post) {
+            _context4.next = 11;
             break;
           }
           return _context4.abrupt("return", res.status(404).json({
-            error: 'Post not found'
+            error: 'Code snippet post not found!'
           }));
-        case 15:
+        case 11:
+          _context4.prev = 11;
+          post.title = (0, _isomorphicDompurify.sanitize)(validData.value.title);
+          post.tags = (0, _isomorphicDompurify.sanitize)(validData.value.tag);
+          post.description = (0, _isomorphicDompurify.sanitize)(validData.value.description);
+          post.entry = (0, _isomorphicDompurify.sanitize)(validData.value.entry);
+          _context4.next = 18;
+          return post.save();
+        case 18:
           res.status(200).json({
             message: "".concat(post.title, " updated"),
-            post: postToUpdate
+            post: post
           });
-          _context4.next = 21;
+          _context4.next = 24;
           break;
-        case 18:
-          _context4.prev = 18;
-          _context4.t0 = _context4["catch"](9);
+        case 21:
+          _context4.prev = 21;
+          _context4.t0 = _context4["catch"](11);
           return _context4.abrupt("return", res.status(422).json({
             error: _context4.t0.message
           }));
-        case 21:
+        case 24:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[9, 18]]);
+    }, _callee4, null, [[11, 21]]);
   }));
   return function updatePost(_x7, _x8) {
     return _ref4.apply(this, arguments);
