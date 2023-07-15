@@ -3,9 +3,8 @@ require('express-async-errors')
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { v2 } from 'cloudinary'
-//import _ from 'lodash'
-import mongoose from 'mongoose'
 import { sanitize } from 'isomorphic-dompurify'
+import mongoose from 'mongoose'
 
 import User from '../models/user'
 import Post from '../models/post'
@@ -226,7 +225,7 @@ const deleteAccount = async (req, res) => {
       .json({ error: `Not allowed to update ${req.user.username}` })
 
   try {
-    const userToDelete = await User.findByIdAndDelete(id)
+    const userToDelete = await User.findByIdAndDelete(id).populate('posts')
 
     await Post.deleteMany({ user: mongoose.Types.ObjectId(user.id) })
 

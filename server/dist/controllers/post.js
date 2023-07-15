@@ -15,7 +15,7 @@ var _validators = _interopRequireDefault(require("../utils/validators"));
 
 var createPost = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(req, res) {
-    var title, user, foundPost, validData, tag, newPost, post;
+    var title, user, foundPost, validData, newPost, post;
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -45,44 +45,43 @@ var createPost = /*#__PURE__*/function () {
           }));
         case 10:
           _context.prev = 10;
-          tag = (0, _isomorphicDompurify.sanitize)(validData.value.tag);
           newPost = new _post.default({
             title: (0, _isomorphicDompurify.sanitize)(validData.value.title),
-            tags: [tag],
             description: (0, _isomorphicDompurify.sanitize)(validData.value.description),
+            tags: validData.value.tag,
             entry: (0, _isomorphicDompurify.sanitize)(validData.value.entry),
             user: _mongoose.default.Types.ObjectId(user.id)
           });
-          _context.next = 15;
+          _context.next = 14;
           return _post.default.create(newPost);
-        case 15:
+        case 14:
           post = _context.sent;
           if (!post) {
-            _context.next = 21;
+            _context.next = 20;
             break;
           }
           user.posts = user.posts.concat(post);
-          _context.next = 20;
+          _context.next = 19;
           return user.save();
-        case 20:
+        case 19:
           return _context.abrupt("return", res.status(201).json({
             message: "You created new snippet: ".concat(post.title),
             post: post
           }));
-        case 21:
-          _context.next = 26;
+        case 20:
+          _context.next = 25;
           break;
-        case 23:
-          _context.prev = 23;
+        case 22:
+          _context.prev = 22;
           _context.t0 = _context["catch"](10);
           return _context.abrupt("return", res.status(422).json({
             error: _context.t0.message
           }));
-        case 26:
+        case 25:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[10, 23]]);
+    }, _callee, null, [[10, 22]]);
   }));
   return function createPost(_x, _x2) {
     return _ref.apply(this, arguments);
@@ -193,29 +192,28 @@ var updatePost = /*#__PURE__*/function () {
         case 11:
           _context4.prev = 11;
           post.title = (0, _isomorphicDompurify.sanitize)(validData.value.title);
-          post.tags = (0, _isomorphicDompurify.sanitize)(validData.value.tag);
           post.description = (0, _isomorphicDompurify.sanitize)(validData.value.description);
           post.entry = (0, _isomorphicDompurify.sanitize)(validData.value.entry);
-          _context4.next = 18;
+          _context4.next = 17;
           return post.save();
-        case 18:
+        case 17:
           res.status(200).json({
             message: "".concat(post.title, " updated"),
             post: post
           });
-          _context4.next = 24;
+          _context4.next = 23;
           break;
-        case 21:
-          _context4.prev = 21;
+        case 20:
+          _context4.prev = 20;
           _context4.t0 = _context4["catch"](11);
           return _context4.abrupt("return", res.status(422).json({
             error: _context4.t0.message
           }));
-        case 24:
+        case 23:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[11, 21]]);
+    }, _callee4, null, [[11, 20]]);
   }));
   return function updatePost(_x7, _x8) {
     return _ref4.apply(this, arguments);

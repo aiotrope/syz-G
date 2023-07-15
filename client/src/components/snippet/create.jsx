@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { sanitize } from 'isomorphic-dompurify'
+import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import FormGroup from 'react-bootstrap/FormGroup'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
@@ -21,12 +22,12 @@ import { postService } from '../../services/post'
 import { post_atom } from '../../recoil/post'
 import { posts_atom } from '../../recoil/post'
 import { Highlighter } from '../misc/highlighter'
+import Badge from 'react-bootstrap/esm/Badge'
 
 const schema = yup
   .object({
     title: yup.string().min(5).required(),
     description: yup.string().min(10).required(),
-    tag: yup.lazy((val) => (Array.isArray(val) ? yup.array().of(yup.string()) : yup.string())),
     entry: yup.string().min(10).required(),
   })
   .required()
@@ -63,13 +64,18 @@ export const CreateSnippet = () => {
 
   const post = useRecoilValue(post_atom)
 
-  const handleClickTag = (event) => {
+  const handleClickLang = (event) => {
     event.preventDefault()
-    const tagValue = getValues('tag')
-    setTag((prevState) => [...prevState, sanitize(tagValue.toLowerCase())])
-    reset()
+    const langValue = getValues('lang')
+    setTag((prevState) => [...prevState, sanitize(langValue.toLowerCase())])
     //console.log('Tag Value', tagValue)
-    //console.log('Tag', tag)
+    reset()
+    console.log('Tag', tag)
+  }
+
+  const resetForm = () => {
+    setTag([])
+    reset()
   }
 
   const onSubmit = async (formData) => {
@@ -81,10 +87,12 @@ export const CreateSnippet = () => {
         entry: sanitize(formData.entry),
       }
       const result = await postMutation.mutateAsync(sanitzeData)
+      console.log('CREATE POST ', result)
       if (result) {
         toast.success(result.message, { theme: 'colored' })
         setPost(result.post)
         setPosts(posts.concat(result.post))
+        setTag([])
         reset()
       }
     } catch (err) {
@@ -95,9 +103,9 @@ export const CreateSnippet = () => {
 
   console.log(posts)
 
-  const tagValue = tag?.map((t, idx) => (
+  const tagValue = tag?.map((val, idx) => (
     <small key={idx}>
-      <span className="bg-light m-1">{t}</span>
+      <span className="bg-light m-1 text-danger">{val}</span>
     </small>
   ))
 
@@ -106,25 +114,25 @@ export const CreateSnippet = () => {
       <h2>Create Snippet</h2>
       <p>All fields are required to fill-in.</p>
       <Form className="mt-2" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>
-        <FloatingLabel label="Programming language" className="mb-2">
+        <FloatingLabel label="Tag your post" className="mb-2">
           <Form.Control
             type="text"
-            {...register('tag')}
+            {...register('lang')}
             placeholder="What programming language is your code related to?"
             style={{ height: '2rem' }}
-            aria-invalid={errors.tag?.message ? 'true' : 'false'}
-            id="tag"
-            className={`${errors.tag?.message ? 'is-invalid' : ''} `}
+            aria-invalid={errors.lang?.message ? 'true' : 'false'}
+            id="lang"
+            className={`${errors.lang?.message ? 'is-invalid' : ''} `}
           />
-          {errors.tag?.message && (
-            <Form.Control.Feedback type="invalid">{errors.tag?.message}</Form.Control.Feedback>
+          {errors.lang?.message && (
+            <Form.Control.Feedback type="invalid">{errors.lang?.message}</Form.Control.Feedback>
           )}
           <Form.Text muted>
-            Add at least one or more. Input will be transformed to lowercase.
+            Particular topics? programming languages involve? Can enter one or more tags.
           </Form.Text>
           <div className="mb-2">
-            <Button type="button" size="sm" onClick={handleClickTag}>
-              Add language
+            <Button type="button" size="sm" variant="outline-secondary" onClick={handleClickLang}>
+              ADD TAG
             </Button>
             <br />
             {tag ? tagValue : null}
@@ -160,8 +168,7 @@ export const CreateSnippet = () => {
             </Form.Control.Feedback>
           )}
           <Form.Text muted>
-            What are the use cases of your snippet? Any particular application/s? Remember to write
-            your snippet in markdown or plain text.
+            What are the use cases of your snippet? Any particular application/s?
           </Form.Text>
         </FloatingLabel>
         <FloatingLabel label="Enter your snippet" className="mb-3">
@@ -178,26 +185,49 @@ export const CreateSnippet = () => {
             <Form.Control.Feedback type="invalid">{errors.entry?.message}</Form.Control.Feedback>
           )}
           <Form.Text muted>
-            Any code that you want to share or questions that you want to ask.
+            Code that you want to share or questions that you want to ask. Write in markdown/text
+            form.
           </Form.Text>
         </FloatingLabel>
-        <FormGroup className="d-grid my-2">
-          <Button variant="light" size="lg" type="submit" onClick={() => postMutation.reset()}>
-            SUBMIT YOUR SNIPPET
-          </Button>
+        <FormGroup className="my-5">
+          <Row>
+            <Col>
+              <Button variant="info" size="lg" type="submit" onClick={() => postMutation.reset()}>
+                SUBMIT POST
+              </Button>
+            </Col>
+            <Col>
+              <Button variant="light" size="lg" type="button" onClick={() => resetForm()}>
+                RESET FORM
+              </Button>
+            </Col>
+          </Row>
         </FormGroup>
       </Form>
       {post.entry ? (
         <>
           <Row className="my-3">
             <Col>
-              <p>Title: {post?.title}</p>
+              <p>
+                Title:{' '}
+                <Link to={`/snippet/${post?.id}`} className="post-title">
+                  {post?.title}
+                </Link>
+              </p>
               <p>Description: {post?.description}</p>
-              <p>Programming language: {post?.tag}</p>
+              <p>
+                Tags:{' '}
+                {post?.tags.map((tag, indx) => (
+                  <Badge key={indx} className="mx-1">
+                    {tag}
+                  </Badge>
+                ))}
+              </p>
             </Col>
           </Row>
           <Row>
             <Col>
+              <p>Snippet:</p>
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[gfm]}

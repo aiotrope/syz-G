@@ -21,12 +21,10 @@ const createPost = async (req, res) => {
   }
 
   try {
-    const tag = sanitize(validData.value.tag)
-
     const newPost = new Post({
       title: sanitize(validData.value.title),
-      tags: [tag],
       description: sanitize(validData.value.description),
+      tags: validData.value.tag,
       entry: sanitize(validData.value.entry),
       user: mongoose.Types.ObjectId(user.id),
     })
@@ -35,7 +33,6 @@ const createPost = async (req, res) => {
 
     if (post) {
       user.posts = user.posts.concat(post)
-
       await user.save()
 
       return res.status(201).json({
@@ -92,7 +89,6 @@ const updatePost = async (req, res) => {
 
   try {
     post.title = sanitize(validData.value.title)
-    post.tags = sanitize(validData.value.tag)
     post.description = sanitize(validData.value.description)
     post.entry = sanitize(validData.value.entry)
 

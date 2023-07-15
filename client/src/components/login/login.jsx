@@ -134,7 +134,7 @@ export const Login = () => {
             </FormGroup>
             <FormGroup className="d-grid mt-3">
               <Button variant="primary" size="lg" type="submit" onClick={() => reset()}>
-                Submit
+                LOGIN
               </Button>
             </FormGroup>
           </Form>

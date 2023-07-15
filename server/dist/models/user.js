@@ -62,6 +62,12 @@ UserSchema.pre('save', function (next) {
   }
   next();
 });
+UserSchema.pre('deleteMany', function (next) {
+  var user = this;
+  user.model('Post').deleteOne({
+    user: user.id
+  }, next);
+});
 var User = (0, _mongoose.model)('User', UserSchema);
 var _default2 = User;
 exports.default = _default2;

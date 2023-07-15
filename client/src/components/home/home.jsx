@@ -53,29 +53,33 @@ export const Home = () => {
             <Col>
               <p className="post-title">
                 <Link to={`/snippet/${post?.id}`} className="post-title">
-                  {post.title}
+                  {post?.title}
                 </Link>
               </p>
-              <p>{post.description}</p>
+              <p>{post?.description}</p>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Badge bg="secondary">{post?.tag}</Badge>
+              {post?.tags.map((tag, indx) => (
+                <Badge key={indx} className="mx-1">
+                  {tag}
+                </Badge>
+              ))}
             </Col>
           </Row>
           <Row className="justify-content-md-end">
-            <Col sm={2} className="align-self-end bg-light p-2 my-1">
+            <Col sm={2} className="align-self-end bg-light p-1">
               <strong>
-                <Image
-                  src={post?.user?.avatar}
-                  alt={`Profile photo of ${post?.user?.username}`}
-                  rounded
-                  height={23}
-                  width={23}
-                  className="mx-1 mb-1 mt-1"
-                />{' '}
                 <Link to={`/user/${post?.user?.id}`} className="text-primary">
+                  <Image
+                    src={post?.user?.avatar}
+                    alt={`Profile photo of ${post?.user?.username}`}
+                    rounded
+                    height={23}
+                    width={23}
+                    className="mx-1 mb-1 mt-1"
+                  />{' '}
                   {post?.user?.username}
                 </Link>
               </strong>

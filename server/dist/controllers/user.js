@@ -11,15 +11,12 @@ var _config = _interopRequireDefault(require("../config"));
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 var _cloudinary = require("cloudinary");
-var _mongoose = _interopRequireDefault(require("mongoose"));
 var _isomorphicDompurify = require("isomorphic-dompurify");
+var _mongoose = _interopRequireDefault(require("mongoose"));
 var _user = _interopRequireDefault(require("../models/user"));
 var _post = _interopRequireDefault(require("../models/post"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
 require('express-async-errors');
-
-//import _ from 'lodash'
-
 //import logger from '../utils/logger'
 // return an array of users objects with id, email, username, isStaff and timestamps
 var getAll = /*#__PURE__*/function () {
@@ -430,7 +427,7 @@ var deleteAccount = /*#__PURE__*/function () {
         case 4:
           _context8.prev = 4;
           _context8.next = 7;
-          return _user.default.findByIdAndDelete(id);
+          return _user.default.findByIdAndDelete(id).populate('posts');
         case 7:
           userToDelete = _context8.sent;
           _context8.next = 10;

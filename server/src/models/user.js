@@ -59,6 +59,11 @@ UserSchema.pre('save', function (next) {
   next()
 })
 
+UserSchema.pre('deleteMany', function (next) {
+  const user = this
+  user.model('Post').deleteOne({ user: user.id }, next)
+})
+
 const User = model('User', UserSchema)
 
 export default User

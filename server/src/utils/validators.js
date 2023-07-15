@@ -50,7 +50,7 @@ const createPostSchema = Joi.object()
   .keys({
     title: Joi.string().min(5).required(),
     description: Joi.string().min(10).required(),
-    tag: Joi.array().items(Joi.string()),
+    tag: Joi.array().items(Joi.string().min(1).required()).required(),
     entry: Joi.string().min(10).required(),
   })
   .required()
@@ -58,7 +58,6 @@ const createPostSchema = Joi.object()
 const updatePostSchema = Joi.object().keys({
   title: Joi.string().min(5).optional(),
   description: Joi.string().min(10).optional(),
-  tag: Joi.string().trim().min(1).optional(),
   entry: Joi.string().min(10).optional(),
 })
 
