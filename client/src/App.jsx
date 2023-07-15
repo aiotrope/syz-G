@@ -3,10 +3,11 @@ import { useRecoilValue } from 'recoil'
 import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
 
-import { UnAuthTopNav } from './components/header/unauthTopNav'
-import { AuthTopNav } from './components/header/authTopNav'
-import { Footer } from './components/footer/footer'
-import { Router } from './components/router/router'
+import { UnAuthTopNav } from './Components/Header/UnauthTopNav'
+import { AuthTopNav } from './Components/Header/AuthTopNav'
+import { Footer } from './Components/Footer/Footer'
+import { Router } from './Components/Router/Router'
+
 import { jwt_atom } from './recoil/auth'
 
 import './sass/_App.scss'

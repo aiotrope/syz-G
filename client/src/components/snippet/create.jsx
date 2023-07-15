@@ -21,7 +21,7 @@ import rehypeRaw from 'rehype-raw'
 import { postService } from '../../services/post'
 import { post_atom } from '../../recoil/post'
 import { posts_atom } from '../../recoil/post'
-import { Highlighter } from '../misc/highlighter'
+import { Highlighter } from '../Misc/Highlighter'
 import Badge from 'react-bootstrap/esm/Badge'
 
 const schema = yup
