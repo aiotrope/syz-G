@@ -125,7 +125,7 @@ export const Me = () => {
     try {
       const result = await userMutation.mutateAsync(data)
       if (result) {
-        //console.log(result.user)
+        console.log(result.user)
         toast.success(result.message, { theme: 'colored' })
         setUser(result.user)
       }

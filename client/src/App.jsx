@@ -14,7 +14,6 @@ import './sass/_App.scss'
 
 export const App = () => {
   const _jwt = useRecoilValue(jwt_atom)
-
   return (
     <BrowserRouter>
       {_jwt ? <AuthTopNav /> : <UnAuthTopNav />}
