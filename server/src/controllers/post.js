@@ -51,7 +51,15 @@ const getPostById = async (req, res) => {
   if (!id) return res.status(404).json({ error: 'Post not found' })
 
   try {
-    const post = await Post.findById(id).populate('user')
+    const post = await Post.findById(id).populate('user', {
+      id: 1,
+      username: 1,
+      email: 1,
+      posts: 1,
+      isStaff: 1,
+      avatar: 1,
+      bio: 1,
+    })
     res.status(200).json(post)
   } catch (err) {
     return res.status(422).json({ error: err.message })
@@ -60,7 +68,15 @@ const getPostById = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find({}).populate('user')
+    const posts = await Post.find({}).populate('user', {
+      id: 1,
+      username: 1,
+      email: 1,
+      posts: 1,
+      isStaff: 1,
+      avatar: 1,
+      bio: 1,
+    })
 
     return res.status(200).json(posts)
   } catch (err) {
@@ -71,11 +87,19 @@ const getPosts = async (req, res) => {
 const updatePost = async (req, res) => {
   const { id } = req.params
 
-  const post = await Post.findById(id)
+  const post = await Post.findById(id).populate('user', {
+    id: 1,
+    username: 1,
+    email: 1,
+    posts: 1,
+    isStaff: 1,
+    avatar: 1,
+    bio: 1,
+  })
 
   const validData = validators.updatePostSchema.validate(req.body)
 
-  if (post.user.toString() !== req.user.id)
+  if (post.user.id !== req.user.id)
     return res
       .status(403)
       .json({ error: `Not allowed to update ${post.title}` })

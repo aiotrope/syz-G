@@ -1,10 +1,12 @@
+import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { Home } from '../Home/Home'
 import { About } from '../About/About'
 import { CreateSnippet } from '../Snippet/Create'
-import { SnippetPost } from '../Snippet/SnippetPost'
+import { FetchSnippet } from '../Snippet/FetchSnippet'
+import { UpdateSnippet } from '../Snippet/UpdateSnippet'
 import { Signup } from '../Signup/Signup'
 import { Login } from '../Login/Login'
 import { NotFound } from '../NotFound/NotFound'
@@ -23,7 +25,11 @@ export const Router = () => {
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/create-snippet" element={_jwt ? <CreateSnippet /> : <Navigate to="/login" />} />
-      <Route path="/snippet/:id" element={<SnippetPost />} />
+      <Route path="/snippet/:id" element={<FetchSnippet />} />
+      <Route
+        path="/snippet/update/:id"
+        element={_jwt ? <UpdateSnippet /> : <Navigate to="/login" />}
+      />
       <Route path="/signup" element={_jwt ? <Navigate to="/dashboard" /> : <Signup />} />
       <Route path="/login" element={_jwt ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/dashboard" element={_jwt ? <Dashboard /> : <Navigate to="/login" />} />

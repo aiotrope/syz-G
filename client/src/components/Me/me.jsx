@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil'
 import { useForm } from 'react-hook-form'
@@ -7,16 +7,18 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Row from 'react-bootstrap/Row'
-import Stack from 'react-bootstrap/Stack'
-import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
 import { toast } from 'react-toastify'
 import moment from 'moment'
+import jwtDecode from 'jwt-decode'
 
 import { UpdateForm } from './UpdateForm'
 import { UpdateAvatarForm } from './UpdateAvatarForm'
 
+//import { SnippetsCreated } from './SnippetsCreated'
+import { UpdateDestroySnippetsCreated } from './UpdateDestroySnippetsCreated'
+import { AccountDeletion } from './AccountDeletion'
 import Loader from '../Misc/Loader'
-
 import { userService } from '../../services/user'
 import { convertBase64 } from '../../services/misc'
 import { user_atom } from '../../recoil/auth'
@@ -30,6 +32,10 @@ export const Me = () => {
   const setUser = useSetRecoilState(user_atom)
 
   const user = useRecoilValue(user_atom)
+
+  const _jwt = useRecoilValue(jwt_atom)
+
+  const decoded = jwtDecode(_jwt)
 
   const resetJWTAtom = useResetRecoilState(jwt_atom)
 
@@ -58,7 +64,7 @@ export const Me = () => {
   const schema = yup.object({
     username: yup.string().trim().matches(username_regex).default(user.username).notRequired(),
     email: yup.string().email().default(user.email).notRequired(),
-    bio: yup.string().notRequired(),
+    bio: yup.string().default(user.bio).notRequired(),
   })
 
   const updateAvatarSchema = yup.object({
@@ -151,8 +157,11 @@ export const Me = () => {
     }
   }
 
+  const snippetsByUser = user?.posts?.find((post) => post.user === decoded.id)
+
+  console.log(snippetsByUser)
   return (
-    <Stack className="col-md-5 mx-auto">
+    <Container className="col-md-8 mx-auto">
       {userMutation.isLoading ? (
         <Loader />
       ) : (
@@ -190,17 +199,19 @@ export const Me = () => {
           <UpdateAvatarForm onAvatarFormSubmit={onAvatarFormSubmit} avatarForm={avatarForm} />
 
           <hr />
+          <Row>
+            <Col>
+              <h5>Snippets created</h5>
+              {snippetsByUser && <UpdateDestroySnippetsCreated user={user} />}
+            </Col>
+          </Row>
+          <hr />
           <div className="my-5 d-grid gap-2">
-            <h5>Account Deletion</h5>
-            <p>
-              This action will delete your account profile, posts and comments from our records.
-            </p>
-            <Button variant="outline-danger" size="lg" onClick={handleDeleteAccount}>
-              Delete my account
-            </Button>
+            <h6>Account Deletion</h6>
+            <AccountDeletion handleDeleteAccount={handleDeleteAccount} />
           </div>
         </>
       )}
-    </Stack>
+    </Container>
   )
 }

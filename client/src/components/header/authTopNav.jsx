@@ -1,3 +1,4 @@
+import React from 'react'
 import { useRecoilValue, useResetRecoilState } from 'recoil'
 import jwtDecode from 'jwt-decode'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -9,15 +10,10 @@ import Badge from 'react-bootstrap/Badge'
 import Image from 'react-bootstrap/Image'
 import { toast } from 'react-toastify'
 
-import { jwt_atom, user_atom, users_atom } from '../../recoil/auth'
-import { post_atom } from '../../recoil/post'
+import { jwt_atom, user_atom } from '../../recoil/auth'
 
 export const AuthTopNav = () => {
   const resetJWTAtom = useResetRecoilState(jwt_atom)
-  const resetUsersAtom = useResetRecoilState(users_atom)
-  const resetUserAtom = useResetRecoilState(user_atom)
-  const resetPostAtom = useResetRecoilState(post_atom)
-
   const token = useRecoilValue(jwt_atom)
 
   const userState = useRecoilValue(user_atom)
@@ -26,9 +22,6 @@ export const AuthTopNav = () => {
 
   const logout = async () => {
     resetJWTAtom()
-    resetUsersAtom()
-    resetUserAtom()
-    resetPostAtom()
     toast.info(`${decoded.username} logged out`)
   }
 

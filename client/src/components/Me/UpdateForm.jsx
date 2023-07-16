@@ -1,3 +1,4 @@
+import React from 'react'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
@@ -15,6 +16,7 @@ export const UpdateForm = ({ handleSubmit, onSubmit, register, errors, user }) =
           {...register('username')}
           aria-invalid={errors.username?.message ? 'true' : 'false'}
           className={`${errors.username?.message ? 'is-invalid' : ''} `}
+          size="lg"
         />
         {errors.username?.message && (
           <FormControl.Feedback type="invalid">{errors.username?.message}</FormControl.Feedback>
@@ -29,6 +31,7 @@ export const UpdateForm = ({ handleSubmit, onSubmit, register, errors, user }) =
           {...register('email')}
           aria-invalid={errors.email?.message ? 'true' : 'false'}
           className={`${errors.email?.message ? 'is-invalid' : ''} `}
+          size="lg"
         />
         {errors.email?.message && (
           <FormControl.Feedback type="invalid">{errors.email?.message}</FormControl.Feedback>
@@ -43,6 +46,7 @@ export const UpdateForm = ({ handleSubmit, onSubmit, register, errors, user }) =
           {...register('bio')}
           aria-invalid={errors.bio?.message ? 'true' : 'false'}
           className={`${errors.bio?.message ? 'is-invalid' : ''} `}
+          size="lg"
         />
         {errors.bio?.message && (
           <FormControl.Feedback type="invalid">{errors.bio?.message}</FormControl.Feedback>

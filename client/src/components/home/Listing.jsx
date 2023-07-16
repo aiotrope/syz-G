@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -8,7 +9,7 @@ import { FaHourglassStart } from 'react-icons/fa6'
 import { FaEdit } from 'react-icons/fa'
 import { ImArrowUp, ImArrowDown } from 'react-icons/im'
 
-export const Heading = ({ post }) => {
+export const Listing = ({ post }) => {
   return (
     <>
       <Row>
@@ -31,7 +32,7 @@ export const Heading = ({ post }) => {
         </Col>
       </Row>
       <Row className="justify-content-md-end">
-        <Col sm={2} className="align-self-end bg-light p-1">
+        <Col sm={2} className="align-self-end bg-light p-1 my-2">
           <strong>
             <Link to={`/user/${post?.user?.id}`} className="text-primary">
               <Image

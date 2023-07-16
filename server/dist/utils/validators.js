@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _joi = _interopRequireDefault(require("joi"));
-var password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~?/`!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/;
-var username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/;
+var password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~/`!@#$%^&*()\-_=+{};:,<>])(?=.{8,})/;
+var username_regex = /^[a-zA-Z0-9&+,:;=?@#|'<>^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/;
 var signupSchema = _joi.default.object().keys({
   email: _joi.default.string().trim().required().email(),
   username: _joi.default.string().pattern(username_regex, 'Username requires 4 characters long with letters, numbers and special characters').trim().required(),

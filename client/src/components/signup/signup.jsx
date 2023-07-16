@@ -1,3 +1,4 @@
+import React from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
@@ -13,9 +14,9 @@ import { SignupForm } from './SignupForm'
 import { authService } from '../../services/auth'
 
 const password_regex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~?/`!@#$%^&*()\-_=+{};:,<.>])(?=.{8,})/
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~/`!@#$%^&*()\-_=+{};:,<>])(?=.{8,})/
 
-const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
+const username_regex = /^[a-zA-Z0-9&+,:;=?@#|'<>^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
 
 const schema = yup
   .object({

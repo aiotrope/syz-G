@@ -104,7 +104,15 @@ var getPostById = /*#__PURE__*/function () {
         case 3:
           _context2.prev = 3;
           _context2.next = 6;
-          return _post.default.findById(id).populate('user');
+          return _post.default.findById(id).populate('user', {
+            id: 1,
+            username: 1,
+            email: 1,
+            posts: 1,
+            isStaff: 1,
+            avatar: 1,
+            bio: 1
+          });
         case 6:
           post = _context2.sent;
           res.status(200).json(post);
@@ -134,7 +142,15 @@ var getPosts = /*#__PURE__*/function () {
         case 0:
           _context3.prev = 0;
           _context3.next = 3;
-          return _post.default.find({}).populate('user');
+          return _post.default.find({}).populate('user', {
+            id: 1,
+            username: 1,
+            email: 1,
+            posts: 1,
+            isStaff: 1,
+            avatar: 1,
+            bio: 1
+          });
         case 3:
           posts = _context3.sent;
           return _context3.abrupt("return", res.status(200).json(posts));
@@ -162,11 +178,19 @@ var updatePost = /*#__PURE__*/function () {
         case 0:
           id = req.params.id;
           _context4.next = 3;
-          return _post.default.findById(id);
+          return _post.default.findById(id).populate('user', {
+            id: 1,
+            username: 1,
+            email: 1,
+            posts: 1,
+            isStaff: 1,
+            avatar: 1,
+            bio: 1
+          });
         case 3:
           post = _context4.sent;
           validData = _validators.default.updatePostSchema.validate(req.body);
-          if (!(post.user.toString() !== req.user.id)) {
+          if (!(post.user.id !== req.user.id)) {
             _context4.next = 7;
             break;
           }

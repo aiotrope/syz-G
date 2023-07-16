@@ -1,4 +1,6 @@
+import React, { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { Link, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
@@ -16,24 +18,47 @@ import { Highlighter } from '../Misc/Highlighter'
 import { FaHourglassStart } from 'react-icons/fa6'
 import { ImArrowUp, ImArrowDown } from 'react-icons/im'
 import { FaEdit } from 'react-icons/fa'
-import { postService } from '../../services/post'
 
-export const SnippetPost = () => {
+import { postService } from '../../services/post'
+import { post_atom } from '../../recoil/post'
+
+export const FetchSnippet = () => {
   const { id } = useParams()
 
   const postQuery = useQuery([`post-${id}`, id], () => postService.getPostById(id))
 
-  console.log(postQuery.data)
+  const setPost = useSetRecoilState(post_atom)
+
+  const post = useRecoilValue(post_atom)
+
+  useEffect(() => {
+    let mounted = true
+
+    const preparePost = async () => {
+      if (postQuery.data && mounted) {
+        setPost({
+          ...postQuery.data,
+        })
+      }
+    }
+    preparePost()
+
+    return () => {
+      mounted = false
+    }
+  }, [postQuery.data, setPost])
+
+  console.log(post)
   return (
-    <Container className="col-md-11 mx-auto" fluid>
+    <Container>
       <Row>
         <Col>
-          <h2 className="post-title-single">{postQuery?.data?.title}</h2>
+          <h2 className="post-title-single">{post?.title}</h2>
         </Col>
       </Row>
       <Row>
         <Col>
-          {postQuery?.data?.tags.map((tag, indx) => (
+          {post?.tags?.map((tag, indx) => (
             <Badge key={indx} className="mx-1">
               {tag}
             </Badge>
@@ -41,28 +66,27 @@ export const SnippetPost = () => {
         </Col>
       </Row>
       <Row className="justify-content-md-end">
-        <Col sm={3} className="align-self-end bg-light py-2">
+        <Col sm={3} className="align-self-end bg-light py-1 my-2">
           <strong>
-            <Link to={`/user/${postQuery?.data?.user?.id}`} className="text-primary">
+            <Link to={`/user/${post.id}`} className="text-primary">
               <Image
-                src={postQuery?.data?.user?.avatar}
+                src={post?.user?.avatar}
                 alt={`Profile photo of ${postQuery?.data?.user?.username}`}
                 rounded
                 height={23}
                 width={23}
                 className="mx-1 mb-1 mt-1"
               />{' '}
-              {postQuery?.data?.user?.username}
+              {post?.user?.username}
             </Link>
           </strong>
           <br />
           <small>
-            <FaHourglassStart />{' '}
-            {moment(postQuery?.data?.createdAt).format('DD.MM.YYYY, h:mm:ss a')}
+            <FaHourglassStart /> {moment(post?.createdAt).format('DD.MM.YYYY, h:mm:ss a')}
           </small>
           <br />
           <small>
-            <FaEdit /> {moment(postQuery?.data?.updatedAt).format('DD.MM.YYYY, h:mm:ss a')}
+            <FaEdit /> {moment(post?.updatedAt).format('DD.MM.YYYY, h:mm:ss a')}
           </small>
         </Col>
       </Row>
@@ -79,7 +103,7 @@ export const SnippetPost = () => {
       <Row className="mt-2">
         <Col>
           <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]} components={Highlighter}>
-            {postQuery?.data?.entry}
+            {post?.entry}
           </ReactMarkdown>
         </Col>
       </Row>
