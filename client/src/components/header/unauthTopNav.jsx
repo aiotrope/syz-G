@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState }from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
@@ -8,7 +7,7 @@ import Badge from 'react-bootstrap/Badge'
 
 import { LoginNotification } from '../Misc/LoginNotification'
 
-const UnAuthTopNav = () => {
+export const UnAuthTopNav = () => {
   const [modalShow, setModalShow] = useState(false)
 
   return (
@@ -50,5 +49,3 @@ const UnAuthTopNav = () => {
     </>
   )
 }
-
-export default UnAuthTopNav
