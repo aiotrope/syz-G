@@ -64,27 +64,25 @@ export const Signup = () => {
     }
   }
 
+  if (isLoading) {
+    return <Loader />
+  }
+
   return (
     <Stack className="col-md-5 mx-auto">
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <h2>Create an account</h2>
-          <div>
-            <p>
-              Already have an account? <Link to={'/login'}>Login to XZYMOUS</Link>
-            </p>
-          </div>
-          <SignupForm
-            register={register}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            reset={reset}
-            errors={errors}
-          />
-        </>
-      )}
+      <h2>Create an account</h2>
+      <div>
+        <p>
+          Already have an account? <Link to={'/login'}>Login to XZYMOUS</Link>
+        </p>
+      </div>
+      <SignupForm
+        register={register}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        reset={reset}
+        errors={errors}
+      />
     </Stack>
   )
 }

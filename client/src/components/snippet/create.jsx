@@ -14,6 +14,7 @@ import { post_atom } from '../../recoil/post'
 import { posts_atom } from '../../recoil/post'
 import { CreateForm } from './CreateForm'
 import { Created } from './Created'
+import Loader from '../Misc/Loader'
 
 const schema = yup
   .object({
@@ -77,7 +78,7 @@ export const CreateSnippet = () => {
         entry: sanitize(formData.entry),
       }
       const result = await postMutation.mutateAsync(sanitzeData)
-      console.log('CREATE POST ', result)
+      //console.log('CREATE POST ', result)
       if (result) {
         toast.success(result.message, { theme: 'colored' })
         setPost(result.post)
@@ -86,18 +87,21 @@ export const CreateSnippet = () => {
         reset()
       }
     } catch (err) {
-      //console.error(err.response.data.error)
       toast.error(err.response.data.error, { theme: 'colored' })
     }
   }
 
-  console.log(posts)
+  //console.log(posts)
 
   const tagValue = tag?.map((val, idx) => (
     <small key={idx}>
       <span className="bg-light m-1 text-danger">{val}</span>
     </small>
   ))
+
+  if (postMutation.isLoading) {
+    return <Loader />
+  }
 
   return (
     <Stack className="col-md-9 mx-auto">

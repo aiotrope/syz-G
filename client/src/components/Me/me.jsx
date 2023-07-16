@@ -15,7 +15,6 @@ import jwtDecode from 'jwt-decode'
 import { UpdateForm } from './UpdateForm'
 import { UpdateAvatarForm } from './UpdateAvatarForm'
 
-//import { SnippetsCreated } from './SnippetsCreated'
 import { UpdateDestroySnippetsCreated } from './UpdateDestroySnippetsCreated'
 import { AccountDeletion } from './AccountDeletion'
 import Loader from '../Misc/Loader'
@@ -159,59 +158,62 @@ export const Me = () => {
 
   const snippetsByUser = user?.posts?.find((post) => post.user === decoded.id)
 
-  console.log(snippetsByUser)
+  if (
+    userMutation.isLoading ||
+    avatarMutation.isLoading ||
+    useQuery.isLoading ||
+    userQuery.isFetching ||
+    deleteMutation.isLoading
+  ) {
+    return <Loader />
+  }
+
   return (
     <Container className="col-md-8 mx-auto">
-      {userMutation.isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <Row>
-            <div>
-              <h2>
-                <span className="text-secondary">{user.username}</span> Profile
-              </h2>
-            </div>
-            <Col className="my-4">
-              <Image
-                src={user.avatar}
-                alt={`Profile photo of ${user.username}`}
-                thumbnail
-                height={80}
-                width={80}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col md="auto">
-              <p>Created: {moment(user.createdAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
-              <p>Updated: {moment(user.updatedAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
-            </Col>
-          </Row>
-          <h3>Update your profile</h3>
-          <UpdateForm
-            register={register}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            user={user}
-            errors={errors}
+      <Row>
+        <div>
+          <h2>
+            <span className="text-secondary">{user.username}</span> Profile
+          </h2>
+        </div>
+        <Col className="my-4">
+          <Image
+            src={user.avatar}
+            alt={`Profile photo of ${user.username}`}
+            thumbnail
+            height={80}
+            width={80}
           />
-          <UpdateAvatarForm onAvatarFormSubmit={onAvatarFormSubmit} avatarForm={avatarForm} />
+        </Col>
+      </Row>
+      <Row>
+        <Col md="auto">
+          <p>Created: {moment(user.createdAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
+          <p>Updated: {moment(user.updatedAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
+        </Col>
+      </Row>
+      <h3>Update your profile</h3>
+      <UpdateForm
+        register={register}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        user={user}
+        errors={errors}
+      />
+      <UpdateAvatarForm onAvatarFormSubmit={onAvatarFormSubmit} avatarForm={avatarForm} />
 
-          <hr />
-          <Row>
-            <Col>
-              <h5>Snippets created</h5>
-              {snippetsByUser && <UpdateDestroySnippetsCreated user={user} />}
-            </Col>
-          </Row>
-          <hr />
-          <div className="my-5 d-grid gap-2">
-            <h6>Account Deletion</h6>
-            <AccountDeletion handleDeleteAccount={handleDeleteAccount} />
-          </div>
-        </>
-      )}
+      <hr />
+      <Row>
+        <Col>
+          <h5>Snippets created</h5>
+          {snippetsByUser && <UpdateDestroySnippetsCreated user={user} />}
+        </Col>
+      </Row>
+      <hr />
+      <div className="my-5 d-grid gap-2">
+        <h6>Account Deletion</h6>
+        <AccountDeletion handleDeleteAccount={handleDeleteAccount} />
+      </div>
     </Container>
   )
 }

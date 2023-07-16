@@ -25,7 +25,7 @@ export const AuthTopNav = () => {
     toast.info(`${decoded.username} logged out`)
   }
 
-  console.log(userState)
+  //console.log(userState)
   return (
     <header role="banner">
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">

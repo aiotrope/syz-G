@@ -12,6 +12,7 @@ import moment from 'moment'
 import { SnippetsCreated } from './SnippetsCreated'
 import { userService } from '../../services/user'
 import { user_atom } from '../../recoil/auth'
+import Loader from '../Misc/Loader'
 
 export const User = () => {
   const { id } = useParams()
@@ -38,6 +39,10 @@ export const User = () => {
       mounted = false
     }
   }, [setUser, userQuery.data])
+
+  if (userQuery.isLoading || userQuery.isFetching || userQuery.isInitialLoading) {
+    return <Loader />
+  }
 
   return (
     <Stack className="col-sm-8 mx-auto">

@@ -118,51 +118,48 @@ export const UpdateSnippet = () => {
         entry: sanitize(formData.entry),
       }
       const result = await updateMutation.mutateAsync(sanitzeData)
-      console.log(result)
+      //console.log(result)
       if (result) {
         toast.success(result.data.message, { theme: 'colored' })
         setPost(result.data.post)
       }
     } catch (err) {
-      //console.error(err.response.data.error)
       toast.error(err.response.data.error, { theme: 'colored' })
     }
   }
 
+  if (updateMutation.isLoading || postQuery.isLoading || postsQuery.isLoading) return <Loader />
+
+  if (postQuery.isFetching || postsQuery.isFetching) return <Loader />
+
   return (
     <Container className="col-md-9 mx-auto">
-      {updateMutation.isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <h2>Update Snippet </h2>
-          <p>
-            Update snippet:{' '}
-            <Link to={`/snippet/${post?.id}`} className="text-primary">
-              {post?.title}
-            </Link>
-          </p>
-          <p>
-            Posted by:{' '}
-            <Link to={`/user/${post?.user?.id}`} className="text-primary">
-              {post?.user?.username}
-            </Link>
-          </p>
-          <p>All fields are optional.</p>
-          <UpdateForm
-            register={register}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            errors={errors}
-            reset={reset}
-            updateMutation={updateMutation}
-          />
-          <div>
-            <h3>Snippet to be updated</h3>
-            <Updated post={post} />
-          </div>
-        </>
-      )}
+      <h2>Update Snippet </h2>
+      <p>
+        Update snippet:{' '}
+        <Link to={`/snippet/${post?.id}`} className="text-primary">
+          {post?.title}
+        </Link>
+      </p>
+      <p>
+        Posted by:{' '}
+        <Link to={`/user/${post?.user?.id}`} className="text-primary">
+          {post?.user?.username}
+        </Link>
+      </p>
+      <p>All fields are optional.</p>
+      <UpdateForm
+        register={register}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        errors={errors}
+        reset={reset}
+        updateMutation={updateMutation}
+      />
+      <div>
+        <h3>Snippet to be updated</h3>
+        <Updated post={post} />
+      </div>
     </Container>
   )
 }

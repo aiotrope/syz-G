@@ -78,27 +78,25 @@ export const Login = () => {
     }
   }, [_jwt, navigate])
 
+  if (isLoading) {
+    return <Loader />
+  }
+
   return (
     <Stack className="col-md-5 mx-auto">
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <h2>Login to your account</h2>
-          <div>
-            <p>
-              New to XZYMOUS? <Link to={'/signup'}>Create an account</Link>
-            </p>
-          </div>
-          <LoginForm
-            register={register}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            reset={reset}
-            errors={errors}
-          />
-        </>
-      )}
+      <h2>Login to your account</h2>
+      <div>
+        <p>
+          New to XZYMOUS? <Link to={'/signup'}>Create an account</Link>
+        </p>
+      </div>
+      <LoginForm
+        register={register}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        reset={reset}
+        errors={errors}
+      />
     </Stack>
   )
 }

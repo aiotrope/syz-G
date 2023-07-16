@@ -42,21 +42,21 @@ export const Home = () => {
 
   const sortedPosts = orderBy(posts, ['updatedAt'], ['desc'])
 
+  if (postsQuery.isLoading || postsQuery.isFetching || postsQuery.isInitialLoading) {
+    return <Loader />
+  }
+
   return (
     <Stack>
-      {postsQuery.isLoading ? (
-        <Loader />
-      ) : (
-        <Container>
-          <h2>All Snippets</h2>
-          {sortedPosts.map((post) => (
-            <div key={post?.id}>
-              <Listing post={post} />
-              <hr />
-            </div>
-          ))}
-        </Container>
-      )}
+      <Container>
+        <h2>All Snippets</h2>
+        {sortedPosts.map((post) => (
+          <div key={post?.id}>
+            <Listing post={post} />
+            <hr />
+          </div>
+        ))}
+      </Container>
     </Stack>
   )
 }

@@ -12,7 +12,7 @@ import { FaUserAstronaut } from 'react-icons/fa6'
 import { Highlighter } from '../Misc/Highlighter'
 
 export const Created = ({ post }) => {
-  console.log(post)
+  //console.log(post)
   return (
     <div>
       <h3>Latest snippet post created</h3>

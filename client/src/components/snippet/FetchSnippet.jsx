@@ -21,6 +21,7 @@ import { FaEdit } from 'react-icons/fa'
 
 import { postService } from '../../services/post'
 import { post_atom } from '../../recoil/post'
+import Loader from '../Misc/Loader'
 
 export const FetchSnippet = () => {
   const { id } = useParams()
@@ -48,7 +49,9 @@ export const FetchSnippet = () => {
     }
   }, [postQuery.data, setPost])
 
-  console.log(post)
+  if (postQuery.isLoading || postQuery.isFetching) return <Loader />
+
+  //console.log(post)
   return (
     <Container>
       <Row>
