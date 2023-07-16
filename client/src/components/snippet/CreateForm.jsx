@@ -72,9 +72,7 @@ export const CreateForm = ({
             {errors.description?.message}
           </Form.Control.Feedback>
         )}
-        <Form.Text muted>
-          What are the use cases of your snippet? Any particular application/s?
-        </Form.Text>
+        <Form.Text muted>Application and use cases of your posts.</Form.Text>
       </FloatingLabel>
       <FloatingLabel label="Enter your snippet" className="mb-3">
         <Form.Control
@@ -89,10 +87,7 @@ export const CreateForm = ({
         {errors.entry?.message && (
           <Form.Control.Feedback type="invalid">{errors.entry?.message}</Form.Control.Feedback>
         )}
-        <Form.Text muted>
-          Code that you want to share or questions that you want to ask. Write in markdown/text
-          form.
-        </Form.Text>
+        <Form.Text muted>Code that you want to share or questions that you want to ask.</Form.Text>
       </FloatingLabel>
       <FormGroup className="my-5">
         <Row>

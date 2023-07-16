@@ -18,7 +18,7 @@ export const App = () => {
     <BrowserRouter>
       {_jwt ? <AuthTopNav /> : <UnAuthTopNav />}
       <main className="my-5">
-        <Container>
+        <Container style={{ minHeight: '50px' }}>
           <ToastContainer theme="colored" />
           <Router />
         </Container>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import pkg from 'lodash'
@@ -23,19 +23,21 @@ export const Home = () => {
 
   const { orderBy } = pkg
 
-  useEffect(() => {
-    let mounted = true
+  const isMounted = useRef(true)
 
-    const preparePosts = async () => {
-      if (postsQuery.data && mounted) {
+  useEffect(() => {
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      if (postsQuery.data && isMounted) {
         setPosts(postsQuery.data)
       }
     }
-    preparePosts()
-
-    return () => {
-      mounted = false
-    }
+    fetchPosts()
   }, [postsQuery.data, setPosts])
 
   //console.log('POSTS: ', posts)

@@ -16,6 +16,8 @@ body {
   font-family: $font-main !important;
   line-height: 1.5;
   font-weight: 400;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 a {
@@ -31,4 +33,5 @@ footer {
   margin-top: 10rem;
   margin-bottom: 1rem;
   bottom: 0;
+  min-height: 50px;
 }
