@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
-import { Home } from '../Home/Home'
+import Home from '../Home/home'
 import { About } from '../About/About'
 import { CreateSnippet } from '../Snippet/Create'
 import { FetchSnippet } from '../Snippet/FetchSnippet'

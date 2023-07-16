@@ -8,7 +8,7 @@ import Badge from 'react-bootstrap/Badge'
 
 import { LoginNotification } from '../Misc/LoginNotification'
 
-export const UnAuthTopNav = () => {
+const UnAuthTopNav = () => {
   const [modalShow, setModalShow] = useState(false)
 
   return (
@@ -50,3 +50,5 @@ export const UnAuthTopNav = () => {
     </>
   )
 }
+
+export default UnAuthTopNav

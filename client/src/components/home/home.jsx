@@ -11,7 +11,7 @@ import { posts_atom } from '../../recoil/post'
 import { Listing } from './Listing'
 import Loader from '../Misc/Loader'
 
-export const Home = () => {
+const Home = () => {
   const postsQuery = useQuery({
     queryKey: ['posts'],
     queryFn: postService.getAll,
@@ -62,3 +62,5 @@ export const Home = () => {
     </Stack>
   )
 }
+
+export default Home
