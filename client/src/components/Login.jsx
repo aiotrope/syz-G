@@ -1,35 +1,40 @@
+import { useEffect } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { useForm } from 'react-hook-form'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import Stack from 'react-bootstrap/Stack'
 import { toast } from 'react-toastify'
+import { authService } from '../services/auth'
 
-import Loader from '../misc/loader'
-import { SignupForm } from './signupForm'
-
-import { authService } from '../../services/auth'
-import { userKeys, postKeys } from '../../services/queryKeyFactory'
-
-const password_regex = /^(?=.*[0-9])(?=.*[!@#%^&*+-])[a-zA-Z0-9!@#%^&*+-=]{8,30}$/
-
-const username_regex = /^[a-zA-Z0-9!@#%^&*+-=]{4,}$/
+import { jwt_atom } from '../recoil/auth'
+import { LoginForm } from './login/loginForm'
+import Loader from './misc/loader'
+import { userKeys, postKeys } from '../services/queryKeyFactory'
 
 const schema = yup
   .object({
-    username: yup.string().trim().matches(username_regex).required(),
-    email: yup.string().email().required(),
-    password: yup.string().trim().matches(password_regex).required(),
-    confirm: yup.string().oneOf([yup.ref('password'), null], 'Password must match'),
+    email: yup.string().trim().email().required('Enter your registered email'),
+    password: yup.string().trim().required(),
   })
   .required()
 
-export const Signup = () => {
+export const Login = () => {
+  /* eslint-disable-next-line no-unused-vars */
+  const [_, setJWT] = useRecoilState(jwt_atom)
+  /* eslint-enable-next-line no-unused-vars */
+
   const queryClient = useQueryClient()
+
+  const navigate = useNavigate()
+
+  const _jwt = useRecoilValue(jwt_atom)
+
   const { isLoading, reset, mutateAsync } = useMutation({
-    mutationFn: authService.createUser,
+    mutationFn: authService.login,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: userKeys.lists() })
       queryClient.invalidateQueries({ queryKey: userKeys.details() })
@@ -37,8 +42,6 @@ export const Signup = () => {
       queryClient.invalidateQueries({ queryKey: postKeys.details() })
     },
   })
-
-  const navigate = useNavigate()
 
   const {
     register,
@@ -49,20 +52,33 @@ export const Signup = () => {
     mode: 'all',
   })
 
-  const onSubmit = async (userData) => {
-    //console.log(userData)
+  const onSubmit = async (formData) => {
     try {
-      const result = await mutateAsync(userData)
+      const result = await mutateAsync(formData)
       if (result) {
-        //console.log(result)
+        navigate('/dashboard')
         toast.success(result.message, { theme: 'colored' })
-
-        navigate('/login')
+        setJWT(result.access)
       }
     } catch (err) {
+      //console.error(err.response.data.error)
       toast.error(err.response.data.error, { theme: 'colored' })
     }
   }
+
+  useEffect(() => {
+    let mounted = true
+    const prepare = async () => {
+      if (_jwt && mounted) {
+        navigate('/dashboard')
+      }
+    }
+    prepare()
+
+    return () => {
+      mounted = false
+    }
+  }, [_jwt, navigate])
 
   if (isLoading) {
     return <Loader />
@@ -70,13 +86,13 @@ export const Signup = () => {
 
   return (
     <Stack className="col-md-5 mx-auto">
-      <h2>Create an account</h2>
+      <h2>Login to your account</h2>
       <div>
         <p>
-          Already have an account? <Link to={'/login'}>Login to XZYMOUS</Link>
+          New to XZYMOUS? <Link to={'/signup'}>Create an account</Link>
         </p>
       </div>
-      <SignupForm
+      <LoginForm
         register={register}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}

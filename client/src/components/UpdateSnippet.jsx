@@ -12,13 +12,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Container from 'react-bootstrap/Container'
 import { toast } from 'react-toastify'
 
-import { UpdateForm } from './updateForm'
-import { Updated } from './updated'
-import { postService } from '../../services/post'
-import { posts_atom, post_atom } from '../../recoil/post'
-import { jwt_atom } from '../../recoil/auth'
-import { userKeys, postKeys } from '../../services/queryKeyFactory'
-import Loader from '../misc/loader'
+import { UpdateForm } from './snippet/updateForm'
+import { Updated } from './snippet/updated'
+import { postService } from '../services/post'
+import { posts_atom, post_atom } from '../recoil/post'
+import { jwt_atom } from '../recoil/auth'
+import { userKeys, postKeys } from '../services/queryKeyFactory'
+import Loader from './misc/loader'
 
 export const UpdateSnippet = () => {
   const queryClient = useQueryClient()

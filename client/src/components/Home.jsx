@@ -6,10 +6,10 @@ import pkg from 'lodash'
 import Container from 'react-bootstrap/Container'
 import Stack from 'react-bootstrap/Stack'
 
-import { postService } from '../../services/post'
-import { posts_atom } from '../../recoil/post'
-import { List } from './list'
-import Loader from '../misc/loader'
+import { postService } from '../services/post'
+import { posts_atom } from '../recoil/post'
+import { List } from './home/list'
+import Loader from './misc/loader'
 
 const Home = () => {
   const postsQuery = useQuery({

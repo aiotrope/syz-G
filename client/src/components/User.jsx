@@ -9,11 +9,11 @@ import Row from 'react-bootstrap/Row'
 import Stack from 'react-bootstrap/Stack'
 import moment from 'moment'
 
-import { SnippetsCreated } from './snippetsCreated'
-import { userService } from '../../services/user'
-import { user_atom } from '../../recoil/auth'
-import { userKeys } from '../../services/queryKeyFactory'
-import Loader from '../misc/loader'
+import { SnippetsCreated } from './me/snippetsCreated'
+import { userService } from '../services/user'
+import { user_atom } from '../recoil/auth'
+import { userKeys } from '../services/queryKeyFactory'
+import Loader from './misc/loader'
 
 export const User = () => {
   const { id } = useParams()

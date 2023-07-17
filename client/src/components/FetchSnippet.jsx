@@ -13,15 +13,15 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Badge from 'react-bootstrap/Badge'
 
-import { Highlighter } from '../misc/highlighter'
+import { Highlighter } from './misc/highlighter'
 
 import { FaHourglassStart } from 'react-icons/fa6'
 import { ImArrowUp, ImArrowDown } from 'react-icons/im'
 import { FaEdit } from 'react-icons/fa'
 
-import { postService } from '../../services/post'
-import { post_atom } from '../../recoil/post'
-import Loader from '../misc/loader'
+import { postService } from '../services/post'
+import { post_atom } from '../recoil/post'
+import Loader from './misc/loader'
 
 export const FetchSnippet = () => {
   const { id } = useParams()

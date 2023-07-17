@@ -10,13 +10,13 @@ import jwtDecode from 'jwt-decode'
 import Stack from 'react-bootstrap/Stack'
 import { toast } from 'react-toastify'
 
-import { postService } from '../../services/post'
-import { post_atom, posts_atom } from '../../recoil/post'
-import { jwt_atom } from '../../recoil/auth'
-import { CreateForm } from './createForm'
-import { Created } from './created'
-import Loader from '../misc/loader'
-import { userKeys, postKeys } from '../../services/queryKeyFactory'
+import { postService } from '../services/post'
+import { post_atom, posts_atom } from '../recoil/post'
+import { jwt_atom } from '../recoil/auth'
+import { CreateForm } from './snippet/createForm'
+import { Created } from './snippet/created'
+import Loader from './misc/loader'
+import { userKeys, postKeys } from '../services/queryKeyFactory'
 
 const schema = yup
   .object({

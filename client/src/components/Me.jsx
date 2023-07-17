@@ -12,17 +12,17 @@ import { toast } from 'react-toastify'
 import moment from 'moment'
 import jwtDecode from 'jwt-decode'
 
-import { UpdateForm } from './updateForm'
-import { UpdateAvatarForm } from './updateAvatarForm'
-import { UpdateDestroySnippetsCreated } from './updateDestroySnippetsCreated'
-import { AccountDeletion } from './accountDeletion'
+import { UpdateForm } from './me/updateForm'
+import { UpdateAvatarForm } from './me/updateAvatarForm'
+import { UpdateDestroySnippetsCreated } from './me/updateDestroySnippetsCreated'
+import { AccountDeletion } from './me/accountDeletion'
 
-import Loader from '../misc/loader'
-import { userService } from '../../services/user'
-import { convertBase64 } from '../../services/misc'
-import { user_atom } from '../../recoil/auth'
-import { jwt_atom } from '../../recoil/auth'
-import { userKeys, postKeys } from '../../services/queryKeyFactory'
+import Loader from './misc/loader'
+import { userService } from '../services/user'
+import { convertBase64 } from '../services/misc'
+import { user_atom } from '../recoil/auth'
+import { jwt_atom } from '../recoil/auth'
+import { userKeys, postKeys } from '../services/queryKeyFactory'
 
 const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
 

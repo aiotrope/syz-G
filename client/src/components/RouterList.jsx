@@ -1,22 +1,22 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
-import Home from '../home/home'
-import { About } from '../about/about'
-import { CreateSnippet } from '../snippet/create'
-import { FetchSnippet } from '../snippet/fetchSnippet'
-import { UpdateSnippet } from '../snippet/updateSnippet'
-import { Signup } from '../signup/signup'
-import { Login } from '../login/login'
-import { NotFound } from '../notFound/notFound'
-import { Me } from '../me/me'
-import { User } from '../me/user'
-import { Dashboard } from '../dashboard/dashboard'
-import { Privacy } from '../privacy/privacy'
+import Home from './Home'
+import { About } from './About'
+import { CreateSnippet } from './CreateSnippet'
+import { FetchSnippet } from './FetchSnippet'
+import { UpdateSnippet } from './UpdateSnippet'
+import { Signup } from './Signup'
+import { Login } from './Login'
+import { NotFound } from './NotFound'
+import { Me } from './Me'
+import { User } from './User'
+import { Dashboard } from './Dashboard'
+import { Privacy } from './Privacy'
 
-import { jwt_atom } from '../../recoil/auth'
+import { jwt_atom } from '../recoil/auth'
 
-export const Router = () => {
+export const RouterList = () => {
   const _jwt = useRecoilValue(jwt_atom)
 
   return (
