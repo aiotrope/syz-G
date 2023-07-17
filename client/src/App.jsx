@@ -3,8 +3,8 @@ import { useRecoilValue } from 'recoil'
 import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
 
-import { UnAuthTopNav } from './components/header/unAuthTopNav'
-import { AuthTopNav } from './components/header/authTopNav'
+import { UnAuthTopNav } from './components/unauthTopNav'
+import { AuthTopNav } from './components/authTopNav'
 import { Footer } from './components/footer/footer'
 import { Router } from './components/router/router'
 

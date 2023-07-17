@@ -14,7 +14,9 @@ export const post_atom = atom({
     tags: null,
     entry: null,
     upVote: null,
+    userUpVoted: null,
     downVote: null,
+    userDownVoted: null,
     user: {
       id: null,
       username: '',

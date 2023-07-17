@@ -178,6 +178,7 @@ const deletePost = async (req, res) => {
   }
 }
 
+
 const postController = {
   createPost,
   getPostById,
