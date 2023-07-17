@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = process.env.REACT_APP_BASE_URL
+const baseUrl = import.meta.env.VITE_BASE_URL
 
 const createUser = async (data) => {
   const response = await axios.post(`${baseUrl}/api/user/signup`, data, {

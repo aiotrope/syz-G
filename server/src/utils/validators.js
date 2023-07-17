@@ -1,9 +1,9 @@
 import Joi from 'joi'
 
 const password_regex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~/`!@#$%^&*()\-_=+{};:,<>])(?=.{8,})/
+  /^(?=.*[0-9])(?=.*[!@#%^&*+-])[a-zA-Z0-9!@#%^&*+-=]{8,30}$/
 
-const username_regex = /^[a-zA-Z0-9&+,:;=?@#|'<>^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
+const username_regex = /^[a-zA-Z0-9!@#%^&*+-=]{4,}$/
 
 const signupSchema = Joi.object()
   .keys({

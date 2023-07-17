@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil'
 import { useForm } from 'react-hook-form'
@@ -12,16 +12,17 @@ import { toast } from 'react-toastify'
 import moment from 'moment'
 import jwtDecode from 'jwt-decode'
 
-import { UpdateForm } from './UpdateForm'
-import { UpdateAvatarForm } from './UpdateAvatarForm'
+import { UpdateForm } from './updateForm'
+import { UpdateAvatarForm } from './updateAvatarForm'
 
-import { UpdateDestroySnippetsCreated } from './UpdateDestroySnippetsCreated'
-import { AccountDeletion } from './AccountDeletion'
-import Loader from '../Misc/Loader'
+import { UpdateDestroySnippetsCreated } from './updateDestroySnippetsCreated'
+import { AccountDeletion } from './accountDeletion'
+import Loader from '../misc/loader'
 import { userService } from '../../services/user'
 import { convertBase64 } from '../../services/misc'
 import { user_atom } from '../../recoil/auth'
 import { jwt_atom } from '../../recoil/auth'
+import { userKeys, postKeys } from '../../services/queryKeyFactory'
 
 const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
 
@@ -39,7 +40,7 @@ export const Me = () => {
   const resetJWTAtom = useResetRecoilState(jwt_atom)
 
   const userQuery = useQuery({
-    queryKey: ['user'],
+    queryKey: userKeys.detail(decoded.id),
     queryFn: userService.getMe,
   })
 
@@ -97,9 +98,11 @@ export const Me = () => {
     mutationFn: userService.updateUser,
     onSuccess: () => {
       reset()
-      queryClient.invalidateQueries({
-        queryKey: ['users', 'user'],
-      })
+      queryClient.invalidateQueries({ queryKey: userKeys.detail(decoded.id) })
+      queryClient.invalidateQueries({ queryKey: userKeys.details() })
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: postKeys.details() })
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
     },
   })
 
@@ -107,15 +110,18 @@ export const Me = () => {
     mutationFn: userService.updateUserAvatar,
     onSuccess: () => {
       avatarForm.reset()
-      queryClient.invalidateQueries({
-        queryKey: ['users', 'user'],
-      })
+      queryClient.invalidateQueries({ queryKey: userKeys.detail(decoded.id) })
+      queryClient.invalidateQueries({ queryKey: userKeys.details() })
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: postKeys.details() })
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
     },
   })
 
   const deleteMutation = useMutation({
     mutationFn: userService.deleteUserAccount,
     onSuccess: () => {
+      queryClient.removeQueries({ queryKey: userKeys.detail(decoded.id) })
       toast.info(`${user.email} account deleted`, { theme: 'colored' })
       resetJWTAtom()
     },
@@ -206,7 +212,17 @@ export const Me = () => {
       <Row>
         <Col>
           <h5>Snippets created</h5>
-          {snippetsByUser && <UpdateDestroySnippetsCreated user={user} />}
+          {snippetsByUser && (
+            <UpdateDestroySnippetsCreated
+              user={user}
+              queryClient={queryClient}
+              useMutation={useMutation}
+              postKeys={postKeys}
+              userKeys={userKeys}
+              //decoded={decoded}
+              access={_jwt}
+            />
+          )}
         </Col>
       </Row>
       <hr />

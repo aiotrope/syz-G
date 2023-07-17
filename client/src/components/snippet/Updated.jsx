@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 import Badge from 'react-bootstrap/Badge'
@@ -9,7 +8,7 @@ import rehypeRaw from 'rehype-raw'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-import { Highlighter } from '../Misc/Highlighter'
+import { Highlighter } from '../misc/highlighter'
 
 export const Updated = ({ post }) => {
   return (

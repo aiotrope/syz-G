@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { useForm } from 'react-hook-form'
@@ -11,8 +11,9 @@ import { toast } from 'react-toastify'
 import { authService } from '../../services/auth'
 
 import { jwt_atom } from '../../recoil/auth'
-import { LoginForm } from './LoginForm'
-import Loader from '../Misc/Loader'
+import { LoginForm } from './loginForm'
+import Loader from '../misc/loader'
+import { userKeys, postKeys } from '../../services/queryKeyFactory'
 
 const schema = yup
   .object({
@@ -35,9 +36,10 @@ export const Login = () => {
   const { isLoading, reset, mutateAsync } = useMutation({
     mutationFn: authService.login,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['users', 'user'],
-      })
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: userKeys.details() })
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: postKeys.details() })
     },
   })
 

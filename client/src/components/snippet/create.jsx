@@ -1,20 +1,22 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { sanitize } from 'isomorphic-dompurify'
+import jwtDecode from 'jwt-decode'
 
 import Stack from 'react-bootstrap/Stack'
 import { toast } from 'react-toastify'
 
 import { postService } from '../../services/post'
-import { post_atom } from '../../recoil/post'
-import { posts_atom } from '../../recoil/post'
-import { CreateForm } from './CreateForm'
-import { Created } from './Created'
-import Loader from '../Misc/Loader'
+import { post_atom, posts_atom } from '../../recoil/post'
+import { jwt_atom } from '../../recoil/auth'
+import { CreateForm } from './createForm'
+import { Created } from './created'
+import Loader from '../misc/loader'
+import { userKeys, postKeys } from '../../services/queryKeyFactory'
 
 const schema = yup
   .object({
@@ -29,12 +31,27 @@ export const CreateSnippet = () => {
 
   const queryClient = useQueryClient()
 
+  const setPosts = useSetRecoilState(posts_atom)
+
+  const setPost = useSetRecoilState(post_atom)
+
+  const posts = useRecoilValue(posts_atom)
+
+  const post = useRecoilValue(post_atom)
+
+  const _jwt = useRecoilValue(jwt_atom)
+
+  const decoded = jwtDecode(_jwt)
+
   const postMutation = useMutation({
     mutationFn: postService.createPost,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['posts', 'post', 'users', 'user'],
-      })
+      queryClient.invalidateQueries({ queryKey: postKeys.details() })
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: userKeys.details() })
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: userKeys.detail(decoded.id) })
+      queryClient.invalidateQueries({ queryKey: postKeys.detail(post?.id) })
     },
   })
   const {
@@ -47,14 +64,6 @@ export const CreateSnippet = () => {
     resolver: yupResolver(schema),
     mode: 'all',
   })
-
-  const setPosts = useSetRecoilState(posts_atom)
-
-  const setPost = useSetRecoilState(post_atom)
-
-  const posts = useRecoilValue(posts_atom)
-
-  const post = useRecoilValue(post_atom)
 
   const handleClickLang = (event) => {
     event.preventDefault()

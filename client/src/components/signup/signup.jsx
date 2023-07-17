@@ -1,4 +1,3 @@
-import React from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
@@ -8,15 +7,15 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Stack from 'react-bootstrap/Stack'
 import { toast } from 'react-toastify'
 
-import Loader from '../Misc/Loader'
-import { SignupForm } from './SignupForm'
+import Loader from '../misc/loader'
+import { SignupForm } from './signupForm'
 
 import { authService } from '../../services/auth'
+import { userKeys, postKeys } from '../../services/queryKeyFactory'
 
-const password_regex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~/`!@#$%^&*()\-_=+{};:,<>])(?=.{8,})/
+const password_regex = /^(?=.*[0-9])(?=.*[!@#%^&*+-])[a-zA-Z0-9!@#%^&*+-=]{8,30}$/
 
-const username_regex = /^[a-zA-Z0-9&+,:;=?@#|'<>^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
+const username_regex = /^[a-zA-Z0-9!@#%^&*+-=]{4,}$/
 
 const schema = yup
   .object({
@@ -32,9 +31,10 @@ export const Signup = () => {
   const { isLoading, reset, mutateAsync } = useMutation({
     mutationFn: authService.createUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['user-account'],
-      })
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: userKeys.details() })
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: postKeys.details() })
     },
   })
 

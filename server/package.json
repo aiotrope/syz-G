@@ -32,7 +32,6 @@
     "morgan": "~1.9.1",
     "nocache": "^4.0.0",
     "nodemon": "^3.0.1",
-    "passport-facebook-token": "^4.0.0",
     "rimraf": "^5.0.1",
     "winston": "^3.9.0"
   },

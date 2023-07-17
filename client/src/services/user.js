@@ -3,7 +3,7 @@ import axios from 'axios'
 import { authService } from './auth'
 import jwtDecode from 'jwt-decode'
 
-const baseUrl = process.env.REACT_APP_BASE_URL
+const baseUrl = import.meta.env.VITE_BASE_URL
 
 const getUsers = async () => {
   const response = await axios.get(`${baseUrl}/api/user/all`, {
@@ -15,7 +15,9 @@ const getUsers = async () => {
 const getMe = async () => {
   const accessToken = authService.getAccessToken()
 
-  const response = await axios.get(`${baseUrl}/api/user/me`, {
+  const decoded = jwtDecode(accessToken)
+
+  const response = await axios.get(`${baseUrl}/api/user/me/${decoded.id}`, {
     withCredentials: true,
     headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
   })

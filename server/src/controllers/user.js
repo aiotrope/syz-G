@@ -109,12 +109,30 @@ const signin = async (req, res) => {
 // get user using params id
 
 const getMe = async (req, res) => {
+  const { id } = req.params
+
+  if (req.user.id !== id)
+    return res
+      .status(401)
+      .json({ error: `Not allowed to fetch ${req.user.username}` })
+
   try {
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(id)
       .select({
         hashedPassword: 0,
       })
-      .populate('posts')
+      .populate('posts', {
+        id: 1,
+        title: 1,
+        tags: 1,
+        description: 1,
+        entry: 1,
+        upVote: 1,
+        downVote: 1,
+        user: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
 
     return res.status(200).json(user)
   } catch (err) {
@@ -130,7 +148,18 @@ const getUserById = async (req, res) => {
       .select({
         hashedPassword: 0,
       })
-      .populate('posts')
+      .populate('posts', {
+        id: 1,
+        title: 1,
+        tags: 1,
+        description: 1,
+        entry: 1,
+        upVote: 1,
+        downVote: 1,
+        user: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
 
     return res.status(200).json(user)
   } catch (err) {
@@ -193,9 +222,22 @@ const updateUser = async (req, res) => {
       .json({ error: `Not allowed to update ${req.user.username}` })
 
   try {
-    let user = await User.findById(req.user.id).select({
-      hashedPassword: 0,
-    })
+    let user = await User.findById(req.user.id)
+      .select({
+        hashedPassword: 0,
+      })
+      .populate('posts', {
+        id: 1,
+        title: 1,
+        tags: 1,
+        description: 1,
+        entry: 1,
+        upVote: 1,
+        downVote: 1,
+        user: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
 
     if (user) {
       user.username = sanitize(validData.value.username)

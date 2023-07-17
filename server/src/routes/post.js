@@ -17,7 +17,7 @@ router.get('/:id', postController.getPostById)
 router.get('/', postController.getPosts)
 
 router.delete(
-  '/:id',
+  '/delete/:id',
   authMiddleware.tokenExtractor,
   authMiddleware.userExtractor,
   postController.deletePost

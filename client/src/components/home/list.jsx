@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -9,7 +8,7 @@ import { FaHourglassStart } from 'react-icons/fa6'
 import { FaEdit } from 'react-icons/fa'
 import { ImArrowUp, ImArrowDown } from 'react-icons/im'
 
-export const Listing = ({ post }) => {
+export const List = ({ post }) => {
   return (
     <>
       <Row>

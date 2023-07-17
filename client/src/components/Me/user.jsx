@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useParams } from 'react-router-dom'
@@ -9,15 +9,16 @@ import Row from 'react-bootstrap/Row'
 import Stack from 'react-bootstrap/Stack'
 import moment from 'moment'
 
-import { SnippetsCreated } from './SnippetsCreated'
+import { SnippetsCreated } from './snippetsCreated'
 import { userService } from '../../services/user'
 import { user_atom } from '../../recoil/auth'
-import Loader from '../Misc/Loader'
+import { userKeys } from '../../services/queryKeyFactory'
+import Loader from '../misc/loader'
 
 export const User = () => {
   const { id } = useParams()
 
-  const userQuery = useQuery([`user-${id}`, id], () => userService.getUserById(id))
+  const userQuery = useQuery([userKeys.detail(id), id], () => userService.getUserById(id))
 
   const setUser = useSetRecoilState(user_atom)
 

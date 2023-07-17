@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+//import User from './user'
+
 const Schema = mongoose.Schema
 
 const model = mongoose.model
@@ -48,12 +50,13 @@ PostSchema.virtual('id').get(function () {
 })
 
 PostSchema.pre('update', function (next) {
-  const post = this
-  post
-    .model('User')
-    .update({}, { $pull: { posts: post.id } }, { multi: true }, next)
+  this.model('User').update(
+    {},
+    { $pull: { posts: this._id } },
+    { multi: true },
+    next
+  )
 })
-
 const Post = model('Post', PostSchema)
 
 export default Post

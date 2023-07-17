@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useParams, Link } from 'react-router-dom'
@@ -13,17 +13,20 @@ import Container from 'react-bootstrap/Container'
 
 import { toast } from 'react-toastify'
 
-import { UpdateForm } from './UpdateForm'
-import { Updated } from './Updated'
+import { UpdateForm } from './updateForm'
+import { Updated } from './updated'
 import { postService } from '../../services/post'
 import { posts_atom, post_atom } from '../../recoil/post'
 import { jwt_atom } from '../../recoil/auth'
-import Loader from '../Misc/Loader'
+import { userKeys, postKeys } from '../../services/queryKeyFactory'
+import Loader from '../misc/loader'
 
 export const UpdateSnippet = () => {
   const queryClient = useQueryClient()
 
   const { id } = useParams()
+
+  const baseUrl = import.meta.env.VITE_BASE_URL
 
   const setPosts = useSetRecoilState(posts_atom)
 
@@ -33,14 +36,12 @@ export const UpdateSnippet = () => {
 
   const post = useRecoilValue(post_atom)
 
-  const postQuery = useQuery([`post-${id}`, id], () => postService.getPostById(id))
+  const postQuery = useQuery([postKeys.detail(id), id], () => postService.getPostById(id))
 
   const postsQuery = useQuery({
-    queryKey: ['posts'],
+    queryKey: postKeys.all,
     queryFn: postService.getAll,
   })
-
-  const baseUrl = process.env.REACT_APP_BASE_URL
 
   const updateMutation = useMutation({
     mutationFn: async (data) =>
@@ -50,9 +51,11 @@ export const UpdateSnippet = () => {
       }),
     onSuccess: () => {
       reset()
-      queryClient.invalidateQueries({
-        queryKey: ['posts', `post-${id}`, 'post', 'user', 'user'],
-      })
+      queryClient.invalidateQueries({ queryKey: postKeys.details() })
+      queryClient.invalidateQueries({ queryKey: postKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: userKeys.details() })
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: postKeys.detail(post?.id) })
     },
   })
 
@@ -157,7 +160,6 @@ export const UpdateSnippet = () => {
         updateMutation={updateMutation}
       />
       <div>
-        <h3>Snippet to be updated</h3>
         <Updated post={post} />
       </div>
     </Container>

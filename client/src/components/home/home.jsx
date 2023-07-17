@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import pkg from 'lodash'
@@ -8,8 +8,8 @@ import Stack from 'react-bootstrap/Stack'
 
 import { postService } from '../../services/post'
 import { posts_atom } from '../../recoil/post'
-import { Listing } from './Listing'
-import Loader from '../Misc/Loader'
+import { List } from './list'
+import Loader from '../misc/loader'
 
 const Home = () => {
   const postsQuery = useQuery({
@@ -54,7 +54,7 @@ const Home = () => {
         <h2>All Snippets</h2>
         {sortedPosts.map((post) => (
           <div key={post?.id}>
-            <Listing post={post} />
+            <List post={post} />
             <hr />
           </div>
         ))}

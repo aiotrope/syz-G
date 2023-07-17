@@ -31,7 +31,7 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       default: function () {
-        return `Hello, World! I'm ${this.username}`
+        return 'Hello, World!'
       },
     },
     posts: [
@@ -50,18 +50,6 @@ const UserSchema = new Schema(
 
 UserSchema.virtual('id').get(function () {
   return this._id.toHexString()
-})
-
-UserSchema.pre('save', function (next) {
-  if (this.avatar === null) {
-    this.avatar = avatar_url
-  }
-  next()
-})
-
-UserSchema.pre('deleteMany', function (next) {
-  const user = this
-  user.model('Post').deleteOne({ user: user.id }, next)
 })
 
 const User = model('User', UserSchema)

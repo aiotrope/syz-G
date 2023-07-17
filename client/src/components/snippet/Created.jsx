@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 import Row from 'react-bootstrap/Row'
@@ -7,12 +6,11 @@ import Badge from 'react-bootstrap/Badge'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import { FaUserAstronaut } from 'react-icons/fa6'
 
-import { Highlighter } from '../Misc/Highlighter'
+import { Highlighter } from '../misc/highlighter'
 
 export const Created = ({ post }) => {
-  //console.log(post)
+  console.log(post)
   return (
     <div>
       <h3>Latest snippet post created</h3>
@@ -39,8 +37,8 @@ export const Created = ({ post }) => {
         <Col>
           <p>
             Posted by:{' '}
-            <Link to={`/user/${post?.user}`} className="text-primary">
-              <FaUserAstronaut />
+            <Link to={`/user/${post?.user?.id}`} className="text-primary">
+              {post?.user?.username}
             </Link>
           </p>
           <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]} components={Highlighter}>

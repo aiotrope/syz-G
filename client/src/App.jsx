@@ -3,16 +3,16 @@ import { useRecoilValue } from 'recoil'
 import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
 
-import { UnAuthTopNav } from './Components/Header/unauthTopNav'
-import { AuthTopNav } from './Components/Header/AuthTopNav'
-import { Footer } from './Components/Footer/Footer'
-import { Router } from './Components/Router/router'
+import { UnAuthTopNav } from './components/header/unAuthTopNav'
+import { AuthTopNav } from './components/header/authTopNav'
+import { Footer } from './components/footer/footer'
+import { Router } from './components/router/router'
 
 import { jwt_atom } from './recoil/auth'
 
 import './sass/_App.scss'
 
-export const App = () => {
+const App = () => {
   const _jwt = useRecoilValue(jwt_atom)
   return (
     <BrowserRouter>
@@ -29,3 +29,5 @@ export const App = () => {
     </BrowserRouter>
   )
 }
+
+export default App

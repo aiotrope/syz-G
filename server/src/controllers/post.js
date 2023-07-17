@@ -1,4 +1,3 @@
-//import config from '../config'
 import mongoose from 'mongoose'
 import { sanitize } from 'isomorphic-dompurify'
 
@@ -35,9 +34,21 @@ const createPost = async (req, res) => {
       user.posts = user.posts.concat(post)
       await user.save()
 
+      const createdPost = await Post.findById(post.id).populate('user', {
+        id: 1,
+        username: 1,
+        email: 1,
+        posts: 1,
+        isStaff: 1,
+        avatar: 1,
+        bio: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+
       return res.status(201).json({
-        message: `You created new snippet: ${post.title}`,
-        post: post,
+        message: `You created new snippet: ${createdPost.title}`,
+        post: createdPost,
       })
     }
   } catch (err) {
@@ -59,6 +70,8 @@ const getPostById = async (req, res) => {
       isStaff: 1,
       avatar: 1,
       bio: 1,
+      createdAt: 1,
+      updatedAt: 1,
     })
     res.status(200).json(post)
   } catch (err) {
@@ -76,6 +89,8 @@ const getPosts = async (req, res) => {
       isStaff: 1,
       avatar: 1,
       bio: 1,
+      createdAt: 1,
+      updatedAt: 1,
     })
 
     return res.status(200).json(posts)
@@ -95,11 +110,13 @@ const updatePost = async (req, res) => {
     isStaff: 1,
     avatar: 1,
     bio: 1,
+    createdAt: 1,
+    updatedAt: 1,
   })
 
   const validData = validators.updatePostSchema.validate(req.body)
 
-  if (post.user.id !== req.user.id)
+  if (post.user.id !== id)
     return res
       .status(403)
       .json({ error: `Not allowed to update ${post.title}` })
@@ -127,17 +144,33 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
   const { id } = req.params
 
-  const post = await Post.findById(id)
+  const user = req.user
 
-  if (post.user.toString() !== req.user.id)
+  const post = await Post.findById(id).populate('user', {
+    id: 1,
+    username: 1,
+    email: 1,
+    posts: 1,
+    isStaff: 1,
+    avatar: 1,
+    bio: 1,
+    createdAt: 1,
+    updatedAt: 1,
+  })
+
+  if (post?.user.id !== user.id)
     return res
       .status(403)
       .json({ error: `Not allowed to delete ${post.title}` })
 
-  try {
-    const postToDelete = await Post.findByIdAndDelete(post.id)
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: `${id} is not valid post id!` })
+  }
 
-    if (!postToDelete) return res.status(404).json({ error: 'Post not found' })
+  if (!post) return res.status(404).json({ error: 'Post not found' })
+
+  try {
+    await Post.findByIdAndDelete(id)
 
     return res.status(204).end()
   } catch (err) {

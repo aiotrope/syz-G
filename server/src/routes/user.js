@@ -12,7 +12,7 @@ router.post('/signin', userController.signin)
 router.get('/all', userController.getAll)
 
 router.get(
-  '/me',
+  '/me/:id',
   authMiddleware.tokenExtractor,
   authMiddleware.userExtractor,
   userController.getMe
