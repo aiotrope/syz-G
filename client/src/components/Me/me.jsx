@@ -14,9 +14,9 @@ import jwtDecode from 'jwt-decode'
 
 import { UpdateForm } from './updateForm'
 import { UpdateAvatarForm } from './updateAvatarForm'
-
 import { UpdateDestroySnippetsCreated } from './updateDestroySnippetsCreated'
 import { AccountDeletion } from './accountDeletion'
+
 import Loader from '../misc/loader'
 import { userService } from '../../services/user'
 import { convertBase64 } from '../../services/misc'

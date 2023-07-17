@@ -10,7 +10,6 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import Container from 'react-bootstrap/Container'
-
 import { toast } from 'react-toastify'
 
 import { UpdateForm } from './updateForm'
