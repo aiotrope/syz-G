@@ -11,11 +11,9 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 var _isomorphicDompurify = require("isomorphic-dompurify");
 var _post = _interopRequireDefault(require("../models/post"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
-//import config from '../config'
-
 var createPost = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(req, res) {
-    var title, user, foundPost, validData, newPost, post;
+    var title, user, foundPost, validData, newPost, post, createdPost;
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -57,31 +55,45 @@ var createPost = /*#__PURE__*/function () {
         case 14:
           post = _context.sent;
           if (!post) {
-            _context.next = 20;
+            _context.next = 23;
             break;
           }
           user.posts = user.posts.concat(post);
           _context.next = 19;
           return user.save();
         case 19:
+          _context.next = 21;
+          return _post.default.findById(post.id).populate('user', {
+            id: 1,
+            username: 1,
+            email: 1,
+            posts: 1,
+            isStaff: 1,
+            avatar: 1,
+            bio: 1,
+            createdAt: 1,
+            updatedAt: 1
+          });
+        case 21:
+          createdPost = _context.sent;
           return _context.abrupt("return", res.status(201).json({
-            message: "You created new snippet: ".concat(post.title),
-            post: post
+            message: "You created new snippet: ".concat(createdPost.title),
+            post: createdPost
           }));
-        case 20:
-          _context.next = 25;
+        case 23:
+          _context.next = 28;
           break;
-        case 22:
-          _context.prev = 22;
+        case 25:
+          _context.prev = 25;
           _context.t0 = _context["catch"](10);
           return _context.abrupt("return", res.status(422).json({
             error: _context.t0.message
           }));
-        case 25:
+        case 28:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[10, 22]]);
+    }, _callee, null, [[10, 25]]);
   }));
   return function createPost(_x, _x2) {
     return _ref.apply(this, arguments);
@@ -111,7 +123,9 @@ var getPostById = /*#__PURE__*/function () {
             posts: 1,
             isStaff: 1,
             avatar: 1,
-            bio: 1
+            bio: 1,
+            createdAt: 1,
+            updatedAt: 1
           });
         case 6:
           post = _context2.sent;
@@ -149,7 +163,9 @@ var getPosts = /*#__PURE__*/function () {
             posts: 1,
             isStaff: 1,
             avatar: 1,
-            bio: 1
+            bio: 1,
+            createdAt: 1,
+            updatedAt: 1
           });
         case 3:
           posts = _context3.sent;
@@ -185,12 +201,14 @@ var updatePost = /*#__PURE__*/function () {
             posts: 1,
             isStaff: 1,
             avatar: 1,
-            bio: 1
+            bio: 1,
+            createdAt: 1,
+            updatedAt: 1
           });
         case 3:
           post = _context4.sent;
           validData = _validators.default.updatePostSchema.validate(req.body);
-          if (!(post.user.id !== req.user.id)) {
+          if (!(post.user.id !== id)) {
             _context4.next = 7;
             break;
           }
@@ -245,48 +263,66 @@ var updatePost = /*#__PURE__*/function () {
 }();
 var deletePost = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(req, res) {
-    var id, post, postToDelete;
+    var id, user, post;
     return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
           id = req.params.id;
-          _context5.next = 3;
-          return _post.default.findById(id);
-        case 3:
+          user = req.user;
+          _context5.next = 4;
+          return _post.default.findById(id).populate('user', {
+            id: 1,
+            username: 1,
+            email: 1,
+            posts: 1,
+            isStaff: 1,
+            avatar: 1,
+            bio: 1,
+            createdAt: 1,
+            updatedAt: 1
+          });
+        case 4:
           post = _context5.sent;
-          if (!(post.user.toString() !== req.user.id)) {
-            _context5.next = 6;
+          if (!((post === null || post === void 0 ? void 0 : post.user.id) !== user.id)) {
+            _context5.next = 7;
             break;
           }
           return _context5.abrupt("return", res.status(403).json({
             error: "Not allowed to delete ".concat(post.title)
           }));
-        case 6:
-          _context5.prev = 6;
-          _context5.next = 9;
-          return _post.default.findByIdAndDelete(post.id);
+        case 7:
+          if (_mongoose.default.Types.ObjectId.isValid(id)) {
+            _context5.next = 9;
+            break;
+          }
+          return _context5.abrupt("return", res.status(400).json({
+            error: "".concat(id, " is not valid post id!")
+          }));
         case 9:
-          postToDelete = _context5.sent;
-          if (postToDelete) {
-            _context5.next = 12;
+          if (post) {
+            _context5.next = 11;
             break;
           }
           return _context5.abrupt("return", res.status(404).json({
             error: 'Post not found'
           }));
-        case 12:
+        case 11:
+          _context5.prev = 11;
+          _context5.next = 14;
+          return _post.default.findByIdAndDelete(id);
+        case 14:
           return _context5.abrupt("return", res.status(204).end());
-        case 15:
-          _context5.prev = 15;
-          _context5.t0 = _context5["catch"](6);
+        case 17:
+          _context5.prev = 17;
+          _context5.t0 = _context5["catch"](11);
           return _context5.abrupt("return", res.status(422).json({
             error: _context5.t0.message
           }));
-        case 18:
+        case 20:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[6, 15]]);
+    }, _callee5, null, [[11, 17]]);
   }));
   return function deletePost(_x9, _x10) {
     return _ref5.apply(this, arguments);

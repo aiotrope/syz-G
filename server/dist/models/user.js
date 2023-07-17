@@ -37,7 +37,7 @@ var UserSchema = new _mongoose.Schema({
     type: String,
     required: true,
     default: function _default() {
-      return "Hello, World! I'm ".concat(this.username);
+      return 'Hello, World!';
     }
   },
   posts: [{
@@ -55,18 +55,6 @@ var UserSchema = new _mongoose.Schema({
 });
 UserSchema.virtual('id').get(function () {
   return this._id.toHexString();
-});
-UserSchema.pre('save', function (next) {
-  if (this.avatar === null) {
-    this.avatar = avatar_url;
-  }
-  next();
-});
-UserSchema.pre('deleteMany', function (next) {
-  var user = this;
-  user.model('Post').deleteOne({
-    user: user.id
-  }, next);
 });
 var User = (0, _mongoose.model)('User', UserSchema);
 var _default2 = User;

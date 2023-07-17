@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
+//import User from './user'
+
 var Schema = _mongoose.default.Schema;
 var model = _mongoose.default.model;
 var PostSchema = new Schema({
@@ -56,10 +58,9 @@ PostSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 PostSchema.pre('update', function (next) {
-  var post = this;
-  post.model('User').update({}, {
+  this.model('User').update({}, {
     $pull: {
-      posts: post.id
+      posts: this._id
     }
   }, {
     multi: true
