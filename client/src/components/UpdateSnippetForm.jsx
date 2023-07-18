@@ -1,47 +1,13 @@
 import Form from 'react-bootstrap/Form'
 import FormGroup from 'react-bootstrap/FormGroup'
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/esm/Row'
-import Col from 'react-bootstrap/esm/Col'
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
 
-const CreateForm = ({
-  handleSubmit,
-  onSubmit,
-  register,
-  errors,
-  handleClickLang,
-  postMutation,
-  resetForm,
-  tag,
-  tagValue,
-}) => {
+const UpdateSnippetForm = ({ handleSubmit, onSubmit, register, errors, updateMutation, reset }) => {
   return (
     <Form className="mt-2" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>
-      <FloatingLabel label="Tag your post" className="mb-2">
-        <Form.Control
-          type="text"
-          {...register('lang')}
-          placeholder="What programming language is your code related to?"
-          style={{ height: '2rem' }}
-          aria-invalid={errors.lang?.message ? 'true' : 'false'}
-          id="lang"
-          className={`${errors.lang?.message ? 'is-invalid' : ''} `}
-        />
-        {errors.lang?.message && (
-          <Form.Control.Feedback type="invalid">{errors.lang?.message}</Form.Control.Feedback>
-        )}
-        <Form.Text muted>
-          Particular topics? programming languages involve? Can enter one or more tags.
-        </Form.Text>
-        <div className="mb-2">
-          <Button type="button" size="sm" variant="outline-secondary" onClick={handleClickLang}>
-            ADD TAG
-          </Button>
-          <br />
-          {tag ? tagValue : null}
-        </div>
-      </FloatingLabel>
       <FloatingLabel label="Snippet title" className="mb-2">
         <Form.Control
           as="textarea"
@@ -71,7 +37,9 @@ const CreateForm = ({
             {errors.description?.message}
           </Form.Control.Feedback>
         )}
-        <Form.Text muted>Application and use cases of your posts.</Form.Text>
+        <Form.Text muted>
+          What are the use cases of your snippet? Any particular application/s?
+        </Form.Text>
       </FloatingLabel>
       <FloatingLabel label="Enter your snippet" className="mb-3">
         <Form.Control
@@ -86,17 +54,20 @@ const CreateForm = ({
         {errors.entry?.message && (
           <Form.Control.Feedback type="invalid">{errors.entry?.message}</Form.Control.Feedback>
         )}
-        <Form.Text muted>Code that you want to share or questions that you want to ask.</Form.Text>
+        <Form.Text muted>
+          Code that you want to share or questions that you want to ask. Write in markdown/text
+          form.
+        </Form.Text>
       </FloatingLabel>
       <FormGroup className="my-5">
         <Row>
           <Col>
-            <Button variant="info" size="lg" type="submit" onClick={() => postMutation.reset()}>
-              SUBMIT POST
+            <Button variant="info" size="lg" type="submit" onClick={() => updateMutation.reset()}>
+              UPDATE POST
             </Button>
           </Col>
           <Col>
-            <Button variant="light" size="lg" type="button" onClick={() => resetForm()}>
+            <Button variant="light" size="lg" type="button" onClick={() => reset()}>
               RESET FORM
             </Button>
           </Col>
@@ -106,4 +77,4 @@ const CreateForm = ({
   )
 }
 
-export default CreateForm
+export default UpdateSnippetForm

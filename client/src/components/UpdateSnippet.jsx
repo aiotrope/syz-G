@@ -18,8 +18,8 @@ import { jwt_atom } from '../recoil/auth'
 import { userKeys, postKeys } from '../services/queryKeyFactory'
 
 const Loader = lazy(() => import('./misc/loader'))
-const UpdateForm = lazy(() => import('./snippet/updateForm'))
-const Updated = lazy(() => import('./snippet/updated'))
+const UpdateSnippetForm = lazy(() => import('./UpdateSnippetForm'))
+const UpdatedSnippet = lazy(() => import('./UpdatedSnippet'))
 
 //
 const UpdateSnippet = () => {
@@ -152,7 +152,7 @@ const UpdateSnippet = () => {
         </Link>
       </p>
       <p>All fields are optional.</p>
-      <UpdateForm
+      <UpdateSnippetForm
         register={register}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
@@ -161,7 +161,7 @@ const UpdateSnippet = () => {
         updateMutation={updateMutation}
       />
       <div>
-        <Updated post={post} />
+        <UpdatedSnippet post={post} />
       </div>
     </Container>
   )

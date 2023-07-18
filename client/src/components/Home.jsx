@@ -11,7 +11,7 @@ import { posts_atom } from '../recoil/post'
 import { postKeys } from '../services/queryKeyFactory'
 
 const Loader = lazy(() => import('./misc/loader'))
-const List = lazy(() => import('./home/list'))
+const List = lazy(() => import('./List'))
 
 const Home = () => {
   const postsQuery = useQuery({

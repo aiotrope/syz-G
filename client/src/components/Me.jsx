@@ -20,10 +20,10 @@ import { userKeys, postKeys } from '../services/queryKeyFactory'
 
 const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
 
-const UpdateForm = lazy(() => import('./me/updateForm'))
-const UpdateAvatarForm = lazy(() => import('./me/updateAvatarForm'))
-const UpdateDestroySnippetsCreated = lazy(() => import('./me/updateDestroySnippetsCreated'))
-const AccountDeletion = lazy(() => import('./me/accountDeletion'))
+const UpdateMeForm = lazy(() => import('./UpdateMeForm'))
+const UpdateAvatarForm = lazy(() => import('./UpdateAvatarForm'))
+const UpdateDestroySnippetsCreated = lazy(() => import('./UpdateDestroySnippetsCreated'))
+const AccountDeletion = lazy(() => import('./AccountDeletion'))
 const Loader = lazy(() => import('./misc/loader'))
 
 //
@@ -201,7 +201,7 @@ const Me = () => {
         </Col>
       </Row>
       <h3>Update your profile</h3>
-      <UpdateForm
+      <UpdateMeForm
         register={register}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}

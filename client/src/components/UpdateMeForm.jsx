@@ -4,7 +4,7 @@ import FormGroup from 'react-bootstrap/FormGroup'
 import FormLabel from 'react-bootstrap/FormLabel'
 import Button from 'react-bootstrap/Button'
 
-const UpdateForm = ({ handleSubmit, onSubmit, register, errors, user }) => {
+const UpdateMeForm = ({ handleSubmit, onSubmit, register, errors, user }) => {
   return (
     <Form className="mt-2 mb-4" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>
       <FormGroup className="mb-2">
@@ -60,4 +60,4 @@ const UpdateForm = ({ handleSubmit, onSubmit, register, errors, user }) => {
   )
 }
 
-export default UpdateForm
+export default UpdateMeForm

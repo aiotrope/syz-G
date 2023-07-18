@@ -14,7 +14,7 @@ import { user_atom } from '../recoil/auth'
 import { userKeys } from '../services/queryKeyFactory'
 
 const Loader = lazy(() => import('./misc/loader'))
-const SnippetsCreated = lazy(() => import('./me/snippetsCreated'))
+const SnippetsCreated = lazy(() => import('./SnippetsCreated'))
 
 const User = () => {
   const { id } = useParams()

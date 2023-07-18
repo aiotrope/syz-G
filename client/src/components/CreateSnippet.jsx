@@ -16,8 +16,8 @@ import { jwt_atom } from '../recoil/auth'
 
 import { userKeys, postKeys } from '../services/queryKeyFactory'
 
-const CreateForm = lazy(() => import('./snippet/createForm'))
-const Created = lazy(() => import('./snippet/created'))
+const CreateSnippetForm = lazy(() => import('./CreateSnippetForm'))
+const CreatedSnippet = lazy(() => import('./CreatedSnippet'))
 const Loader = lazy(() => import('./misc/loader'))
 
 const schema = yup
@@ -118,7 +118,7 @@ const CreateSnippet = () => {
     <Stack className="col-md-9 mx-auto">
       <h2>Create Snippet</h2>
       <p>All fields are required to fill-in.</p>
-      <CreateForm
+      <CreateSnippetForm
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
         register={register}
@@ -131,7 +131,7 @@ const CreateSnippet = () => {
       />
       {post.entry ? (
         <>
-          <Created post={post} />
+          <CreatedSnippet post={post} />
         </>
       ) : null}
     </Stack>

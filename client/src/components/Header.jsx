@@ -4,9 +4,9 @@ import { useRecoilValue } from 'recoil'
 //import { authService } from '../services/auth'
 import { jwt_atom } from '../recoil/auth'
 
-const AuthTopNav = lazy(() => import('./headers/AuthTopNav'))
+const AuthTopNav = lazy(() => import('./AuthTopNav'))
 
-const UnauthTopNav = lazy(() => import('./headers/UnauthTopNav'))
+const UnauthTopNav = lazy(() => import('./UnauthTopNav'))
 
 const Header = () => {
   //const access = authService.getAccessToken()

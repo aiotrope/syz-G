@@ -8,9 +8,9 @@ import rehypeRaw from 'rehype-raw'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-const Highlighter = lazy(() => import('../misc/highlighter'))
+const Highlighter = lazy(() => import('./misc/highlighter'))
 
-const Updated = ({ post }) => {
+const UpdatedSnippet = ({ post }) => {
   return (
     <>
       <Row className="my-3">
@@ -49,4 +49,4 @@ const Updated = ({ post }) => {
   )
 }
 
-export default Updated
+export default UpdatedSnippet

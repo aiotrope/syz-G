@@ -13,7 +13,7 @@ import { authService } from '../services/auth'
 import { jwt_atom } from '../recoil/auth'
 import { userKeys, postKeys } from '../services/queryKeyFactory'
 
-const LoginForm = lazy(() => import('./login/loginForm'))
+const LoginForm = lazy(() => import('./LoginForm'))
 const Loader = lazy(() => import('./misc/loader'))
 
 const schema = yup

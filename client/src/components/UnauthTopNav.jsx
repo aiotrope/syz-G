@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Badge from 'react-bootstrap/Badge'
 
-const LoginNotification = lazy(() => import('../misc/loginNotification'))
+const LoginNotification = lazy(() => import('./misc/loginNotification'))
 
 const UnAuthTopNav = () => {
   const [modalShow, setModalShow] = useState(false)

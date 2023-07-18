@@ -1,4 +1,3 @@
-//import { Suspense } from 'react'
 import { Link } from 'react-router-dom'
 
 import Row from 'react-bootstrap/Row'
@@ -7,9 +6,9 @@ import Badge from 'react-bootstrap/Badge'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import Highlighter from '../misc/highlighter'
+import Highlighter from './misc/highlighter'
 
-const Created = ({ post }) => {
+const CreatedSnippet = ({ post }) => {
   console.log(post)
   return (
     <div>
@@ -50,4 +49,4 @@ const Created = ({ post }) => {
   )
 }
 
-export default Created
+export default CreatedSnippet

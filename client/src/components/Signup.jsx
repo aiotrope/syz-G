@@ -26,7 +26,7 @@ const schema = yup
 
 const Loader = lazy(() => import('./misc/loader'))
 
-const SignupForm = lazy(() => import('./signup/signupForm'))
+const SignupForm = lazy(() => import('./SignupForm'))
 
 const Signup = () => {
   const queryClient = useQueryClient()
