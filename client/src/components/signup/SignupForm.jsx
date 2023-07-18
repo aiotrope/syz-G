@@ -4,7 +4,7 @@ import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
 import FormLabel from 'react-bootstrap/FormLabel'
 
-export const SignupForm = ({ handleSubmit, onSubmit, register, errors, reset }) => {
+const SignupForm = ({ handleSubmit, onSubmit, register, errors, reset }) => {
   return (
     <Form className="mt-2" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>
       <FormGroup className="mb-3">
@@ -87,3 +87,5 @@ export const SignupForm = ({ handleSubmit, onSubmit, register, errors, reset }) 
     </Form>
   )
 }
+
+export default SignupForm

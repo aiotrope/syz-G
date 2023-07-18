@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 
-export const NotFound = () => {
+const NotFound = () => {
   const location = useLocation()
   return (
     <Container className="wrapper">
@@ -13,3 +13,5 @@ export const NotFound = () => {
     </Container>
   )
 }
+
+export default NotFound

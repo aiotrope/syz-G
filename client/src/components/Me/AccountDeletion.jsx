@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button'
 
-export const AccountDeletion = ({ handleDeleteAccount }) => {
+const AccountDeletion = ({ handleDeleteAccount }) => {
   return (
     <>
       <p>This action will delete your account profile, posts and comments from our records.</p>
@@ -10,3 +10,5 @@ export const AccountDeletion = ({ handleDeleteAccount }) => {
     </>
   )
 }
+
+export default AccountDeletion

@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/esm/Row'
 import Col from 'react-bootstrap/esm/Col'
 
-export const CreateForm = ({
+const CreateForm = ({
   handleSubmit,
   onSubmit,
   register,
@@ -105,3 +105,5 @@ export const CreateForm = ({
     </Form>
   )
 }
+
+export default CreateForm

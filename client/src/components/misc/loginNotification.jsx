@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Stack from 'react-bootstrap/Stack'
 
-export const LoginNotification = (props) => {
+const LoginNotification = (props) => {
   return (
     <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
@@ -30,3 +30,5 @@ export const LoginNotification = (props) => {
     </Modal>
   )
 }
+
+export default LoginNotification

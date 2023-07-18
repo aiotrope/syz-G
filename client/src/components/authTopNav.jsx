@@ -11,7 +11,7 @@ import { toast } from 'react-toastify'
 
 import { jwt_atom, user_atom } from '../recoil/auth'
 
-export const AuthTopNav = () => {
+const AuthTopNav = () => {
   const resetJWTAtom = useResetRecoilState(jwt_atom)
   const token = useRecoilValue(jwt_atom)
 
@@ -51,8 +51,8 @@ export const AuthTopNav = () => {
               {userState.avatar ? (
                 <LinkContainer to="/me">
                   <Image
-                    src={userState.avatar}
-                    alt={`Profile photo of ${userState.username}`}
+                    src={userState?.avatar}
+                    alt={`Profile photo of ${userState?.username}`}
                     rounded
                     height={30}
                     width={30}
@@ -62,7 +62,7 @@ export const AuthTopNav = () => {
               ) : (
                 <>
                   <LinkContainer to="/me" className="username text-danger">
-                    <Nav.Link>{decoded.username}</Nav.Link>
+                    <Nav.Link>{decoded?.username}</Nav.Link>
                   </LinkContainer>
                 </>
               )}
@@ -79,3 +79,5 @@ export const AuthTopNav = () => {
     </header>
   )
 }
+
+export default AuthTopNav

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, lazy } from 'react'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil'
 import { useForm } from 'react-hook-form'
@@ -12,12 +12,6 @@ import { toast } from 'react-toastify'
 import moment from 'moment'
 import jwtDecode from 'jwt-decode'
 
-import { UpdateForm } from './me/updateForm'
-import { UpdateAvatarForm } from './me/updateAvatarForm'
-import { UpdateDestroySnippetsCreated } from './me/updateDestroySnippetsCreated'
-import { AccountDeletion } from './me/accountDeletion'
-
-import Loader from './misc/loader'
 import { userService } from '../services/user'
 import { convertBase64 } from '../services/misc'
 import { user_atom } from '../recoil/auth'
@@ -26,7 +20,13 @@ import { userKeys, postKeys } from '../services/queryKeyFactory'
 
 const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
 
-export const Me = () => {
+const UpdateForm = lazy(() => import('./me/updateForm'))
+const UpdateAvatarForm = lazy(() => import('./me/updateAvatarForm'))
+const UpdateDestroySnippetsCreated = lazy(() => import('./me/updateDestroySnippetsCreated'))
+const AccountDeletion = lazy(() => import('./me/accountDeletion'))
+const Loader = lazy(() => import('./misc/loader'))
+
+const Me = () => {
   const queryClient = useQueryClient()
 
   const setUser = useSetRecoilState(user_atom)
@@ -48,9 +48,9 @@ export const Me = () => {
     let mounted = true
 
     const prepareUser = async () => {
-      if (userQuery.data && mounted) {
+      if (userQuery?.data && mounted) {
         setUser({
-          ...userQuery.data,
+          ...userQuery?.data,
         })
       }
     }
@@ -59,7 +59,7 @@ export const Me = () => {
     return () => {
       mounted = false
     }
-  }, [setUser, userQuery.data])
+  }, [setUser, userQuery?.data])
 
   const schema = yup.object({
     username: yup.string().trim().matches(username_regex).default(user.username).notRequired(),
@@ -131,12 +131,12 @@ export const Me = () => {
     try {
       const result = await userMutation.mutateAsync(data)
       if (result) {
-        console.log(result.user)
-        toast.success(result.message, { theme: 'colored' })
+        console.log(result?.user)
+        toast.success(result?.message, { theme: 'colored' })
         setUser(result.user)
       }
     } catch (err) {
-      toast.error(err.response.data.error, { theme: 'colored' })
+      toast.error(err?.response?.data?.error, { theme: 'colored' })
     }
   }
 
@@ -184,7 +184,7 @@ export const Me = () => {
         </div>
         <Col className="my-4">
           <Image
-            src={user.avatar}
+            src={user?.avatar}
             alt={`Profile photo of ${user.username}`}
             thumbnail
             height={80}
@@ -194,8 +194,8 @@ export const Me = () => {
       </Row>
       <Row>
         <Col md="auto">
-          <p>Created: {moment(user.createdAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
-          <p>Updated: {moment(user.updatedAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
+          <p>Created: {moment(user?.createdAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
+          <p>Updated: {moment(user?.updatedAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
         </Col>
       </Row>
       <h3>Update your profile</h3>
@@ -233,3 +233,5 @@ export const Me = () => {
     </Container>
   )
 }
+
+export default Me

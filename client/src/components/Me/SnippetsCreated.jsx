@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import ListGroup from 'react-bootstrap/ListGroup'
 
-export const SnippetsCreated = ({ user }) => {
+const SnippetsCreated = ({ user }) => {
   return (
     <>
       {user?.posts ? (
@@ -21,3 +21,5 @@ export const SnippetsCreated = ({ user }) => {
     </>
   )
 }
+
+export default SnippetsCreated

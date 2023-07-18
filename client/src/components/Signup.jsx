@@ -1,3 +1,4 @@
+import { lazy } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
@@ -6,9 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import Stack from 'react-bootstrap/Stack'
 import { toast } from 'react-toastify'
-
-import Loader from './misc/loader'
-import { SignupForm } from './signup/signupForm'
 
 import { authService } from '../services/auth'
 import { userKeys, postKeys } from '../services/queryKeyFactory'
@@ -26,7 +24,11 @@ const schema = yup
   })
   .required()
 
-export const Signup = () => {
+const Loader = lazy(() => import('./misc/loader'))
+
+const SignupForm = lazy(() => import('./signup/signupForm'))
+
+const Signup = () => {
   const queryClient = useQueryClient()
   const { isLoading, reset, mutateAsync } = useMutation({
     mutationFn: authService.createUser,
@@ -86,3 +88,5 @@ export const Signup = () => {
     </Stack>
   )
 }
+
+export default Signup

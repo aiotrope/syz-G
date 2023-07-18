@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, lazy } from 'react'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useParams, Link } from 'react-router-dom'
@@ -12,15 +12,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Container from 'react-bootstrap/Container'
 import { toast } from 'react-toastify'
 
-import { UpdateForm } from './snippet/updateForm'
-import { Updated } from './snippet/updated'
 import { postService } from '../services/post'
 import { posts_atom, post_atom } from '../recoil/post'
 import { jwt_atom } from '../recoil/auth'
 import { userKeys, postKeys } from '../services/queryKeyFactory'
-import Loader from './misc/loader'
 
-export const UpdateSnippet = () => {
+const Loader = lazy(() => import('./misc/loader'))
+const UpdateForm = lazy(() => import('./snippet/updateForm'))
+const Updated = lazy(() => import('./snippet/updated'))
+
+const UpdateSnippet = () => {
   const queryClient = useQueryClient()
 
   const { id } = useParams()
@@ -35,11 +36,11 @@ export const UpdateSnippet = () => {
 
   const post = useRecoilValue(post_atom)
 
-  const postQuery = useQuery([postKeys.detail(id), id], () => postService.getPostById(id))
+  const postQuery = useQuery([postKeys?.detail(id), id], () => postService?.getPostById(id))
 
   const postsQuery = useQuery({
-    queryKey: postKeys.all,
-    queryFn: postService.getAll,
+    queryKey: postKeys?.all,
+    queryFn: postService?.getAll,
   })
 
   const updateMutation = useMutation({
@@ -86,8 +87,8 @@ export const UpdateSnippet = () => {
     let mounted = true
 
     const preparePosts = async () => {
-      if (postsQuery.data && mounted) {
-        setPosts(postsQuery.data)
+      if (postsQuery?.data && mounted) {
+        setPosts(postsQuery?.data)
       }
     }
     preparePosts()
@@ -101,8 +102,8 @@ export const UpdateSnippet = () => {
     let mounted = true
 
     const preparePost = async () => {
-      if (postQuery.data && mounted) {
-        setPost(postQuery.data)
+      if (postQuery?.data && mounted) {
+        setPost(postQuery?.data)
       }
     }
     preparePost()
@@ -110,7 +111,7 @@ export const UpdateSnippet = () => {
     return () => {
       mounted = false
     }
-  }, [postQuery.data, setPost])
+  }, [postQuery?.data, setPost])
 
   const onSubmit = async (formData) => {
     try {
@@ -164,3 +165,5 @@ export const UpdateSnippet = () => {
     </Container>
   )
 }
+
+export default UpdateSnippet

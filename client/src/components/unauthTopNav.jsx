@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import { useState, lazy } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Badge from 'react-bootstrap/Badge'
 
-import { LoginNotification } from './misc/loginNotification'
+const LoginNotification = lazy(() => import('./misc/loginNotification'))
 
-export const UnAuthTopNav = () => {
+const UnAuthTopNav = () => {
   const [modalShow, setModalShow] = useState(false)
 
   return (
@@ -49,3 +49,5 @@ export const UnAuthTopNav = () => {
     </>
   )
 }
+
+export default UnAuthTopNav

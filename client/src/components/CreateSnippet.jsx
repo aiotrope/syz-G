@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, lazy } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useForm } from 'react-hook-form'
@@ -13,10 +13,12 @@ import { toast } from 'react-toastify'
 import { postService } from '../services/post'
 import { post_atom, posts_atom } from '../recoil/post'
 import { jwt_atom } from '../recoil/auth'
-import { CreateForm } from './snippet/createForm'
-import { Created } from './snippet/created'
-import Loader from './misc/loader'
+
 import { userKeys, postKeys } from '../services/queryKeyFactory'
+
+const CreateForm = lazy(() => import('./snippet/createForm'))
+const Created = lazy(() => import('./snippet/created'))
+const Loader = lazy(() => import('./misc/loader'))
 
 const schema = yup
   .object({
@@ -26,7 +28,7 @@ const schema = yup
   })
   .required()
 
-export const CreateSnippet = () => {
+const CreateSnippet = () => {
   const [tag, setTag] = useState([])
 
   const queryClient = useQueryClient()
@@ -135,3 +137,5 @@ export const CreateSnippet = () => {
     </Stack>
   )
 }
+
+export default CreateSnippet

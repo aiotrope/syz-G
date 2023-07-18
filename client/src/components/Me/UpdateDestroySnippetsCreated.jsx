@@ -5,7 +5,7 @@ import Badge from 'react-bootstrap/Badge'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 
-export const UpdateDestroySnippetsCreated = ({
+const UpdateDestroySnippetsCreated = ({
   user,
   queryClient,
   useMutation,
@@ -74,3 +74,5 @@ export const UpdateDestroySnippetsCreated = ({
     </>
   )
 }
+
+export default UpdateDestroySnippetsCreated

@@ -4,7 +4,7 @@ import FormGroup from 'react-bootstrap/FormGroup'
 import FormLabel from 'react-bootstrap/FormLabel'
 import Button from 'react-bootstrap/Button'
 
-export const UpdateAvatarForm = ({ avatarForm, onAvatarFormSubmit }) => {
+const UpdateAvatarForm = ({ avatarForm, onAvatarFormSubmit }) => {
   return (
     <Form onSubmit={avatarForm.handleSubmit(onAvatarFormSubmit)} className="mt-1 mb-5">
       <h4>Update your avatar</h4>
@@ -41,3 +41,5 @@ export const UpdateAvatarForm = ({ avatarForm, onAvatarFormSubmit }) => {
     </Form>
   )
 }
+
+export default UpdateAvatarForm

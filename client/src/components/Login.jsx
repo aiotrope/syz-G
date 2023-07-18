@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, lazy } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { useForm } from 'react-hook-form'
@@ -11,9 +11,10 @@ import { toast } from 'react-toastify'
 import { authService } from '../services/auth'
 
 import { jwt_atom } from '../recoil/auth'
-import { LoginForm } from './login/loginForm'
-import Loader from './misc/loader'
 import { userKeys, postKeys } from '../services/queryKeyFactory'
+
+const LoginForm = lazy(() => import('./login/loginForm'))
+const Loader = lazy(() => import('./misc/loader'))
 
 const schema = yup
   .object({
@@ -22,7 +23,7 @@ const schema = yup
   })
   .required()
 
-export const Login = () => {
+const Login = () => {
   /* eslint-disable-next-line no-unused-vars */
   const [_, setJWT] = useRecoilState(jwt_atom)
   /* eslint-enable-next-line no-unused-vars */
@@ -57,12 +58,12 @@ export const Login = () => {
       const result = await mutateAsync(formData)
       if (result) {
         navigate('/dashboard')
-        toast.success(result.message, { theme: 'colored' })
-        setJWT(result.access)
+        toast.success(result?.message, { theme: 'colored' })
+        setJWT(result?.access)
       }
     } catch (err) {
       //console.error(err.response.data.error)
-      toast.error(err.response.data.error, { theme: 'colored' })
+      toast.error(err?.response?.data?.error, { theme: 'colored' })
     }
   }
 
@@ -102,3 +103,5 @@ export const Login = () => {
     </Stack>
   )
 }
+
+export default Login

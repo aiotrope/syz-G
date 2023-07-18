@@ -1,6 +1,6 @@
 import Container from 'react-bootstrap/Container'
 
-export const Privacy = () => {
+const Privacy = () => {
   return (
     <Container>
       <h1>Privacy Policy</h1>
@@ -341,3 +341,5 @@ export const Privacy = () => {
     </Container>
   )
 }
+
+export default Privacy

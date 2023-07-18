@@ -1,5 +1,5 @@
+import { lazy } from 'react'
 import { Link } from 'react-router-dom'
-
 import Badge from 'react-bootstrap/Badge'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
@@ -8,9 +8,9 @@ import rehypeRaw from 'rehype-raw'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-import { Highlighter } from '../misc/highlighter'
+const Highlighter = lazy(() => import('../misc/highlighter'))
 
-export const Updated = ({ post }) => {
+const Updated = ({ post }) => {
   return (
     <>
       <Row className="my-3">
@@ -48,3 +48,5 @@ export const Updated = ({ post }) => {
     </>
   )
 }
+
+export default Updated

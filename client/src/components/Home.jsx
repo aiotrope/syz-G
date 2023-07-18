@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, lazy } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useSetRecoilState, useRecoilValue } from 'recoil'
 import pkg from 'lodash'
 
 import Container from 'react-bootstrap/Container'
@@ -8,13 +8,15 @@ import Stack from 'react-bootstrap/Stack'
 
 import { postService } from '../services/post'
 import { posts_atom } from '../recoil/post'
-import { List } from './home/list'
-import Loader from './misc/loader'
+import { postKeys } from '../services/queryKeyFactory'
+
+const Loader = lazy(() => import('./misc/loader'))
+const List = lazy(() => import('./home/list'))
 
 const Home = () => {
   const postsQuery = useQuery({
-    queryKey: ['posts'],
-    queryFn: postService.getAll,
+    queryKey: postKeys.details(),
+    queryFn: postService?.getAll,
   })
 
   const setPosts = useSetRecoilState(posts_atom)
@@ -33,18 +35,18 @@ const Home = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      if (postsQuery.data && isMounted) {
-        setPosts(postsQuery.data)
+      if (postsQuery?.data && isMounted) {
+        setPosts(postsQuery?.data)
       }
     }
     fetchPosts()
-  }, [postsQuery.data, setPosts])
+  }, [postsQuery?.data, setPosts])
 
   //console.log('POSTS: ', posts)
 
   const sortedPosts = orderBy(posts, ['updatedAt'], ['desc'])
 
-  if (postsQuery.isLoading || postsQuery.isFetching || postsQuery.isInitialLoading) {
+  if (postsQuery?.isLoading || postsQuery?.isFetching || postsQuery?.isInitialLoading) {
     return <Loader />
   }
 
@@ -52,12 +54,13 @@ const Home = () => {
     <Stack>
       <Container>
         <h2>All Snippets</h2>
-        {sortedPosts.map((post) => (
-          <div key={post?.id}>
-            <List post={post} />
-            <hr />
-          </div>
-        ))}
+        {sortedPosts &&
+          sortedPosts?.map((post) => (
+            <div key={post?.id}>
+              <List post={post} />
+              <hr />
+            </div>
+          ))}
       </Container>
     </Stack>
   )

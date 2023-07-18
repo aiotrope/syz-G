@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, lazy } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useParams } from 'react-router-dom'
@@ -9,16 +9,17 @@ import Row from 'react-bootstrap/Row'
 import Stack from 'react-bootstrap/Stack'
 import moment from 'moment'
 
-import { SnippetsCreated } from './me/snippetsCreated'
 import { userService } from '../services/user'
 import { user_atom } from '../recoil/auth'
 import { userKeys } from '../services/queryKeyFactory'
-import Loader from './misc/loader'
 
-export const User = () => {
+const Loader = lazy(() => import('./misc/loader'))
+const SnippetsCreated = lazy(() => import('./me/snippetsCreated'))
+
+const User = () => {
   const { id } = useParams()
 
-  const userQuery = useQuery([userKeys.detail(id), id], () => userService.getUserById(id))
+  const userQuery = useQuery([userKeys?.detail(id), id], () => userService?.getUserById(id))
 
   const setUser = useSetRecoilState(user_atom)
 
@@ -28,9 +29,9 @@ export const User = () => {
     let mounted = true
 
     const prepareUser = async () => {
-      if (userQuery.data && mounted) {
+      if (userQuery?.data && mounted) {
         setUser({
-          ...userQuery.data,
+          ...userQuery?.data,
         })
       }
     }
@@ -39,7 +40,7 @@ export const User = () => {
     return () => {
       mounted = false
     }
-  }, [setUser, userQuery.data])
+  }, [setUser, userQuery?.data])
 
   if (userQuery.isLoading || userQuery.isFetching || userQuery.isInitialLoading) {
     return <Loader />
@@ -80,3 +81,5 @@ export const User = () => {
     </Stack>
   )
 }
+
+export default User

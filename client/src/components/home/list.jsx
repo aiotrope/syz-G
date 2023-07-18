@@ -6,9 +6,8 @@ import moment from 'moment'
 import Image from 'react-bootstrap/Image'
 import { FaHourglassStart } from 'react-icons/fa6'
 import { FaEdit } from 'react-icons/fa'
-//import { ImArrowUp, ImArrowDown } from 'react-icons/im'
 
-export const List = ({ post }) => {
+const List = ({ post }) => {
   return (
     <>
       <Row>
@@ -61,7 +60,7 @@ export const List = ({ post }) => {
           <Badge bg="primary">Comment</Badge>
         </Col>
         <Col sm={8}>
-        <Badge bg="info">UP VOTE</Badge>
+          <Badge bg="info">UP VOTE</Badge>
           {'  '}
           <Badge bg="danger">DOWN VOTE</Badge>
         </Col>
@@ -69,3 +68,5 @@ export const List = ({ post }) => {
     </>
   )
 }
+
+export default List

@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 
-export const UpdateForm = ({ handleSubmit, onSubmit, register, errors, updateMutation, reset }) => {
+const UpdateForm = ({ handleSubmit, onSubmit, register, errors, updateMutation, reset }) => {
   return (
     <Form className="mt-2" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>
       <FloatingLabel label="Snippet title" className="mb-2">
@@ -76,3 +76,5 @@ export const UpdateForm = ({ handleSubmit, onSubmit, register, errors, updateMut
     </Form>
   )
 }
+
+export default UpdateForm

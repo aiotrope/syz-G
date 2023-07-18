@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, lazy } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { Link, useParams } from 'react-router-dom'
@@ -13,20 +13,24 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Badge from 'react-bootstrap/Badge'
 
-import { Highlighter } from './misc/highlighter'
-
 import { FaHourglassStart } from 'react-icons/fa6'
 import { ImArrowUp, ImArrowDown } from 'react-icons/im'
 import { FaEdit } from 'react-icons/fa'
+import Highlighter from './misc/highlighter'
 
 import { postService } from '../services/post'
 import { post_atom } from '../recoil/post'
-import Loader from './misc/loader'
 
-export const FetchSnippet = () => {
+const Loader = lazy(() => import('./misc/loader'))
+
+//const Highlighter = lazy(() => import('./misc/highlighter'))
+
+import { postKeys } from '../services/queryKeyFactory'
+
+const FetchSnippet = () => {
   const { id } = useParams()
 
-  const postQuery = useQuery([`post-${id}`, id], () => postService.getPostById(id))
+  const postQuery = useQuery([postKeys.detail(id), id], () => postService?.getPostById(id))
 
   const setPost = useSetRecoilState(post_atom)
 
@@ -36,9 +40,9 @@ export const FetchSnippet = () => {
     let mounted = true
 
     const preparePost = async () => {
-      if (postQuery.data && mounted) {
+      if (postQuery?.data && mounted) {
         setPost({
-          ...postQuery.data,
+          ...postQuery?.data,
         })
       }
     }
@@ -49,7 +53,7 @@ export const FetchSnippet = () => {
     }
   }, [postQuery.data, setPost])
 
-  if (postQuery.isLoading || postQuery.isFetching) return <Loader />
+  if (postQuery?.isLoading || postQuery?.isFetching) return <Loader />
 
   //console.log(post)
   return (
@@ -113,3 +117,5 @@ export const FetchSnippet = () => {
     </Container>
   )
 }
+
+export default FetchSnippet
