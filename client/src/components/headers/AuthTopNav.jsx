@@ -9,7 +9,7 @@ import Badge from 'react-bootstrap/Badge'
 import Image from 'react-bootstrap/Image'
 import { toast } from 'react-toastify'
 
-import { jwt_atom, user_atom } from '../recoil/auth'
+import { jwt_atom, user_atom } from '../../recoil/auth'
 
 const AuthTopNav = () => {
   const resetJWTAtom = useResetRecoilState(jwt_atom)
