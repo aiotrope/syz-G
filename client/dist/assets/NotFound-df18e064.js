@@ -1,1 +1,0 @@
-import{j as e}from"./index-94fca464.js";import{f as s,C as t,L as a}from"./App-ff4ff5eb.js";const i=()=>{const o=s();return e.jsxs(t,{className:"wrapper",children:[e.jsx("h2",{children:"HTTP 404"}),e.jsxs("p",{children:["We don't have ",e.jsx("strong",{children:o.pathname})," route exist! Please go back to"," ",e.jsx(a,{to:"/",children:"home page"})]})]})};export{i as default};

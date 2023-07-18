@@ -9,14 +9,6 @@ import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import Highlighter from '../misc/highlighter'
 
-//const Highlighter = lazy(() => import('../misc/highlighter'))
-
-/* const HighlighterComponent = () => (
-  <Suspense>
-    <Highlighter />
-  </Suspense>
-) */
-
 const Created = ({ post }) => {
   console.log(post)
   return (
