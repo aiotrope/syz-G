@@ -24,7 +24,7 @@ var httpServer = _http.default.createServer(app);
 (0, _mongo.default)();
 app.use((0, _cookieParser.default)());
 app.use((0, _cors.default)({
-  origin: [_config.default.frontend_url, _config.default.backend_url],
+  origin: [_config.default.frontend_url, _config.default.original_frontend_url, _config.default.backend_url],
   credentials: true,
   optionsSuccessStatus: 200
 }));

@@ -31,7 +31,11 @@ app.use(cookieParser())
 
 app.use(
   cors({
-    origin: [config.frontend_url, config.backend_url],
+    origin: [
+      config.frontend_url,
+      config.original_frontend_url,
+      config.backend_url,
+    ],
     credentials: true,
     optionsSuccessStatus: 200,
   })

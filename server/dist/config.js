@@ -8,6 +8,7 @@ _dotenv.default.config({
 });
 var PORT = process.env.PORT;
 var FRONTEND_URL = process.env.FRONTEND_URL;
+var ORIGINAL_FRONTEND_URL = process.env.ORIGINAL_FRONTEND_URL;
 var BACKEND_URL = process.env.BACKEND_URL;
 var MONGO_URL = process.env.MONGO_URL;
 var MONGO_URL_TEST = process.env.MONGO_URL_TEST;
@@ -26,6 +27,7 @@ var CLOUDINARY_SECRET = process.env.CLOUDINARY_SECRET;
 var config = {
   port: PORT,
   frontend_url: FRONTEND_URL,
+  original_frontend_url: ORIGINAL_FRONTEND_URL,
   backend_url: BACKEND_URL,
   mongo_url: MONGO_URL,
   mongo_url_test: MONGO_URL_TEST,

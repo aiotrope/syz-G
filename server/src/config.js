@@ -7,6 +7,8 @@ const PORT = process.env.PORT
 
 const FRONTEND_URL = process.env.FRONTEND_URL
 
+const ORIGINAL_FRONTEND_URL = process.env.ORIGINAL_FRONTEND_URL
+
 const BACKEND_URL = process.env.BACKEND_URL
 
 const MONGO_URL = process.env.MONGO_URL
@@ -40,6 +42,7 @@ const CLOUDINARY_SECRET = process.env.CLOUDINARY_SECRET
 const config = {
   port: PORT,
   frontend_url: FRONTEND_URL,
+  original_frontend_url: ORIGINAL_FRONTEND_URL,
   backend_url: BACKEND_URL,
   mongo_url: MONGO_URL,
   mongo_url_test: MONGO_URL_TEST,
