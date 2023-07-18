@@ -5,9 +5,17 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/esm/Row'
 import Col from 'react-bootstrap/esm/Col'
 
-function CreateForm({
-  handleSubmit, onSubmit, register, errors, handleClickLang, postMutation, resetForm, tag, tagValue,
-}) {
+const CreateForm = ({
+  handleSubmit,
+  onSubmit,
+  register,
+  errors,
+  handleClickLang,
+  postMutation,
+  resetForm,
+  tag,
+  tagValue,
+}) => {
   return (
     <Form className="mt-2" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>
       <FloatingLabel label="Tag your post" className="mb-2">
@@ -18,7 +26,8 @@ function CreateForm({
           style={{ height: '2rem' }}
           aria-invalid={errors.lang?.message ? 'true' : 'false'}
           id="lang"
-          className={`${errors.lang?.message ? 'is-invalid' : ''} `} />
+          className={`${errors.lang?.message ? 'is-invalid' : ''} `}
+        />
         {errors.lang?.message && (
           <Form.Control.Feedback type="invalid">{errors.lang?.message}</Form.Control.Feedback>
         )}
@@ -41,7 +50,8 @@ function CreateForm({
           style={{ height: '1rem' }}
           aria-invalid={errors.title?.message ? 'true' : 'false'}
           id="title"
-          className={`${errors.title?.message ? 'is-invalid' : ''} `} />
+          className={`${errors.title?.message ? 'is-invalid' : ''} `}
+        />
         {errors.title?.message && (
           <Form.Control.Feedback type="invalid">{errors.title?.message}</Form.Control.Feedback>
         )}
@@ -54,7 +64,8 @@ function CreateForm({
           style={{ height: '2rem' }}
           aria-invalid={errors.description?.message ? 'true' : 'false'}
           id="description"
-          className={`${errors.description?.message ? 'is-invalid' : ''} `} />
+          className={`${errors.description?.message ? 'is-invalid' : ''} `}
+        />
         {errors.description?.message && (
           <Form.Control.Feedback type="invalid">
             {errors.description?.message}
@@ -70,7 +81,8 @@ function CreateForm({
           style={{ height: '15rem' }}
           aria-invalid={errors.entry?.message ? 'true' : 'false'}
           id="entry"
-          className={`${errors.entry?.message ? 'is-invalid' : ''} `} />
+          className={`${errors.entry?.message ? 'is-invalid' : ''} `}
+        />
         {errors.entry?.message && (
           <Form.Control.Feedback type="invalid">{errors.entry?.message}</Form.Control.Feedback>
         )}
