@@ -17,7 +17,7 @@ if (import.meta.env.MODE !== 'production') {
       <React.StrictMode>
         <Suspense
           fallback={
-            <div className="spinner-grow" role="status">
+            <div className="spinner-grow spinner" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
           }
