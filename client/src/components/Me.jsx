@@ -26,8 +26,6 @@ const UpdateDestroySnippetsCreated = lazy(() => import('./UpdateDestroySnippetsC
 const AccountDeletion = lazy(() => import('./AccountDeletion'))
 const Loader = lazy(() => import('./misc/loader'))
 
-//
-
 const Me = () => {
   const queryClient = useQueryClient()
 

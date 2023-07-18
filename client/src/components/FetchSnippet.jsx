@@ -12,18 +12,16 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Badge from 'react-bootstrap/Badge'
+import Card from 'react-bootstrap/Card'
+import ListGroup from 'react-bootstrap/ListGroup'
 
-import { FaHourglassStart } from 'react-icons/fa6'
-import { ImArrowUp, ImArrowDown } from 'react-icons/im'
-import { FaEdit } from 'react-icons/fa'
+import { FaEdit, FaUserAstronaut, FaHourglassStart } from 'react-icons/fa'
 import Highlighter from './misc/highlighter'
 
 import { postService } from '../services/post'
 import { post_atom } from '../recoil/post'
 
 const Loader = lazy(() => import('./misc/loader'))
-
-//const Highlighter = lazy(() => import('./misc/highlighter'))
 
 import { postKeys } from '../services/queryKeyFactory'
 
@@ -57,61 +55,64 @@ const FetchSnippet = () => {
 
   //console.log(post)
   return (
-    <Container>
+    <Container className="col-sm-8 mx-auto">
       <Row>
         <Col>
           <h2 className="post-title-single">{post?.title}</h2>
         </Col>
       </Row>
       <Row>
+        <Col>Posted {moment(post?.createdAt, 'YYYYMMDD').fromNow()}</Col>
+        <Col sm={6}>Modified {moment(post?.updatedAt, 'YYYYMMDD').fromNow()}</Col>
+      </Row>
+      <hr />
+
+      <Row className="my-1">
+        <Col>
+          <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]} components={Highlighter}>
+            {post?.entry}
+          </ReactMarkdown>
+        </Col>
+      </Row>
+      <Row className="my-1">
         <Col>
           {post?.tags?.map((tag, indx) => (
-            <Badge key={indx} className="mx-1">
+            <Badge key={indx} bg="info">
               {tag}
             </Badge>
           ))}
         </Col>
       </Row>
-      <Row className="justify-content-md-end">
-        <Col sm={3} className="align-self-end bg-light py-1 my-2">
-          <strong>
-            <Link to={`/user/${post.id}`} className="text-primary">
-              <Image
-                src={post?.user?.avatar}
-                alt={`Profile photo of ${postQuery?.data?.user?.username}`}
-                rounded
-                height={23}
-                width={23}
-                className="mx-1 mb-1 mt-1"
-              />{' '}
-              {post?.user?.username}
-            </Link>
-          </strong>
-          <br />
-          <small>
-            <FaHourglassStart /> {moment(post?.createdAt).format('DD.MM.YYYY, h:mm:ss a')}
-          </small>
-          <br />
-          <small>
-            <FaEdit /> {moment(post?.updatedAt).format('DD.MM.YYYY, h:mm:ss a')}
-          </small>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Badge bg="primary">Comment</Badge>
-        </Col>
-        <Col sm={8}>
-          <ImArrowUp />
-          {'  '}
-          <ImArrowDown />
-        </Col>
-      </Row>
-      <Row className="mt-2">
-        <Col>
-          <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]} components={Highlighter}>
-            {post?.entry}
-          </ReactMarkdown>
+      <Row className="justify-content-sm-end">
+        <Col sm={3} className="align-self-end">
+          <Card bg="info">
+            <Card.Header>
+              <FaHourglassStart title="Created date" aria-label="Created date" />{' '}
+              {moment(post?.createdAt).format('DD.MM.YYYY, h:mm')}
+            </Card.Header>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <FaUserAstronaut
+                  title={`Snippet created by ${post?.user?.username}`}
+                  aria-label={`Snippet created by ${post?.user?.username}`}
+                />{' '}
+                <Link to={`/user/${post?.user?.id}`}>{post?.user?.username}</Link>{' '}
+                <Link to={`/user/${post?.user?.id}`}>
+                  <Image
+                    src={post?.user?.avatar}
+                    alt={`Profile photo of ${postQuery?.data?.user?.username}`}
+                    rounded
+                    height={25}
+                    width={25}
+                  />
+                </Link>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <FaEdit title="Updated date" aria-label="Updated date" />{' '}
+                {moment(post?.updatedAt).format('DD.MM.YYYY, h:mm')}
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
         </Col>
       </Row>
     </Container>

@@ -52,7 +52,7 @@ const Home = () => {
 
   return (
     <Stack>
-      <Container>
+      <Container className="col-sm-8 mx-auto">
         <h2>All Snippets</h2>
         {sortedPosts &&
           sortedPosts?.map((post) => (

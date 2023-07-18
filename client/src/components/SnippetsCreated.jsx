@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import ListGroup from 'react-bootstrap/ListGroup'
+import Card from 'react-bootstrap/Card'
 
 const SnippetsCreated = ({ user }) => {
   return (
@@ -7,15 +8,18 @@ const SnippetsCreated = ({ user }) => {
       {user?.posts ? (
         <>
           {' '}
-          <ListGroup as="ul">
-            {user?.posts?.map(({ id, title }) => (
-              <ListGroup.Item as="li" key={id}>
-                <Link to={`/snippet/${id}`} className="post-title">
-                  {title}
-                </Link>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
+          <Card border="light">
+            <Card.Header>Snippets created</Card.Header>
+            <ListGroup as="ul">
+              {user?.posts?.map(({ id, title }) => (
+                <ListGroup.Item as="li" key={id}>
+                  <Link to={`/snippet/${id}`} className="post-title">
+                    {title}
+                  </Link>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </Card>
         </>
       ) : null}
     </>

@@ -7,7 +7,10 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Row from 'react-bootstrap/Row'
 import Stack from 'react-bootstrap/Stack'
+import Card from 'react-bootstrap/Card'
+import ListGroup from 'react-bootstrap/ListGroup'
 import moment from 'moment'
+import { FaEnvelopeSquare, FaUserAstronaut, FaBirthdayCake, FaEdit, FaLeaf } from 'react-icons/fa'
 
 import { userService } from '../services/user'
 import { user_atom } from '../recoil/auth'
@@ -48,16 +51,9 @@ const User = () => {
 
   return (
     <Stack className="col-sm-8 mx-auto">
-      <h2>{user?.username} Profile</h2>
+      <h2>Profile</h2>
       <Row>
         <Col>
-          <p>Username: {user?.username}</p>
-          <p>Email: {user?.email}</p>
-          <small>Date joined: {moment(user?.createdAt).format('DD.MM.YYYY, h:mm:ss a')}</small>
-          <br />
-          <small>Profile updated: {moment(user?.createdAt).format('DD.MM.YYYY, h:mm:ss a')}</small>
-        </Col>
-        <Col sm={2} className="align-self-end">
           <Image
             src={user?.avatar}
             alt={`Profile photo of ${user?.username}`}
@@ -65,16 +61,37 @@ const User = () => {
             height={100}
             width={100}
           />
+          <span className="mx-3 profile-user">{user?.username}</span>
         </Col>
       </Row>
-      <Row className="mt-5">
+      <Row className="my-3">
         <Col>
-          <p>{user?.bio}</p>
+          <Card bg="info">
+            <Card.Header>Info</Card.Header>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <FaUserAstronaut title={`user?.username`} aria-label={user?.username} /> {user?.username}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <FaEnvelopeSquare title={user?.email} aria-label={user?.email} /> {user?.email}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <FaLeaf title={user?.bio} aria-label={user?.bio} /> {user?.bio}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <FaBirthdayCake title="Profile created date" aria-label="Profile created date" />{' '}
+                {moment(user?.createdAt, 'YYYYMMDD').fromNow()}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <FaEdit title="Profile updated date" aria-label="Profile updated date" />{' '}
+                {moment(user?.updatedAt, 'YYYYMMDD').fromNow()}
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
         </Col>
       </Row>
-      <Row className="my-2">
+      <Row className="mb-3">
         <Col>
-          <h3>Snippets created by {user?.username}</h3>
           <SnippetsCreated user={user} />
         </Col>
       </Row>
