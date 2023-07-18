@@ -1,0 +1,1 @@
+import{j as t}from"./index-94fca464.js";import{S as o}from"./Stack-046467dd.js";import"./App-ff4ff5eb.js";const e=()=>t.jsx(o,{className:"col-lg mx-auto",children:t.jsx("h2",{children:"About Page"})});export{e as default};
