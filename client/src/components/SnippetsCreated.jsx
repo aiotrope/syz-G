@@ -9,7 +9,7 @@ const SnippetsCreated = ({ user }) => {
         <>
           {' '}
           <Card border="light">
-            <Card.Header>Snippets created</Card.Header>
+            <Card.Header>Latest Snippets</Card.Header>
             <ListGroup as="ul">
               {user?.posts?.map(({ id, title }) => (
                 <ListGroup.Item as="li" key={id}>

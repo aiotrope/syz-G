@@ -85,7 +85,7 @@ const FetchSnippet = () => {
       </Row>
       <Row className="justify-content-sm-end">
         <Col sm={3} className="align-self-end">
-          <Card bg="info">
+          <Card bg="light" border="info">
             <Card.Header>
               <FaHourglassStart title="Created date" aria-label="Created date" />{' '}
               {moment(post?.createdAt).format('DD.MM.YYYY, h:mm')}

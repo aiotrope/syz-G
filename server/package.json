@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon --exec babel-node ./src/index.js",
-    "build:server": "rimraf dist/ && babel src --out-dir dist --copy-files",
+    "build": "rimraf dist/ && babel src --out-dir dist --copy-files",
     "start": "NODE_ENV=production node ./dist/index.js",
     "format": "prettier --ignore-path .prettierignore --write \"**/*.+(js|jsx|json|md|ts|tsx|css|scss)\"",
     "linting": "eslint --ignore-path .eslintignore './**/*.{ts,mjs,js}'",
@@ -33,6 +33,7 @@
     "nocache": "^4.0.0",
     "nodemon": "^3.0.1",
     "rimraf": "^5.0.1",
+    "safe-regex": "^2.1.1",
     "winston": "^3.9.0"
   },
   "devDependencies": {

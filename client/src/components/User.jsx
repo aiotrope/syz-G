@@ -70,7 +70,8 @@ const User = () => {
             <Card.Header>Info</Card.Header>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <FaUserAstronaut title={`user?.username`} aria-label={user?.username} /> {user?.username}
+                <FaUserAstronaut title={`user?.username`} aria-label={user?.username} />{' '}
+                {user?.username}
               </ListGroup.Item>
               <ListGroup.Item>
                 <FaEnvelopeSquare title={user?.email} aria-label={user?.email} /> {user?.email}

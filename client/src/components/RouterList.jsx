@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { jwt_atom } from '../recoil/auth'
-
 const Home = lazy(() => import('./Home'))
 const About = lazy(() => import('./About'))
 const CreateSnippet = lazy(() => import('./CreateSnippet'))

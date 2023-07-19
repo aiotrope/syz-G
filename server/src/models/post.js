@@ -1,7 +1,5 @@
 import mongoose from 'mongoose'
 
-//import User from './user'
-
 const Schema = mongoose.Schema
 
 const model = mongoose.model
@@ -20,14 +18,6 @@ const PostSchema = new Schema(
       required: true,
     },
     tags: [{ type: String, trim: true, min: 1, required: true }],
-    upVote: {
-      type: Number,
-      default: 0,
-    },
-    downVote: {
-      type: Number,
-      default: 0,
-    },
     entry: {
       type: String,
       min: 10,
@@ -37,6 +27,12 @@ const PostSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },

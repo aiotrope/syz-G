@@ -13,10 +13,6 @@ export const post_atom = atom({
     description: '',
     tags: null,
     entry: null,
-    upVote: null,
-    userUpVoted: null,
-    downVote: null,
-    userDownVoted: null,
     user: {
       id: null,
       username: '',

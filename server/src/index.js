@@ -16,6 +16,7 @@ import corsMiddleware from './middlewares/cors'
 import userRouter from './routes/user'
 import indexRouter from './routes/index'
 import postRouter from './routes/post'
+import commentRouter from './routes/comment'
 
 import logger from './utils/logger'
 
@@ -62,6 +63,8 @@ app.use('/', indexRouter)
 app.use('/api/user', userRouter)
 
 app.use('/api/post', postRouter)
+
+app.use('/api/comment', commentRouter)
 
 app.use(errorMiddleware.endPoint404)
 

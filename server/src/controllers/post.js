@@ -9,6 +9,7 @@ const createPost = async (req, res) => {
   const { title } = req.body
 
   const user = req.user
+
   const foundPost = await Post.findOne({ title: title })
 
   const validData = validators.createPostSchema.validate(req.body)
@@ -48,7 +49,7 @@ const createPost = async (req, res) => {
       })
 
       return res.status(201).json({
-        message: `You created new snippet: ${createdPost.title}`,
+        message: `${user.username} created new snippet: ${createdPost.title}`,
         post: createdPost,
       })
     }
@@ -60,7 +61,9 @@ const createPost = async (req, res) => {
 const getPostById = async (req, res) => {
   const { id } = req.params
 
-  if (!id) return res.status(404).json({ error: 'Post not found' })
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: `${id} is not valid post id!` })
+  }
 
   try {
     const post = await Post.findById(id).populate('user', {
@@ -74,6 +77,9 @@ const getPostById = async (req, res) => {
       createdAt: 1,
       updatedAt: 1,
     })
+
+    if (!post) return res.status(404).json({ error: 'Post not found' })
+
     res.status(200).json(post)
   } catch (err) {
     return res.status(422).json({ error: err.message })
@@ -138,7 +144,9 @@ const updatePost = async (req, res) => {
 
     await post.save()
 
-    res.status(200).json({ message: `${post.title} updated`, post: post })
+    res
+      .status(200)
+      .json({ message: `${user.username} updated ${post.title}`, post: post })
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }

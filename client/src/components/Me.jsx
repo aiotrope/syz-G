@@ -18,7 +18,7 @@ import { user_atom } from '../recoil/auth'
 import { jwt_atom } from '../recoil/auth'
 import { userKeys, postKeys } from '../services/queryKeyFactory'
 
-const username_regex = /^[a-zA-Z0-9$&+,:;=?@#|'<>.^*()%!-{}€"'ÄöäÖØÆ`~_]{4,}$/
+const username_regex = /^[a-zA-Z0-9!@#%^&*+-=]{4,}$/
 
 const UpdateMeForm = lazy(() => import('./UpdateMeForm'))
 const UpdateAvatarForm = lazy(() => import('./UpdateAvatarForm'))
@@ -62,7 +62,7 @@ const Me = () => {
   }, [setUser, userQuery?.data])
 
   const schema = yup.object({
-    username: yup.string().trim().matches(username_regex).default(user.username).notRequired(),
+    username: yup.string().trim().matches(new RegExp(username_regex)).default(user.username).notRequired(),
     email: yup.string().email().default(user.email).notRequired(),
     bio: yup.string().default(user.bio).notRequired(),
   })
