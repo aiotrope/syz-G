@@ -4,13 +4,11 @@ import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
 import moment from 'moment'
 import Image from 'react-bootstrap/Image'
-//import { FaHourglassStart } from 'react-icons/fa6'
-//import { FaEdit } from 'react-icons/fa'
 
 const List = ({ post }) => {
   //console.log(post)
   return (
-    <>
+    <div key={post?.id}>
       <Row>
         <Col>
           <Link to={`/snippet/${post?.id}`} className="post-title">
@@ -23,9 +21,11 @@ const List = ({ post }) => {
       <Row className="mt-2">
         <Col>
           {post?.tags.map((tag, indx) => (
-            <Badge key={indx} bg="info">
-              {tag}
-            </Badge>
+            <>
+              <Badge key={indx} bg="info">
+                {tag}
+              </Badge>{' '}
+            </>
           ))}
         </Col>
       </Row>
@@ -41,15 +41,17 @@ const List = ({ post }) => {
               width={20}
             />
           </Link>{' '}
-          <small>snippet {moment(post?.createdAt, 'YYYYMMDD').fromNow()}</small>
+          <small>snippet {moment(post?.createdAt).fromNow()}</small>
         </Col>
       </Row>
       <Row>
         <Col>
-        <small><Link to="/">Add a comment</Link></small>
+          <small>
+            <Link to="/">Add a comment</Link>
+          </small>
         </Col>
       </Row>
-    </>
+    </div>
   )
 }
 

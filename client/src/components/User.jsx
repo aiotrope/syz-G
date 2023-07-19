@@ -80,11 +80,11 @@ const User = () => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <FaBirthdayCake title="Profile created date" aria-label="Profile created date" />{' '}
-                {moment(user?.createdAt, 'YYYYMMDD').fromNow()}
+                {moment(user?.createdAt).fromNow()}
               </ListGroup.Item>
               <ListGroup.Item>
                 <FaEdit title="Profile updated date" aria-label="Profile updated date" />{' '}
-                {moment(user?.updatedAt, 'YYYYMMDD').fromNow()}
+                {moment(user?.updatedAt).fromNow()}
               </ListGroup.Item>
             </ListGroup>
           </Card>

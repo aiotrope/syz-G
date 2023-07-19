@@ -12,7 +12,6 @@ const CreatedSnippet = ({ post }) => {
   console.log(post)
   return (
     <div>
-      <h3>Latest snippet post created</h3>
       <Row className="my-3">
         <Col>
           <p>
@@ -22,14 +21,14 @@ const CreatedSnippet = ({ post }) => {
             </Link>
           </p>
           <p>Description: {post?.description}</p>
-          <p>
+          <div>
             Tags:{' '}
             {post?.tags?.map((tag, indx) => (
-              <Badge key={indx} className="mx-1">
-                {tag}
-              </Badge>
+              <div key={indx}>
+                <Badge className="mx-1">{tag}</Badge>{' '}
+              </div>
             ))}
-          </p>
+          </div>
         </Col>
       </Row>
       <Row>

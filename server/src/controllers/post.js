@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { sanitize } from 'isomorphic-dompurify'
 
 import Post from '../models/post'
+import User from '../models/user'
 import validators from '../utils/validators'
 
 const createPost = async (req, res) => {
@@ -102,6 +103,8 @@ const getPosts = async (req, res) => {
 const updatePost = async (req, res) => {
   const { id } = req.params
 
+  const user = req.user
+
   const post = await Post.findById(id).populate('user', {
     id: 1,
     username: 1,
@@ -116,7 +119,7 @@ const updatePost = async (req, res) => {
 
   const validData = validators.updatePostSchema.validate(req.body)
 
-  if (post.user.id !== id)
+  if (post.user.id !== user.id)
     return res
       .status(403)
       .json({ error: `Not allowed to update ${post.title}` })
@@ -158,7 +161,7 @@ const deletePost = async (req, res) => {
     updatedAt: 1,
   })
 
-  if (post?.user.id !== user.id)
+  if (post?.user?.id !== user.id)
     return res
       .status(403)
       .json({ error: `Not allowed to delete ${post.title}` })
@@ -171,6 +174,12 @@ const deletePost = async (req, res) => {
 
   try {
     await Post.findByIdAndDelete(id)
+
+    await User.updateOne(
+      { posts: id },
+      { $pull: { posts: id } },
+      { multi: true, new: true }
+    )
 
     return res.status(204).end()
   } catch (err) {

@@ -194,8 +194,8 @@ const Me = () => {
       </Row>
       <Row>
         <Col md="auto">
-          <p>Created: {moment(user?.createdAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
-          <p>Updated: {moment(user?.updatedAt).format('DD.MM.YYYY, h:mm:ss a')}</p>
+          <p>Created: {moment(user?.createdAt).fromNow()}</p>
+          <p>Updated: {moment(user?.updatedAt).fromNow()}</p>
         </Col>
       </Row>
       <h3>Update your profile</h3>

@@ -62,8 +62,8 @@ const FetchSnippet = () => {
         </Col>
       </Row>
       <Row>
-        <Col>Posted {moment(post?.createdAt, 'YYYYMMDD').fromNow()}</Col>
-        <Col sm={6}>Modified {moment(post?.updatedAt, 'YYYYMMDD').fromNow()}</Col>
+        <Col>Posted {moment(post?.createdAt).fromNow()}</Col>
+        <Col sm={6}>Modified {moment(post?.updatedAt).fromNow()}</Col>
       </Row>
       <hr />
 
@@ -77,9 +77,9 @@ const FetchSnippet = () => {
       <Row className="my-1">
         <Col>
           {post?.tags?.map((tag, indx) => (
-            <Badge key={indx} bg="info">
-              {tag}
-            </Badge>
+            <div key={indx}>
+              <Badge bg="info">{tag}</Badge>{' '}
+            </div>
           ))}
         </Col>
       </Row>
@@ -100,7 +100,7 @@ const FetchSnippet = () => {
                 <Link to={`/user/${post?.user?.id}`}>
                   <Image
                     src={post?.user?.avatar}
-                    alt={`Profile photo of ${postQuery?.data?.user?.username}`}
+                    alt={`Profile photo of ${post?.user?.username}`}
                     rounded
                     height={25}
                     width={25}

@@ -57,15 +57,15 @@ var PostSchema = new Schema({
 PostSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
-PostSchema.pre('update', function (next) {
-  this.model('User').update({}, {
-    $pull: {
-      posts: this._id
-    }
-  }, {
-    multi: true
-  }, next);
-});
+
+/* PostSchema.pre('update', { document: true, query: false }, function (next) {
+  this.model('User').update(
+    {},
+    { $pull: { posts: this._id } },
+    { multi: true },
+    next
+  )
+}) */
 var Post = model('Post', PostSchema);
 var _default = Post;
 exports.default = _default;

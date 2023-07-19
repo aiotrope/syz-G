@@ -1,4 +1,3 @@
-import { lazy } from 'react'
 import { Link } from 'react-router-dom'
 import Badge from 'react-bootstrap/Badge'
 import ReactMarkdown from 'react-markdown'
@@ -7,8 +6,7 @@ import rehypeRaw from 'rehype-raw'
 
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-
-const Highlighter = lazy(() => import('./misc/highlighter'))
+import Highlighter from './misc/highlighter'
 
 const UpdatedSnippet = ({ post }) => {
   return (
