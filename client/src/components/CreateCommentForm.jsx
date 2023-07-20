@@ -34,7 +34,7 @@ const CreateSnippetForm = ({
           <Col>
             <Button variant="info
             " size="lg" type="submit" onClick={() => commentMutation.reset()}>
-              Create Comment
+              CREATE COMMENT
             </Button>
           </Col>
           <Col>

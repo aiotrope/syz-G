@@ -18,6 +18,7 @@ import { userKeys } from '../services/queryKeyFactory'
 
 const Loader = lazy(() => import('./misc/loader'))
 const SnippetsCreated = lazy(() => import('./SnippetsCreated'))
+const CommentsCreated = lazy(() => import('./CommentsCreated'))
 
 const User = () => {
   const { id } = useParams()
@@ -70,7 +71,7 @@ const User = () => {
             <Card.Header>Info</Card.Header>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <FaUserAstronaut title={`user?.username`} aria-label={user?.username} />{' '}
+                <FaUserAstronaut title={user?.username} aria-label={user?.username} />{' '}
                 {user?.username}
               </ListGroup.Item>
               <ListGroup.Item>
@@ -92,9 +93,14 @@ const User = () => {
           </Card>
         </Col>
       </Row>
-      <Row className="mb-3">
+      <Row className="my-2">
         <Col>
           <SnippetsCreated user={user} />
+        </Col>
+      </Row>
+      <Row className="my-2">
+        <Col>
+          <CommentsCreated user={user} useQuery={useQuery} />
         </Col>
       </Row>
     </Stack>

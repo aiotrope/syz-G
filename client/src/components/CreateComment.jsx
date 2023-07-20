@@ -22,7 +22,7 @@ import { jwt_atom } from '../recoil/auth'
 import { userKeys, postKeys, commentKeys } from '../services/queryKeyFactory'
 
 const CreateCommentForm = lazy(() => import('./CreateCommentForm'))
-const CreatedComment = lazy(() => import('./CreatedComment'))
+const CreatedOrUpdatedComment = lazy(() => import('./CreatedOrUpdatedComment'))
 const Loader = lazy(() => import('./misc/loader'))
 const baseUrl = import.meta.env.VITE_BASE_URL
 const { find } = pkg
@@ -70,25 +70,9 @@ const CreateComment = () => {
     queryFn: postService?.getAll,
   })
 
-  const commentQuery = useQuery({
-    queryKey: commentKeys.detail(commentMutation?.data?.id),
-    queryFn: commentService.getCommentById,
-  })
-
-  /* useEffect(() => {
-    let mounted = true
-
-    const prepareComments = async () => {
-      if (commentsQuery?.data && mounted) {
-        setComments(commentsQuery?.data)
-      }
-    }
-    prepareComments()
-
-    return () => {
-      mounted = false
-    }
-  }, [commentsQuery?.data, setComments]) */
+  const commentQuery = useQuery([commentKeys?.detail(postId), postId], () =>
+    commentService.getCommentsByPostId(postId)
+  )
 
   useEffect(() => {
     let mounted = true
@@ -123,6 +107,7 @@ const CreateComment = () => {
       const result = await commentMutation.mutateAsync(sanitzeData)
       if (result) {
         toast.success(result.data.message, { theme: 'colored' })
+        setComment(result.data.comment)
         reset()
       }
     } catch (err) {
@@ -134,6 +119,7 @@ const CreateComment = () => {
   const postUserName = find(postsQuery?.data, { id: postId })?.user?.username
   const postUserId = find(postsQuery?.data, { id: postId })?.user?.id
   const postCreated = find(postsQuery?.data, { id: postId })?.createdAt
+  const postCommentCount = find(postsQuery?.data, { id: postId })?.comments?.length
 
   if (
     commentMutation.isLoading ||
@@ -145,17 +131,23 @@ const CreateComment = () => {
     return <Loader />
   }
 
-  console.log(postsQuery?.data)
+  //console.log(postsQuery?.data)
+
+  console.log(comment)
 
   return (
     <Stack className="col-md-9 mx-auto">
       <h2>
         Comment about <Link to={`/snippet/${postId}`}>{postTitle}</Link>
       </h2>
-      <small>
-        Snippet by <Link to={`/user/${postUserId}`}>{postUserName}</Link> posted{' '}
-        {moment(postCreated).fromNow()}
-      </small>{' '}
+      <p>
+        <Link to={`/snippet/${postId}`}>{postTitle}</Link> by{' '}
+        <Link to={`/user/${postUserId}`}>{postUserName}</Link> posted{' '}
+        {moment(postCreated).fromNow()} .
+      </p>
+      <p>
+        {postCommentCount >= 2 ? `${postCommentCount} comments` : `${postCommentCount} comment`}
+      </p>
       <CreateCommentForm
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
@@ -166,7 +158,7 @@ const CreateComment = () => {
       />
       {comment?.commentOn ? (
         <>
-          <CreatedComment comment={comment} />
+          <CreatedOrUpdatedComment comment={comment} />
         </>
       ) : null}
     </Stack>

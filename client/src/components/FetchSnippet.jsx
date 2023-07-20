@@ -16,7 +16,7 @@ import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 
-import { FaEdit, FaUserAstronaut, FaHourglassStart } from 'react-icons/fa'
+//import { FaUserAlt } from 'react-icons/fa'
 import Highlighter from './misc/highlighter'
 
 import { postService } from '../services/post'
@@ -110,42 +110,36 @@ const FetchSnippet = () => {
         </Col>
       </Row>
       <Row className="justify-content-sm-end">
-        <Col sm={3} className="align-self-end">
+        <Col sm={4} className="align-self-end">
           <Card bg="light" border="info">
             <Card.Header>
-              <FaHourglassStart title="Snippet created date" aria-label="Snippet created date" />{' '}
-              {moment(post?.createdAt).format('DD.MM.YYYY, h:mm')}
+              Created {moment(post?.createdAt).fromNow()}
             </Card.Header>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <FaUserAstronaut
-                  title={`Snippet created by ${post?.user?.username}`}
-                  aria-label={`Snippet created by ${post?.user?.username}`}
-                />{' '}
-                <Link to={`/user/${post?.user?.id}`}>{post?.user?.username}</Link>{' '}
                 <Link to={`/user/${post?.user?.id}`}>
                   <Image
                     src={post?.user?.avatar}
                     alt={`Profile photo of ${post?.user?.username}`}
                     rounded
-                    height={25}
-                    width={25}
+                    height={23}
+                    width={23}
                   />
-                </Link>
+                </Link>{' '}
+                <Link to={`/user/${post?.user?.id}`}>{post?.user?.username}</Link>{' '}
               </ListGroup.Item>
               <ListGroup.Item>
-                <FaEdit title="Snippet updated date" aria-label="Snippet updated date" />{' '}
-                {moment(post?.updatedAt).format('DD.MM.YYYY, h:mm')}
+                Updated {moment(post?.updatedAt).format('DD.MM.YYYY, h:mm')}
               </ListGroup.Item>
             </ListGroup>
           </Card>
         </Col>
       </Row>
-      <div className='my-3'>
+      <div className="my-3">
         <Row>
           <Col>
             <Link to={`/create-comment/${post?.id}`}>
-              <Badge bg="light" text="muted">
+              <Badge bg="light" text="primary">
                 Add a comment
               </Badge>
             </Link>

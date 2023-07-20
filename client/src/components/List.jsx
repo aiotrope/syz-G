@@ -39,14 +39,14 @@ const List = ({ post }) => {
               width={20}
             />
           </Link>{' '}
-          <small>snippet {moment(post?.createdAt).fromNow()}</small>
+          <small>posted {moment(post?.createdAt).fromNow()}</small>
         </Col>
       </Row>
       <div className="mt-1">
         <Row>
           <Col>
             <Link to={`/create-comment/${post?.id}`}>
-              <Badge bg="light" text="muted">
+              <Badge bg="light" text="primary">
                 Add a comment
               </Badge>
             </Link>

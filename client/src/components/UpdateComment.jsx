@@ -1,7 +1,7 @@
 import { useEffect, lazy } from 'react'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { sanitize } from 'isomorphic-dompurify'
 import axios from 'axios'
 
@@ -19,7 +19,7 @@ import { userKeys, postKeys, commentKeys } from '../services/queryKeyFactory'
 
 const Loader = lazy(() => import('./misc/loader'))
 const UpdateCommentForm = lazy(() => import('./UpdateCommentForm'))
-const UpdatedComment = lazy(() => import('./UpdatedComment'))
+const CreatedOrUpdatedComment = lazy(() => import('./CreatedOrUpdatedComment'))
 
 const UpdateComment = () => {
   const queryClient = useQueryClient()
@@ -34,12 +34,9 @@ const UpdateComment = () => {
 
   const comment = useRecoilValue(comment_atom)
 
-  const commentQuery = useQuery([commentKeys?.detail(id), id], () => commentService?.getCommentById(id))
-
-  /* const commentsQuery = useQuery({
-    queryKey: commentKeys.all,
-    queryFn: commentService.getAll,
-  }) */
+  const commentQuery = useQuery([commentKeys?.detail(id), id], () =>
+    commentService?.getCommentById(id)
+  )
 
   const updateMutation = useMutation({
     mutationFn: async (data) =>
@@ -79,21 +76,6 @@ const UpdateComment = () => {
     reset({ ...defaultValues })
   }, [commentQuery?.data?.commentary, reset])
 
-  /* useEffect(() => {
-    let mounted = true
-
-    const prepareComments = async () => {
-      if (postsQuery?.data && mounted) {
-        setComments(postsQuery?.data)
-      }
-    }
-    prepareComments()
-
-    return () => {
-      mounted = false
-    }
-  }, [postsQuery.data, setPosts])
- */
   useEffect(() => {
     let mounted = true
 
@@ -126,22 +108,10 @@ const UpdateComment = () => {
   }
 
   if (updateMutation.isLoading) return <Loader />
-
+  console.log(comment)
   return (
     <Container className="col-md-9 mx-auto">
       <h2>Update Comment</h2>
-      <p>
-        Update comment:{' '}
-        <Link to={`/snippet/${post?.id}`} className="text-primary">
-          {post?.title}
-        </Link>
-      </p>
-      <p>
-        Posted by:{' '}
-        <Link to={`/user/${post?.user?.id}`} className="text-primary">
-          {post?.user?.username}
-        </Link>
-      </p>
       <UpdateCommentForm
         register={register}
         handleSubmit={handleSubmit}
@@ -150,9 +120,11 @@ const UpdateComment = () => {
         reset={reset}
         updateMutation={updateMutation}
       />
-      <div>
-        <UpdatedComment comment={comment} />
-      </div>
+      {comment?.commentOn ? (
+        <>
+          <CreatedOrUpdatedComment comment={comment} />
+        </>
+      ) : null}
     </Container>
   )
 }

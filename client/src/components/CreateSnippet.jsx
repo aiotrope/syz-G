@@ -71,8 +71,6 @@ const CreateSnippet = () => {
     event.preventDefault()
     const langValue = getValues('lang')
     setTag((prevState) => [...prevState, sanitize(langValue.toLowerCase())])
-    //console.log('Tag Value', tagValue)
-    //console.log('Tag', tag)
   }
 
   const resetForm = () => {

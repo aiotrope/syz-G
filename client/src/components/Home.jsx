@@ -18,6 +18,7 @@ const Home = () => {
   const postsQuery = useQuery({
     queryKey: postKeys.details(),
     queryFn: postService?.getAll,
+    refetchInterval: 6000,
   })
 
   const setPosts = useSetRecoilState(posts_atom)
@@ -52,8 +53,8 @@ const Home = () => {
   return (
     <Stack>
       <Container className="col-sm-8 mx-auto">
-        <h2>All Snippets</h2>
-        <div className='my-2'>
+        <h2>All Posts</h2>
+        <div className="my-2">
           <strong>
             {sortedPosts.length >= 2
               ? `${sortedPosts.length} snippets`

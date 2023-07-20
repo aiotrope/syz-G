@@ -289,6 +289,112 @@ const getCommentsByPostId = async (req, res) => {
     return res.status(422).json({ error: err.message })
   }
 }
+const getCommentsByMe = async (req, res) => {
+  const user = req.user
+  try {
+    const comment = await Comment.findOne({
+      commenter: user.id,
+    })
+      .populate('commenter', {
+        id: 1,
+        username: 1,
+        email: 1,
+        posts: 1,
+        comments: 1,
+        isStaff: 1,
+        avatar: 1,
+        bio: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('commentOn', {
+        id: 1,
+        title: 1,
+        tags: 1,
+        description: 1,
+        entry: 1,
+        user: 1,
+        comments: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+
+    if (!comment) return res.status(404).json({ error: 'Comment not found!' })
+
+    res.status(200).json(comment)
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
+  }
+}
+
+const getCommentsByUser = async (req, res) => {
+  const { userId } = req.params
+
+  const selectedUser = await User.findOne({ id: userId })
+    .select({
+      hashedPassword: 0,
+    })
+    .populate('posts', {
+      id: 1,
+      title: 1,
+      tags: 1,
+      description: 1,
+      entry: 1,
+      user: 1,
+      comments: 1,
+      createdAt: 1,
+      updatedAt: 1,
+    })
+    .populate('comments', {
+      id: 1,
+      commentary: 1,
+      commentOn: 1,
+      commenter: 1,
+      createdAt: 1,
+      updatedAt: 1,
+    })
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ error: `${userId} is not valid user id!` })
+  }
+
+  if (!selectedUser) return res.status(404).json({ error: 'User not found' })
+
+  try {
+    const comment = await Comment.findOne({
+      commenter: selectedUser.id,
+    })
+      .populate('commenter', {
+        id: 1,
+        username: 1,
+        email: 1,
+        posts: 1,
+        comments: 1,
+        isStaff: 1,
+        avatar: 1,
+        bio: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('commentOn', {
+        id: 1,
+        title: 1,
+        tags: 1,
+        description: 1,
+        entry: 1,
+        user: 1,
+        comments: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+
+    if (!comment) return res.status(404).json({ error: 'Comment not found!' })
+
+    res.status(200).json(comment)
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
+  }
+}
 
 const getComments = async (req, res) => {
   try {
@@ -329,7 +435,9 @@ const commentController = {
   updateComment,
   getCommentById,
   getComments,
-  getCommentsByPostId
+  getCommentsByPostId,
+  getCommentsByMe,
+  getCommentsByUser,
 }
 
 export default commentController

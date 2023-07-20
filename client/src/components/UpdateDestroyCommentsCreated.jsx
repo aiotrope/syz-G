@@ -11,26 +11,30 @@ const UpdateDestroyCommentsCreated = ({
   useMutation,
   postKeys,
   userKeys,
+  commentKeys,
   access,
+  //useQuery,
 }) => {
-  const [postId, setPostId] = useState(null)
+  const [commentId, setCommentId] = useState(null)
 
   const baseUrl = import.meta.env.VITE_BASE_URL
 
   const deleteMutation = useMutation({
     mutationFn: async () =>
-      await axios.delete(`${baseUrl}/api/post/delete/${postId}`, {
+      await axios.delete(`${baseUrl}/api/comment/delete/${commentId}`, {
         withCredentials: true,
         headers: { Authorization: `Bearer ${access}`, 'Content-Type': 'application/json' },
       }),
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: postKeys.detail(postId) })
+      queryClient.removeQueries({ queryKey: commentKeys.detail(commentId) })
+      queryClient.removeQueries({ queryKey: commentKeys.details() })
+      queryClient.removeQueries({ queryKey: commentKeys.lists() })
       queryClient.invalidateQueries({ queryKey: userKeys.details() })
       queryClient.invalidateQueries({ queryKey: userKeys.lists() })
       queryClient.invalidateQueries({ queryKey: postKeys.details() })
       queryClient.invalidateQueries({ queryKey: postKeys.lists() })
       queryClient.invalidateQueries({ queryKey: userKeys.detail(user.id) })
-      toast.info(`${postId} deleted`, { theme: 'colored' })
+      toast.info(`${commentId} deleted`, { theme: 'colored' })
     },
   })
 
@@ -39,32 +43,32 @@ const UpdateDestroyCommentsCreated = ({
 
     const targetId = event.target.id
 
-    setPostId(targetId)
+    setCommentId(targetId)
 
     try {
-      await deleteMutation.mutateAsync(postId)
+      await deleteMutation.mutateAsync(commentId)
     } catch (err) {
       toast.error(err.response.data.error, { theme: 'colored' })
     }
   }
-
+console.log(user)
   return (
     <>
       <ListGroup as="ul">
-        {user?.posts?.map(({ id, title }) => (
-          <div key={id}>
+        {user?.comments?.map((comment) => (
+          <div key={comment?.id}>
             <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
               <div className="ms-2 me-auto">
                 <div className="fw-bold">
-                  <Link to={`/snippet/${id}`} className="text-primary">
-                    {title}
+                  <Link to={`/snippet/${comment?.commentOn}`} className="text-primary">
+                    Commented on {comment?.commentary}
                   </Link>
                 </div>
                 <Badge bg="warning">
-                  <Link to={`/snippet/update/${id}`}>UPDATE</Link>
+                  <Link to={`/comment/update/${comment?.id}`}>UPDATE</Link>
                 </Badge>
               </div>
-              <Badge bg="danger" onClick={handleClickDelete} id={id}>
+              <Badge bg="danger" onClick={handleClickDelete} id={comment?.id}>
                 DELETE
               </Badge>
             </ListGroup.Item>

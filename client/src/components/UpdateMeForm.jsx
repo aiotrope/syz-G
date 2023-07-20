@@ -40,7 +40,7 @@ const UpdateMeForm = ({ handleSubmit, onSubmit, register, errors, user }) => {
         <FormLabel htmlFor="bio">Bio</FormLabel>
         <FormControl
           as="textarea"
-          rows={7}
+          rows={4}
           placeholder={user.bio}
           {...register('bio')}
           aria-invalid={errors.bio?.message ? 'true' : 'false'}

@@ -10,6 +10,14 @@ const getCommentById = async (id) => {
   if (response.status === 200 && response.data) return response.data
 }
 
+const getCommentsByUser= async (id) => {
+  const response = await axios.get(`${baseUrl}/api/comment/user/${id}`, {
+    withCredentials: true,
+  })
+
+  if (response.status === 200 && response.data) return response.data
+}
+
 const getCommentsByPostId = async (postId) => {
   const response = await axios.get(`${baseUrl}/api/comment/post/${postId}`, {
     withCredentials: true,
@@ -29,5 +37,6 @@ const getAll = async () => {
 export const commentService = {
   getCommentById,
   getCommentsByPostId,
-  getAll
+  getAll,
+  getCommentsByUser
 }

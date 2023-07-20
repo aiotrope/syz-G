@@ -32,4 +32,16 @@ router.get('/:id', commentController.getCommentById)
 
 router.get('/post/:postId', commentController.getCommentsByPostId)
 
+router.get(
+  '/me',
+  authMiddleware.tokenExtractor,
+  authMiddleware.userExtractor,
+  commentController.getCommentsByMe
+)
+
+router.get(
+  '/user/:userId',
+  commentController.getCommentsByUser
+)
+
 export default router

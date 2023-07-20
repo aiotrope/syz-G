@@ -16,13 +16,14 @@ import { userService } from '../services/user'
 import { convertBase64 } from '../services/misc'
 import { user_atom } from '../recoil/auth'
 import { jwt_atom } from '../recoil/auth'
-import { userKeys, postKeys } from '../services/queryKeyFactory'
+import { userKeys, postKeys, commentKeys } from '../services/queryKeyFactory'
 
 const username_regex = /^[a-zA-Z0-9!@#%^&*+-=]{4,}$/
 
 const UpdateMeForm = lazy(() => import('./UpdateMeForm'))
 const UpdateAvatarForm = lazy(() => import('./UpdateAvatarForm'))
 const UpdateDestroySnippetsCreated = lazy(() => import('./UpdateDestroySnippetsCreated'))
+const UpdateDestroyCommentsCreated = lazy(() => import('./UpdateDestroyCommentsCreated'))
 const AccountDeletion = lazy(() => import('./AccountDeletion'))
 const Loader = lazy(() => import('./misc/loader'))
 
@@ -164,16 +165,18 @@ const Me = () => {
 
   const snippetsByUser = user?.posts?.find((post) => post.user === decoded.id)
 
+  const commentsByUser = user?.comments?.find((comment) => comment.commenter === decoded.id)
+
   if (
     userMutation.isLoading ||
     avatarMutation.isLoading ||
-    useQuery.isLoading ||
+    userQuery.isLoading ||
     userQuery.isFetching ||
     deleteMutation.isLoading
   ) {
     return <Loader />
   }
-
+console.log(commentsByUser)
   return (
     <Container className="col-md-8 mx-auto">
       <Row>
@@ -224,6 +227,26 @@ const Me = () => {
           )}
         </Col>
       </Row>
+      <hr />
+      <div>
+        <Row>
+          <Col>
+            <h5>Comments created</h5>
+            {commentsByUser && (
+              <UpdateDestroyCommentsCreated
+                user={user}
+                queryClient={queryClient}
+                useMutation={useMutation}
+                postKeys={postKeys}
+                userKeys={userKeys}
+                commentKeys={commentKeys}
+                access={_jwt}
+                useQuery={useQuery}
+              />
+            )}
+          </Col>
+        </Row>
+      </div>
       <hr />
       <div className="my-5 d-grid gap-2">
         <h6>Account Deletion</h6>
