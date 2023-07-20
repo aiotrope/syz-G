@@ -5,14 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/esm/Row'
 import Col from 'react-bootstrap/esm/Col'
 
-const CreateSnippetForm = ({
-  handleSubmit,
-  onSubmit,
-  register,
-  errors,
-  updateMutation,
-  reset,
-}) => {
+const CreateSnippetForm = ({ handleSubmit, onSubmit, register, errors, updateMutation, reset }) => {
   return (
     <Form className="mt-2" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>
       <FloatingLabel label="Comment" className="mb-3">
@@ -32,8 +25,13 @@ const CreateSnippetForm = ({
       <FormGroup className="my-5">
         <Row>
           <Col>
-            <Button variant="info
-            " size="lg" type="submit" onClick={() => updateMutation.reset()}>
+            <Button
+              variant="info
+            "
+              size="lg"
+              type="submit"
+              onClick={() => updateMutation.reset()}
+            >
               UPDATE COMMENT
             </Button>
           </Col>

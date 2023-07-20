@@ -300,7 +300,6 @@ const deleteAccount = async (req, res) => {
 
     await Comment.deleteMany({ commenter: mongoose.Types.ObjectId(id) })
 
-
     if (!userToDelete) return res.status(404).json({ error: 'User not found' })
 
     res.status(204).end()

@@ -112,9 +112,7 @@ const FetchSnippet = () => {
       <Row className="justify-content-sm-end">
         <Col sm={4} className="align-self-end">
           <Card bg="light" border="info">
-            <Card.Header>
-              Created {moment(post?.createdAt).fromNow()}
-            </Card.Header>
+            <Card.Header>Created {moment(post?.createdAt).fromNow()}</Card.Header>
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <Link to={`/user/${post?.user?.id}`}>

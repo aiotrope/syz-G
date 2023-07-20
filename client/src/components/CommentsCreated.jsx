@@ -25,7 +25,7 @@ const CommentsCreated = ({ user }) => {
               {sortedComments &&
                 sortedComments?.map(({ id, createdAt, commentOn }) => (
                   <ListGroup.Item as="li" key={id}>
-                    <Link to={`/snippet/${commentOn }`} className="post-title">
+                    <Link to={`/snippet/${commentOn}`} className="post-title">
                       comment posted {moment(createdAt).fromNow()}
                     </Link>{' '}
                   </ListGroup.Item>

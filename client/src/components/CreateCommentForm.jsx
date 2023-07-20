@@ -32,8 +32,13 @@ const CreateSnippetForm = ({
       <FormGroup className="my-5">
         <Row>
           <Col>
-            <Button variant="info
-            " size="lg" type="submit" onClick={() => commentMutation.reset()}>
+            <Button
+              variant="info
+            "
+              size="lg"
+              type="submit"
+              onClick={() => commentMutation.reset()}
+            >
               CREATE COMMENT
             </Button>
           </Col>

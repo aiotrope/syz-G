@@ -276,12 +276,10 @@ var updateComment = /*#__PURE__*/function () {
           _context3.next = 16;
           return comment.save();
         case 16:
-          res.status(200).json({
+          return _context3.abrupt("return", res.status(200).json({
             message: "".concat(user.username, " updated ").concat(comment.id),
             comment: comment
-          });
-          _context3.next = 22;
-          break;
+          }));
         case 19:
           _context3.prev = 19;
           _context3.t0 = _context3["catch"](12);
@@ -347,9 +345,7 @@ var getCommentById = /*#__PURE__*/function () {
             error: 'Comment not found!'
           }));
         case 9:
-          res.status(200).json(comment);
-          _context4.next = 15;
-          break;
+          return _context4.abrupt("return", res.status(200).json(comment));
         case 12:
           _context4.prev = 12;
           _context4.t0 = _context4["catch"](3);
@@ -439,9 +435,7 @@ var getCommentsByPostId = /*#__PURE__*/function () {
             error: 'Comment not found!'
           }));
         case 12:
-          res.status(200).json(comment);
-          _context5.next = 18;
-          break;
+          return _context5.abrupt("return", res.status(200).json(comment));
         case 15:
           _context5.prev = 15;
           _context5.t0 = _context5["catch"](6);
@@ -458,14 +452,133 @@ var getCommentsByPostId = /*#__PURE__*/function () {
     return _ref5.apply(this, arguments);
   };
 }();
-var getComments = /*#__PURE__*/function () {
+var getCommentsByMe = /*#__PURE__*/function () {
   var _ref6 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(req, res) {
-    var comments;
+    var user, comment;
     return _regenerator.default.wrap(function _callee6$(_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
-          _context6.prev = 0;
-          _context6.next = 3;
+          user = req.user;
+          _context6.prev = 1;
+          _context6.next = 4;
+          return _comment.default.findOne({
+            commenter: user.id
+          }).populate('commenter', {
+            id: 1,
+            username: 1,
+            email: 1,
+            posts: 1,
+            comments: 1,
+            isStaff: 1,
+            avatar: 1,
+            bio: 1,
+            createdAt: 1,
+            updatedAt: 1
+          }).populate('commentOn', {
+            id: 1,
+            title: 1,
+            tags: 1,
+            description: 1,
+            entry: 1,
+            user: 1,
+            comments: 1,
+            createdAt: 1,
+            updatedAt: 1
+          });
+        case 4:
+          comment = _context6.sent;
+          if (comment) {
+            _context6.next = 7;
+            break;
+          }
+          return _context6.abrupt("return", res.status(404).json({
+            error: 'Comment not found!'
+          }));
+        case 7:
+          return _context6.abrupt("return", res.status(200).json(comment));
+        case 10:
+          _context6.prev = 10;
+          _context6.t0 = _context6["catch"](1);
+          return _context6.abrupt("return", res.status(422).json({
+            error: _context6.t0.message
+          }));
+        case 13:
+        case "end":
+          return _context6.stop();
+      }
+    }, _callee6, null, [[1, 10]]);
+  }));
+  return function getCommentsByMe(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+var getCommentsByUser = /*#__PURE__*/function () {
+  var _ref7 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(req, res) {
+    var id, user, comments;
+    return _regenerator.default.wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
+        case 0:
+          id = req.params.id;
+          _context7.next = 3;
+          return _user.default.findById(_mongoose.default.Types.ObjectId(id));
+        case 3:
+          user = _context7.sent;
+          if (user) {
+            _context7.next = 6;
+            break;
+          }
+          return _context7.abrupt("return", res.status(404).json({
+            error: 'User not found'
+          }));
+        case 6:
+          if (_mongoose.default.Types.ObjectId.isValid(id)) {
+            _context7.next = 8;
+            break;
+          }
+          return _context7.abrupt("return", res.status(400).json({
+            error: "".concat(id, " is not valid post id!")
+          }));
+        case 8:
+          _context7.prev = 8;
+          _context7.next = 11;
+          return _comment.default.find({
+            commenter: _mongoose.default.Types.ObjectId(user.id)
+          });
+        case 11:
+          comments = _context7.sent;
+          if (!comments) {
+            _context7.next = 15;
+            break;
+          }
+          console.log(comments);
+          return _context7.abrupt("return", res.status(200).json(comments));
+        case 15:
+          _context7.next = 20;
+          break;
+        case 17:
+          _context7.prev = 17;
+          _context7.t0 = _context7["catch"](8);
+          return _context7.abrupt("return", res.status(422).json({
+            error: _context7.t0.message
+          }));
+        case 20:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7, null, [[8, 17]]);
+  }));
+  return function getCommentsByUser(_x13, _x14) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+var getComments = /*#__PURE__*/function () {
+  var _ref8 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8(req, res) {
+    var comments;
+    return _regenerator.default.wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
+          _context8.prev = 0;
+          _context8.next = 3;
           return _comment.default.find({}).populate('commenter', {
             id: 1,
             username: 1,
@@ -489,22 +602,22 @@ var getComments = /*#__PURE__*/function () {
             updatedAt: 1
           });
         case 3:
-          comments = _context6.sent;
-          return _context6.abrupt("return", res.status(200).json(comments));
+          comments = _context8.sent;
+          return _context8.abrupt("return", res.status(200).json(comments));
         case 7:
-          _context6.prev = 7;
-          _context6.t0 = _context6["catch"](0);
-          return _context6.abrupt("return", res.status(422).json({
-            error: _context6.t0.message
+          _context8.prev = 7;
+          _context8.t0 = _context8["catch"](0);
+          return _context8.abrupt("return", res.status(422).json({
+            error: _context8.t0.message
           }));
         case 10:
         case "end":
-          return _context6.stop();
+          return _context8.stop();
       }
-    }, _callee6, null, [[0, 7]]);
+    }, _callee8, null, [[0, 7]]);
   }));
-  return function getComments(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function getComments(_x15, _x16) {
+    return _ref8.apply(this, arguments);
   };
 }();
 var commentController = {
@@ -513,7 +626,9 @@ var commentController = {
   updateComment: updateComment,
   getCommentById: getCommentById,
   getComments: getComments,
-  getCommentsByPostId: getCommentsByPostId
+  getCommentsByPostId: getCommentsByPostId,
+  getCommentsByMe: getCommentsByMe,
+  getCommentsByUser: getCommentsByUser
 };
 var _default = commentController;
 exports.default = _default;

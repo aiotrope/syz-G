@@ -36,8 +36,14 @@ const RouterList = () => {
         path="/snippet/update/:id"
         element={_jwt ? <UpdateSnippet /> : <Navigate to="/login" />}
       />
-      <Route path="/create-comment/:postId" element={_jwt ? <CreateComment /> : <Navigate to="/login" />} />
-      <Route path="/comment/update/:id" element={_jwt ? <UpdateComment /> : <Navigate to="/login" />} />
+      <Route
+        path="/create-comment/:postId"
+        element={_jwt ? <CreateComment /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/comment/update/:id"
+        element={_jwt ? <UpdateComment /> : <Navigate to="/login" />}
+      />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

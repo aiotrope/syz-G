@@ -61,25 +61,26 @@ const UpdateDestroyCommentsCreated = ({
   return (
     <>
       <ListGroup as="ul">
-        {sortedComments && sortedComments?.map(({ id, commentOn, createdAt }) => (
-          <div key={id}>
-            <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
-              <div className="ms-2 me-auto">
-                <div className="fw-bold">
-                  <Link to={`/snippet/${commentOn}`} className="text-primary">
-                    comment posted {moment(createdAt).fromNow()}
-                  </Link>
+        {sortedComments &&
+          sortedComments?.map(({ id, commentOn, createdAt }) => (
+            <div key={id}>
+              <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                <div className="ms-2 me-auto">
+                  <div className="fw-bold">
+                    <Link to={`/snippet/${commentOn}`} className="text-primary">
+                      comment posted {moment(createdAt).fromNow()}
+                    </Link>
+                  </div>
+                  <Badge bg="warning">
+                    <Link to={`/comment/update/${id}`}>UPDATE</Link>
+                  </Badge>
                 </div>
-                <Badge bg="warning">
-                  <Link to={`/comment/update/${id}`}>UPDATE</Link>
+                <Badge bg="danger" onClick={handleClickDelete} id={id}>
+                  DELETE
                 </Badge>
-              </div>
-              <Badge bg="danger" onClick={handleClickDelete} id={id}>
-                DELETE
-              </Badge>
-            </ListGroup.Item>
-          </div>
-        ))}
+              </ListGroup.Item>
+            </div>
+          ))}
       </ListGroup>
     </>
   )
