@@ -77,7 +77,8 @@ const User = () => {
                 <FaEnvelopeSquare title={user?.email} aria-label={user?.email} /> {user?.email}
               </ListGroup.Item>
               <ListGroup.Item>
-                <FaLeaf title={user?.bio} aria-label={user?.bio} /> {user?.bio}
+                <FaLeaf title={`${user?.username} bio`} aria-label={`${user?.username} bio`} />{' '}
+                {user?.bio}
               </ListGroup.Item>
               <ListGroup.Item>
                 <FaBirthdayCake title="Profile created date" aria-label="Profile created date" />{' '}

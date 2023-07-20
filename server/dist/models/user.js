@@ -60,6 +60,14 @@ var UserSchema = new _mongoose.Schema({
 UserSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
+UserSchema.pre('deleteMany', {
+  document: true,
+  query: false
+}, function (next) {
+  this.model('Comment').deleteOne({
+    commenter: this._id
+  }, next);
+});
 var User = (0, _mongoose.model)('User', UserSchema);
 var _default2 = User;
 exports.default = _default2;

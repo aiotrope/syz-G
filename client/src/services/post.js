@@ -1,5 +1,4 @@
 import axios from 'axios'
-//import jwtDecode from 'jwt-decode'
 
 import { authService } from './auth'
 
@@ -32,7 +31,7 @@ const getPostById = async (id) => {
   if (response.status === 200 && response.data) return response.data
 }
 
-const updatePost = async (id, data) => {
+/* const updatePost = async (id, data) => {
   const accessToken = authService.getAccessToken()
 
   const response = await axios.patch(`${baseUrl}/api/post/${id}`, data, {
@@ -52,12 +51,10 @@ const deletePost = async ({ id }) => {
   })
 
   if (response.status === 204) return response
-}
+} */
 
 export const postService = {
   getAll,
   createPost,
   getPostById,
-  updatePost,
-  deletePost,
 }

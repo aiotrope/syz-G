@@ -8,6 +8,7 @@ import mongoose from 'mongoose'
 
 import User from '../models/user'
 import Post from '../models/post'
+import Comment from '../models/comment'
 import validators from '../utils/validators'
 
 //import logger from '../utils/logger'
@@ -128,6 +129,15 @@ const getMe = async (req, res) => {
         description: 1,
         entry: 1,
         user: 1,
+        comments: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('comments', {
+        id: 1,
+        commentary: 1,
+        commentOn: 1,
+        commenter: 1,
         createdAt: 1,
         updatedAt: 1,
       })
@@ -153,6 +163,15 @@ const getUserById = async (req, res) => {
         description: 1,
         entry: 1,
         user: 1,
+        comments: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('comments', {
+        id: 1,
+        commentary: 1,
+        commentOn: 1,
+        commenter: 1,
         createdAt: 1,
         updatedAt: 1,
       })
@@ -229,6 +248,15 @@ const updateUser = async (req, res) => {
         description: 1,
         entry: 1,
         user: 1,
+        comments: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('comments', {
+        id: 1,
+        commentary: 1,
+        commentOn: 1,
+        commenter: 1,
         createdAt: 1,
         updatedAt: 1,
       })
@@ -260,10 +288,18 @@ const deleteAccount = async (req, res) => {
       .status(403)
       .json({ error: `Not allowed to update ${req.user.username}` })
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: `${id} is not valid user id!` })
+  }
   try {
-    const userToDelete = await User.findByIdAndDelete(id).populate('posts')
+    const userToDelete = await User.findByIdAndDelete(id)
+      .populate('posts')
+      .populate('comments')
 
     await Post.deleteMany({ user: mongoose.Types.ObjectId(user.id) })
+
+    await Comment.deleteMany({ commenter: mongoose.Types.ObjectId(id) })
+
 
     if (!userToDelete) return res.status(404).json({ error: 'User not found' })
 

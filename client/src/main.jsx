@@ -5,10 +5,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RecoilRoot } from 'recoil'
 
 import './sass/_index.scss'
-
 export const App = lazy(() => import('./App'))
-
-const Footer = lazy(() => import('./components/Footer'))
+const Loader = lazy(() => import('./components/misc/loader'))
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 const queryClient = new QueryClient()
@@ -18,20 +16,11 @@ if (import.meta.env.MODE !== 'production') {
     axe.default(React, ReactDOM, 1000)
     root.render(
       <React.StrictMode>
-        <Suspense
-          fallback={
-            <div className="spinner-grow" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          }
-        >
+        <Suspense fallback={<Loader />}>
           <QueryClientProvider client={queryClient}>
             <RecoilRoot>
               <BrowserRouter>
                 <App />
-                <footer>
-                  <Footer />
-                </footer>
               </BrowserRouter>
             </RecoilRoot>
           </QueryClientProvider>
@@ -42,20 +31,11 @@ if (import.meta.env.MODE !== 'production') {
 } else {
   root.render(
     <React.StrictMode>
-      <Suspense
-        fallback={
-          <div className="spinner-grow" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        }
-      >
+      <Suspense fallback={<Loader />}>
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
             <BrowserRouter>
               <App />
-              <footer>
-                <Footer />
-              </footer>
             </BrowserRouter>
           </RecoilRoot>
         </QueryClientProvider>

@@ -62,7 +62,7 @@ const Me = () => {
   }, [setUser, userQuery?.data])
 
   const schema = yup.object({
-    username: yup.string().trim().matches(new RegExp(username_regex)).default(user.username).notRequired(),
+    username: yup.string().trim().matches(username_regex).default(user.username).notRequired(),
     email: yup.string().email().default(user.email).notRequired(),
     bio: yup.string().default(user.bio).notRequired(),
   })
@@ -219,7 +219,6 @@ const Me = () => {
               useMutation={useMutation}
               postKeys={postKeys}
               userKeys={userKeys}
-              //decoded={decoded}
               access={_jwt}
             />
           )}

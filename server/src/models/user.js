@@ -58,6 +58,10 @@ UserSchema.virtual('id').get(function () {
   return this._id.toHexString()
 })
 
+UserSchema.pre('deleteMany', { document: true, query: false }, function (next) {
+  this.model('Comment').deleteOne({ commenter: this._id }, next)
+})
+
 const User = model('User', UserSchema)
 
 export default User

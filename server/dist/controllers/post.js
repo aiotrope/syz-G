@@ -69,9 +69,17 @@ var createPost = /*#__PURE__*/function () {
             username: 1,
             email: 1,
             posts: 1,
+            comments: 1,
             isStaff: 1,
             avatar: 1,
             bio: 1,
+            createdAt: 1,
+            updatedAt: 1
+          }).populate('comments', {
+            id: 1,
+            commentary: 1,
+            commentOn: 1,
+            commenter: 1,
             createdAt: 1,
             updatedAt: 1
           });
@@ -122,9 +130,17 @@ var getPostById = /*#__PURE__*/function () {
             username: 1,
             email: 1,
             posts: 1,
+            comments: 1,
             isStaff: 1,
             avatar: 1,
             bio: 1,
+            createdAt: 1,
+            updatedAt: 1
+          }).populate('comments', {
+            id: 1,
+            commentary: 1,
+            commentOn: 1,
+            commenter: 1,
             createdAt: 1,
             updatedAt: 1
           });
@@ -170,9 +186,17 @@ var getPosts = /*#__PURE__*/function () {
             username: 1,
             email: 1,
             posts: 1,
+            comments: 1,
             isStaff: 1,
             avatar: 1,
             bio: 1,
+            createdAt: 1,
+            updatedAt: 1
+          }).populate('comments', {
+            id: 1,
+            commentary: 1,
+            commentOn: 1,
+            commenter: 1,
             createdAt: 1,
             updatedAt: 1
           });
@@ -209,9 +233,17 @@ var updatePost = /*#__PURE__*/function () {
             username: 1,
             email: 1,
             posts: 1,
+            comments: 1,
             isStaff: 1,
             avatar: 1,
             bio: 1,
+            createdAt: 1,
+            updatedAt: 1
+          }).populate('comments', {
+            id: 1,
+            commentary: 1,
+            commentOn: 1,
+            commenter: 1,
             createdAt: 1,
             updatedAt: 1
           });
@@ -286,9 +318,17 @@ var deletePost = /*#__PURE__*/function () {
             username: 1,
             email: 1,
             posts: 1,
+            comments: 1,
             isStaff: 1,
             avatar: 1,
             bio: 1,
+            createdAt: 1,
+            updatedAt: 1
+          }).populate('comments', {
+            id: 1,
+            commentary: 1,
+            commentOn: 1,
+            commenter: 1,
             createdAt: 1,
             updatedAt: 1
           });

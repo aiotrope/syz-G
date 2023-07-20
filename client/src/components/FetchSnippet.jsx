@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import moment from 'moment'
+import pkg from 'lodash'
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -19,11 +20,13 @@ import { FaEdit, FaUserAstronaut, FaHourglassStart } from 'react-icons/fa'
 import Highlighter from './misc/highlighter'
 
 import { postService } from '../services/post'
+import { commentService } from '../services/comment'
 import { post_atom } from '../recoil/post'
+import { comments_atom } from '../recoil/comment'
+import { commentKeys, postKeys } from '../services/queryKeyFactory'
 
 const Loader = lazy(() => import('./misc/loader'))
-
-import { postKeys } from '../services/queryKeyFactory'
+const FetchComments = lazy(() => import('./FetchComments'))
 
 const FetchSnippet = () => {
   const { id } = useParams()
@@ -33,6 +36,14 @@ const FetchSnippet = () => {
   const setPost = useSetRecoilState(post_atom)
 
   const post = useRecoilValue(post_atom)
+
+  const setComments = useSetRecoilState(comments_atom)
+
+  const comments = useRecoilValue(comments_atom)
+
+  const commentsQuery = useQuery([commentKeys.detail(id), id], () =>
+    commentService?.getCommentsByPostId(id)
+  )
 
   useEffect(() => {
     let mounted = true
@@ -51,9 +62,24 @@ const FetchSnippet = () => {
     }
   }, [postQuery.data, setPost])
 
+  useEffect(() => {
+    let mounted = true
+
+    const prepareComments = async () => {
+      if (commentsQuery?.data && mounted) {
+        setComments(commentsQuery?.data)
+      }
+    }
+    prepareComments()
+
+    return () => {
+      mounted = false
+    }
+  }, [commentsQuery?.data, setComments])
+
   if (postQuery?.isLoading || postQuery?.isFetching) return <Loader />
 
-  //console.log(post)
+  console.log(comments)
   return (
     <Container className="col-sm-8 mx-auto">
       <Row>
@@ -87,7 +113,7 @@ const FetchSnippet = () => {
         <Col sm={3} className="align-self-end">
           <Card bg="light" border="info">
             <Card.Header>
-              <FaHourglassStart title="Created date" aria-label="Created date" />{' '}
+              <FaHourglassStart title="Snippet created date" aria-label="Snippet created date" />{' '}
               {moment(post?.createdAt).format('DD.MM.YYYY, h:mm')}
             </Card.Header>
             <ListGroup variant="flush">
@@ -108,13 +134,32 @@ const FetchSnippet = () => {
                 </Link>
               </ListGroup.Item>
               <ListGroup.Item>
-                <FaEdit title="Updated date" aria-label="Updated date" />{' '}
+                <FaEdit title="Snippet updated date" aria-label="Snippet updated date" />{' '}
                 {moment(post?.updatedAt).format('DD.MM.YYYY, h:mm')}
               </ListGroup.Item>
             </ListGroup>
           </Card>
         </Col>
       </Row>
+      <div className='my-3'>
+        <Row>
+          <Col>
+            <Link to={`/create-comment/${post?.id}`}>
+              <Badge bg="light" text="muted">
+                Add a comment
+              </Badge>
+            </Link>
+          </Col>
+        </Row>
+      </div>
+      <FetchComments
+        comments={comments}
+        pkg={pkg}
+        ReactMarkdown={ReactMarkdown}
+        rehypeRaw={rehypeRaw}
+        gfm={gfm}
+        Highlighter={Highlighter}
+      />
     </Container>
   )
 }

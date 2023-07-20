@@ -21,11 +21,9 @@ const List = ({ post }) => {
       <Row className="mt-2">
         <Col>
           {post?.tags.map((tag, indx) => (
-            <>
-              <Badge key={indx} bg="info">
-                {tag}
-              </Badge>{' '}
-            </>
+            <div key={indx}>
+              <Badge bg="info">{tag}</Badge>{' '}
+            </div>
           ))}
         </Col>
       </Row>
@@ -44,13 +42,24 @@ const List = ({ post }) => {
           <small>snippet {moment(post?.createdAt).fromNow()}</small>
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <small>
-            <Link to="/">Add a comment</Link>
-          </small>
-        </Col>
-      </Row>
+      <div className="mt-1">
+        <Row>
+          <Col>
+            <Link to={`/create-comment/${post?.id}`}>
+              <Badge bg="light" text="muted">
+                Add a comment
+              </Badge>
+            </Link>
+          </Col>
+          <Col sm={5}>
+            <small>
+              {post?.comments?.length <= 1
+                ? `${post?.comments?.length} comment`
+                : `${post?.comments?.length} comments`}
+            </small>
+          </Col>
+        </Row>
+      </div>
     </div>
   )
 }

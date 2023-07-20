@@ -36,17 +36,27 @@ const createPost = async (req, res) => {
       user.posts = user.posts.concat(post)
       await user.save()
 
-      const createdPost = await Post.findById(post.id).populate('user', {
-        id: 1,
-        username: 1,
-        email: 1,
-        posts: 1,
-        isStaff: 1,
-        avatar: 1,
-        bio: 1,
-        createdAt: 1,
-        updatedAt: 1,
-      })
+      const createdPost = await Post.findById(post.id)
+        .populate('user', {
+          id: 1,
+          username: 1,
+          email: 1,
+          posts: 1,
+          comments: 1,
+          isStaff: 1,
+          avatar: 1,
+          bio: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        })
+        .populate('comments', {
+          id: 1,
+          commentary: 1,
+          commentOn: 1,
+          commenter: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        })
 
       return res.status(201).json({
         message: `${user.username} created new snippet: ${createdPost.title}`,
@@ -66,17 +76,27 @@ const getPostById = async (req, res) => {
   }
 
   try {
-    const post = await Post.findById(id).populate('user', {
-      id: 1,
-      username: 1,
-      email: 1,
-      posts: 1,
-      isStaff: 1,
-      avatar: 1,
-      bio: 1,
-      createdAt: 1,
-      updatedAt: 1,
-    })
+    const post = await Post.findById(id)
+      .populate('user', {
+        id: 1,
+        username: 1,
+        email: 1,
+        posts: 1,
+        comments: 1,
+        isStaff: 1,
+        avatar: 1,
+        bio: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('comments', {
+        id: 1,
+        commentary: 1,
+        commentOn: 1,
+        commenter: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
 
     if (!post) return res.status(404).json({ error: 'Post not found' })
 
@@ -88,17 +108,27 @@ const getPostById = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find({}).populate('user', {
-      id: 1,
-      username: 1,
-      email: 1,
-      posts: 1,
-      isStaff: 1,
-      avatar: 1,
-      bio: 1,
-      createdAt: 1,
-      updatedAt: 1,
-    })
+    const posts = await Post.find({})
+      .populate('user', {
+        id: 1,
+        username: 1,
+        email: 1,
+        posts: 1,
+        comments: 1,
+        isStaff: 1,
+        avatar: 1,
+        bio: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('comments', {
+        id: 1,
+        commentary: 1,
+        commentOn: 1,
+        commenter: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
 
     return res.status(200).json(posts)
   } catch (err) {
@@ -111,17 +141,27 @@ const updatePost = async (req, res) => {
 
   const user = req.user
 
-  const post = await Post.findById(id).populate('user', {
-    id: 1,
-    username: 1,
-    email: 1,
-    posts: 1,
-    isStaff: 1,
-    avatar: 1,
-    bio: 1,
-    createdAt: 1,
-    updatedAt: 1,
-  })
+  const post = await Post.findById(id)
+    .populate('user', {
+      id: 1,
+      username: 1,
+      email: 1,
+      posts: 1,
+      comments: 1,
+      isStaff: 1,
+      avatar: 1,
+      bio: 1,
+      createdAt: 1,
+      updatedAt: 1,
+    })
+    .populate('comments', {
+      id: 1,
+      commentary: 1,
+      commentOn: 1,
+      commenter: 1,
+      createdAt: 1,
+      updatedAt: 1,
+    })
 
   const validData = validators.updatePostSchema.validate(req.body)
 
@@ -157,17 +197,27 @@ const deletePost = async (req, res) => {
 
   const user = req.user
 
-  const post = await Post.findById(id).populate('user', {
-    id: 1,
-    username: 1,
-    email: 1,
-    posts: 1,
-    isStaff: 1,
-    avatar: 1,
-    bio: 1,
-    createdAt: 1,
-    updatedAt: 1,
-  })
+  const post = await Post.findById(id)
+    .populate('user', {
+      id: 1,
+      username: 1,
+      email: 1,
+      posts: 1,
+      comments: 1,
+      isStaff: 1,
+      avatar: 1,
+      bio: 1,
+      createdAt: 1,
+      updatedAt: 1,
+    })
+    .populate('comments', {
+      id: 1,
+      commentary: 1,
+      commentOn: 1,
+      commenter: 1,
+      createdAt: 1,
+      updatedAt: 1,
+    })
 
   if (post?.user?.id !== user.id)
     return res

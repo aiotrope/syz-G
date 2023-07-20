@@ -11,7 +11,7 @@ import { toast } from 'react-toastify'
 import { authService } from '../services/auth'
 
 import { jwt_atom } from '../recoil/auth'
-import { userKeys, postKeys } from '../services/queryKeyFactory'
+import { userKeys, postKeys, commentKeys } from '../services/queryKeyFactory'
 
 const LoginForm = lazy(() => import('./LoginForm'))
 const Loader = lazy(() => import('./misc/loader'))
@@ -41,6 +41,8 @@ const Login = () => {
       queryClient.invalidateQueries({ queryKey: userKeys.details() })
       queryClient.invalidateQueries({ queryKey: postKeys.lists() })
       queryClient.invalidateQueries({ queryKey: postKeys.details() })
+      queryClient.invalidateQueries({ queryKey: commentKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: commentKeys.details() })
     },
   })
 

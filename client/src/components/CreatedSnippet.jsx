@@ -9,7 +9,7 @@ import rehypeRaw from 'rehype-raw'
 import Highlighter from './misc/highlighter'
 
 const CreatedSnippet = ({ post }) => {
-  console.log(post)
+  //console.log(post)
   return (
     <div>
       <Row className="my-3">

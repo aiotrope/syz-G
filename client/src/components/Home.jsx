@@ -12,6 +12,7 @@ import { postKeys } from '../services/queryKeyFactory'
 
 const Loader = lazy(() => import('./misc/loader'))
 const List = lazy(() => import('./List'))
+const { orderBy } = pkg
 
 const Home = () => {
   const postsQuery = useQuery({
@@ -22,8 +23,6 @@ const Home = () => {
   const setPosts = useSetRecoilState(posts_atom)
 
   const posts = useRecoilValue(posts_atom)
-
-  const { orderBy } = pkg
 
   const isMounted = useRef(true)
 
@@ -54,6 +53,14 @@ const Home = () => {
     <Stack>
       <Container className="col-sm-8 mx-auto">
         <h2>All Snippets</h2>
+        <div className='my-2'>
+          <strong>
+            {sortedPosts.length >= 2
+              ? `${sortedPosts.length} snippets`
+              : `${sortedPosts.length} snippet`}
+          </strong>
+        </div>
+
         {sortedPosts &&
           sortedPosts?.map((post) => (
             <div key={post?.id}>

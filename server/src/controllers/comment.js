@@ -44,24 +44,26 @@ const createComment = async (req, res) => {
       await post.save()
 
       const createdComment = await Comment.findById(comment.id)
-        .populate('user', {
+        .populate('commenter', {
           id: 1,
           username: 1,
           email: 1,
           posts: 1,
+          comments: 1,
           isStaff: 1,
           avatar: 1,
           bio: 1,
           createdAt: 1,
           updatedAt: 1,
         })
-        .populate('post', {
+        .populate('commentOn', {
           id: 1,
           title: 1,
           tags: 1,
           description: 1,
           entry: 1,
           user: 1,
+          comments: 1,
           createdAt: 1,
           updatedAt: 1,
         })
@@ -81,11 +83,12 @@ const deleteComment = async (req, res) => {
 
   const user = req.user
 
-  const comment = await Comment.findById(id).populate('user', {
+  const comment = await Comment.findById(id).populate('commenter', {
     id: 1,
     username: 1,
     email: 1,
     posts: 1,
+    comments: 1,
     isStaff: 1,
     avatar: 1,
     bio: 1,
@@ -93,7 +96,7 @@ const deleteComment = async (req, res) => {
     updatedAt: 1,
   })
 
-  if (comment?.user?.id !== user.id)
+  if (comment?.commenter?.id !== user.id)
     return res
       .status(403)
       .json({ error: `Not allowed to delete comment with ID: ${comment.id}` })
@@ -130,21 +133,34 @@ const updateComment = async (req, res) => {
 
   const user = req.user
 
-  const comment = await Comment.findById(id).populate('user', {
-    id: 1,
-    username: 1,
-    email: 1,
-    posts: 1,
-    isStaff: 1,
-    avatar: 1,
-    bio: 1,
-    createdAt: 1,
-    updatedAt: 1,
-  })
+  const comment = await Comment.findById(id)
+    .populate('commenter', {
+      id: 1,
+      username: 1,
+      email: 1,
+      posts: 1,
+      comments: 1,
+      isStaff: 1,
+      avatar: 1,
+      bio: 1,
+      createdAt: 1,
+      updatedAt: 1,
+    })
+    .populate('commentOn', {
+      id: 1,
+      title: 1,
+      tags: 1,
+      description: 1,
+      entry: 1,
+      user: 1,
+      comments: 1,
+      createdAt: 1,
+      updatedAt: 1,
+    })
 
   const validData = validators.updateCommentSchema.validate(req.body)
 
-  if (comment.user.id !== user.id)
+  if (comment.commenter.id !== user.id)
     return res
       .status(403)
       .json({ error: `Not allowed to update comment ID:  ${comment.id}` })
@@ -177,20 +193,131 @@ const getCommentById = async (req, res) => {
   }
 
   try {
-    const comment = await Comment.findById(id).populate('user', {
+    const comment = await Comment.findById(id)
+      .populate('commenter', {
+        id: 1,
+        username: 1,
+        email: 1,
+        posts: 1,
+        comments: 1,
+        isStaff: 1,
+        avatar: 1,
+        bio: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('commentOn', {
+        id: 1,
+        title: 1,
+        tags: 1,
+        description: 1,
+        entry: 1,
+        user: 1,
+        comments: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+    if (!comment) return res.status(404).json({ error: 'Comment not found!' })
+
+    res.status(200).json(comment)
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
+  }
+}
+
+const getCommentsByPostId = async (req, res) => {
+  const { postId } = req.params
+
+  const post = await Post.findById(postId)
+    .populate('user', {
       id: 1,
       username: 1,
       email: 1,
       posts: 1,
+      comments: 1,
       isStaff: 1,
       avatar: 1,
       bio: 1,
       createdAt: 1,
       updatedAt: 1,
     })
+    .populate('comments', {
+      id: 1,
+      commentary: 1,
+      commentOn: 1,
+      commenter: 1,
+      createdAt: 1,
+      updatedAt: 1,
+    })
+
+  if (!mongoose.Types.ObjectId.isValid(postId)) {
+    return res.status(400).json({ error: `${postId} is not valid post id!` })
+  }
+
+  try {
+    const comment = await Comment.find({
+      commentOn: post.id,
+    })
+      .populate('commenter', {
+        id: 1,
+        username: 1,
+        email: 1,
+        posts: 1,
+        comments: 1,
+        isStaff: 1,
+        avatar: 1,
+        bio: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('commentOn', {
+        id: 1,
+        title: 1,
+        tags: 1,
+        description: 1,
+        entry: 1,
+        user: 1,
+        comments: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+
     if (!comment) return res.status(404).json({ error: 'Comment not found!' })
 
     res.status(200).json(comment)
+  } catch (err) {
+    return res.status(422).json({ error: err.message })
+  }
+}
+
+const getComments = async (req, res) => {
+  try {
+    const comments = await Comment.find({})
+      .populate('commenter', {
+        id: 1,
+        username: 1,
+        email: 1,
+        posts: 1,
+        comments: 1,
+        isStaff: 1,
+        avatar: 1,
+        bio: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .populate('commentOn', {
+        id: 1,
+        title: 1,
+        tags: 1,
+        description: 1,
+        entry: 1,
+        user: 1,
+        comments: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+
+    return res.status(200).json(comments)
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }
@@ -201,6 +328,8 @@ const commentController = {
   deleteComment,
   updateComment,
   getCommentById,
+  getComments,
+  getCommentsByPostId
 }
 
 export default commentController

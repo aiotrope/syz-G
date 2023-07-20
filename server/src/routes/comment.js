@@ -12,8 +12,6 @@ router.post(
   commentController.createComment
 )
 
-router.get('/:id', commentController.getCommentById)
-
 router.delete(
   '/delete/:id',
   authMiddleware.tokenExtractor,
@@ -27,5 +25,11 @@ router.patch(
   authMiddleware.userExtractor,
   commentController.updateComment
 )
+
+router.get('/', commentController.getComments)
+
+router.get('/:id', commentController.getCommentById)
+
+router.get('/post/:postId', commentController.getCommentsByPostId)
 
 export default router

@@ -1,19 +1,16 @@
 import { atom } from 'recoil'
 
-export const posts_atom = atom({
-  key: 'posts_atom',
+export const comments_atom = atom({
+  key: 'comments_atom',
   default: [],
 })
 
-export const post_atom = atom({
-  key: 'post_atom',
+export const comment_atom = atom({
+  key: 'comment_atom',
   default: {
     id: null,
-    title: '',
-    description: '',
-    tags: null,
-    entry: null,
-    user: {
+    commentary: null,
+    commenter: {
       id: null,
       username: '',
       email: '',
@@ -21,14 +18,18 @@ export const post_atom = atom({
       avatar: null,
       isStaff: null,
       posts: null,
+      comments: null,
       createdAt: null,
       updatedAt: null,
     },
-    comments: {
+    commentOn: {
       id: null,
-      commentary: null,
-      commentOn: null,
-      commenter: null,
+      title: '',
+      description: '',
+      tags: null,
+      entry: null,
+      user: null,
+      comments: null,
       createdAt: null,
       updatedAt: null,
     },

@@ -13,3 +13,11 @@ export const postKeys = {
   details: () => [...postKeys.all, 'detail'],
   detail: (id) => [...postKeys.details(), id],
 }
+
+export const commentKeys = {
+  all: ['comments'],
+  lists: () => [...commentKeys.all, 'list'],
+  list: (filters) => [...commentKeys.lists(), { filters }],
+  details: () => [...commentKeys.all, 'detail'],
+  detail: (id) => [...commentKeys.details(), id],
+}

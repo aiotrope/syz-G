@@ -6,6 +6,7 @@ import './sass/_App.scss'
 
 const Header = lazy(() => import('./components/Header'))
 const RouterList = lazy(() => import('./components/RouterList'))
+const Footer = lazy(() => import('./components/Footer'))
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <RouterList />
         </Container>
       </main>
+      <Footer />
     </>
   )
 }

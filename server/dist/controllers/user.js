@@ -15,6 +15,7 @@ var _isomorphicDompurify = require("isomorphic-dompurify");
 var _mongoose = _interopRequireDefault(require("mongoose"));
 var _user = _interopRequireDefault(require("../models/user"));
 var _post = _interopRequireDefault(require("../models/post"));
+var _comment = _interopRequireDefault(require("../models/comment"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
 require('express-async-errors');
 //import logger from '../utils/logger'
@@ -240,6 +241,14 @@ var getMe = /*#__PURE__*/function () {
             description: 1,
             entry: 1,
             user: 1,
+            comments: 1,
+            createdAt: 1,
+            updatedAt: 1
+          }).populate('comments', {
+            id: 1,
+            commentary: 1,
+            commentOn: 1,
+            commenter: 1,
             createdAt: 1,
             updatedAt: 1
           });
@@ -280,6 +289,14 @@ var getUserById = /*#__PURE__*/function () {
             description: 1,
             entry: 1,
             user: 1,
+            comments: 1,
+            createdAt: 1,
+            updatedAt: 1
+          }).populate('comments', {
+            id: 1,
+            commentary: 1,
+            commentOn: 1,
+            commenter: 1,
             createdAt: 1,
             updatedAt: 1
           });
@@ -407,6 +424,14 @@ var updateUser = /*#__PURE__*/function () {
             description: 1,
             entry: 1,
             user: 1,
+            comments: 1,
+            createdAt: 1,
+            updatedAt: 1
+          }).populate('comments', {
+            id: 1,
+            commentary: 1,
+            commentOn: 1,
+            commenter: 1,
             createdAt: 1,
             updatedAt: 1
           });
@@ -461,38 +486,51 @@ var deleteAccount = /*#__PURE__*/function () {
             error: "Not allowed to update ".concat(req.user.username)
           }));
         case 4:
-          _context8.prev = 4;
-          _context8.next = 7;
-          return _user.default.findByIdAndDelete(id).populate('posts');
-        case 7:
+          if (_mongoose.default.Types.ObjectId.isValid(id)) {
+            _context8.next = 6;
+            break;
+          }
+          return _context8.abrupt("return", res.status(400).json({
+            error: "".concat(id, " is not valid user id!")
+          }));
+        case 6:
+          _context8.prev = 6;
+          _context8.next = 9;
+          return _user.default.findByIdAndDelete(id).populate('posts').populate('comments');
+        case 9:
           userToDelete = _context8.sent;
-          _context8.next = 10;
+          _context8.next = 12;
           return _post.default.deleteMany({
             user: _mongoose.default.Types.ObjectId(user.id)
           });
-        case 10:
+        case 12:
+          _context8.next = 14;
+          return _comment.default.deleteMany({
+            commenter: _mongoose.default.Types.ObjectId(id)
+          });
+        case 14:
           if (userToDelete) {
-            _context8.next = 12;
+            _context8.next = 16;
             break;
           }
           return _context8.abrupt("return", res.status(404).json({
             error: 'User not found'
           }));
-        case 12:
+        case 16:
           res.status(204).end();
-          _context8.next = 18;
+          _context8.next = 22;
           break;
-        case 15:
-          _context8.prev = 15;
-          _context8.t0 = _context8["catch"](4);
+        case 19:
+          _context8.prev = 19;
+          _context8.t0 = _context8["catch"](6);
           return _context8.abrupt("return", res.status(400).json({
             error: _context8.t0.message
           }));
-        case 18:
+        case 22:
         case "end":
           return _context8.stop();
       }
-    }, _callee8, null, [[4, 15]]);
+    }, _callee8, null, [[6, 19]]);
   }));
   return function deleteAccount(_x15, _x16) {
     return _ref8.apply(this, arguments);
