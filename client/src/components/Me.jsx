@@ -176,7 +176,7 @@ const Me = () => {
   ) {
     return <Loader />
   }
-console.log(commentsByUser)
+  console.log(commentsByUser)
   return (
     <Container className="col-md-8 mx-auto">
       <Row>
@@ -214,7 +214,11 @@ console.log(commentsByUser)
       <hr />
       <Row>
         <Col>
-          <h5>Snippets created</h5>
+          <h5>
+            {user?.posts?.length >= 2
+              ? `${user?.posts?.length} snippets created`
+              : `${user?.posts?.length} snippet created`}
+          </h5>
           {snippetsByUser && (
             <UpdateDestroySnippetsCreated
               user={user}
@@ -231,7 +235,12 @@ console.log(commentsByUser)
       <div>
         <Row>
           <Col>
-            <h5>Comments created</h5>
+            <h5>
+              {' '}
+              {user?.comments?.length >= 2
+                ? `${user?.comments?.length} comments created`
+                : `${user?.comments?.length} comment created`}
+            </h5>
             {commentsByUser && (
               <UpdateDestroyCommentsCreated
                 user={user}

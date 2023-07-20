@@ -4,6 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Badge from 'react-bootstrap/Badge'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import pkg from 'lodash'
 
 const UpdateDestroySnippetsCreated = ({
   user,
@@ -48,28 +49,34 @@ const UpdateDestroySnippetsCreated = ({
     }
   }
 
+  const { orderBy } = pkg
+
+  const sortedPosts = orderBy(user.posts, ['updatedAt'], ['desc'])
+  console.log(sortedPosts)
+
   return (
     <>
       <ListGroup as="ul">
-        {user?.posts?.map(({ id, title }) => (
-          <div key={id}>
-            <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
-              <div className="ms-2 me-auto">
-                <div className="fw-bold">
-                  <Link to={`/snippet/${id}`} className="text-primary">
-                    {title}
-                  </Link>
+        {sortedPosts &&
+          sortedPosts?.map(({ id, title }) => (
+            <div key={id}>
+              <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                <div className="ms-2 me-auto">
+                  <div className="fw-bold">
+                    <Link to={`/snippet/${id}`} className="text-primary">
+                      {title}
+                    </Link>
+                  </div>
+                  <Badge bg="warning">
+                    <Link to={`/snippet/update/${id}`}>UPDATE</Link>
+                  </Badge>
                 </div>
-                <Badge bg="warning">
-                  <Link to={`/snippet/update/${id}`}>UPDATE</Link>
+                <Badge bg="danger" onClick={handleClickDelete} id={id}>
+                  DELETE
                 </Badge>
-              </div>
-              <Badge bg="danger" onClick={handleClickDelete} id={id}>
-                DELETE
-              </Badge>
-            </ListGroup.Item>
-          </div>
-        ))}
+              </ListGroup.Item>
+            </div>
+          ))}
       </ListGroup>
     </>
   )

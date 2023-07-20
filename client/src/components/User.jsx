@@ -100,7 +100,7 @@ const User = () => {
       </Row>
       <Row className="my-2">
         <Col>
-          <CommentsCreated user={user} useQuery={useQuery} />
+          <CommentsCreated user={user} />
         </Col>
       </Row>
     </Stack>

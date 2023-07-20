@@ -40,7 +40,7 @@ router.get(
 )
 
 router.get(
-  '/user/:userId',
+  '/user/:id', // as user id
   commentController.getCommentsByUser
 )
 

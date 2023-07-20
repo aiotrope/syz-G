@@ -17,8 +17,8 @@ const SnippetsCreated = ({ user }) => {
           <Card>
             <Card.Header>
               {sortedPosts?.length >= 2
-                ? `Created ${sortedPosts?.length} snippet posts`
-                : `Created ${sortedPosts?.length} snippet post`}
+                ? `${sortedPosts?.length} snippets created`
+                : `${sortedPosts?.length} snippet created`}
             </Card.Header>
             <ListGroup as="ul">
               {sortedPosts &&

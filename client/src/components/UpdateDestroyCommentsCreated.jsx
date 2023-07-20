@@ -4,6 +4,8 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Badge from 'react-bootstrap/Badge'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import moment from 'moment'
+import pkg from 'lodash'
 
 const UpdateDestroyCommentsCreated = ({
   user,
@@ -51,24 +53,28 @@ const UpdateDestroyCommentsCreated = ({
       toast.error(err.response.data.error, { theme: 'colored' })
     }
   }
-console.log(user)
+
+  const { orderBy } = pkg
+
+  const sortedComments = orderBy(user.comments, ['updatedAt'], ['desc'])
+  //console.log(user)
   return (
     <>
       <ListGroup as="ul">
-        {user?.comments?.map((comment) => (
-          <div key={comment?.id}>
+        {sortedComments && sortedComments?.map(({ id, commentOn, createdAt }) => (
+          <div key={id}>
             <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
               <div className="ms-2 me-auto">
                 <div className="fw-bold">
-                  <Link to={`/snippet/${comment?.commentOn}`} className="text-primary">
-                    Commented on {comment?.commentary}
+                  <Link to={`/snippet/${commentOn}`} className="text-primary">
+                    comment posted {moment(createdAt).fromNow()}
                   </Link>
                 </div>
                 <Badge bg="warning">
-                  <Link to={`/comment/update/${comment?.id}`}>UPDATE</Link>
+                  <Link to={`/comment/update/${id}`}>UPDATE</Link>
                 </Badge>
               </div>
-              <Badge bg="danger" onClick={handleClickDelete} id={comment?.id}>
+              <Badge bg="danger" onClick={handleClickDelete} id={id}>
                 DELETE
               </Badge>
             </ListGroup.Item>

@@ -57,7 +57,7 @@ const UpdateComment = () => {
   })
 
   const schema = yup.object({
-    commentary: yup.string().min(4).default(commentQuery?.data?.commentary).notRequired(),
+    commentary: yup.string().min(4).default(comment?.commentary).notRequired(),
   })
 
   const {
@@ -72,9 +72,9 @@ const UpdateComment = () => {
 
   useEffect(() => {
     let defaultValues = {}
-    defaultValues.commentary = commentQuery?.data?.commentary
+    defaultValues.commentary = comment?.commentary
     reset({ ...defaultValues })
-  }, [commentQuery?.data?.commentary, reset])
+  }, [comment?.commentary, reset])
 
   useEffect(() => {
     let mounted = true
@@ -119,6 +119,7 @@ const UpdateComment = () => {
         errors={errors}
         reset={reset}
         updateMutation={updateMutation}
+        commentQuery={commentQuery}
       />
       {comment?.commentOn ? (
         <>

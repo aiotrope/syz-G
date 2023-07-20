@@ -52,11 +52,13 @@ const List = ({ post }) => {
             </Link>
           </Col>
           <Col sm={5}>
-            <small>
-              {post?.comments?.length <= 1
-                ? `${post?.comments?.length} comment`
-                : `${post?.comments?.length} comments`}
-            </small>
+            <Link to={`/snippet/${post?.id}`}>
+              <small>
+                {post?.comments?.length <= 1
+                  ? `${post?.comments?.length} comment`
+                  : `${post?.comments?.length} comments`}
+              </small>
+            </Link>
           </Col>
         </Row>
       </div>

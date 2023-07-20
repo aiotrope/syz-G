@@ -176,7 +176,7 @@ const updateComment = async (req, res) => {
 
     await comment.save()
 
-    res.status(200).json({
+    return res.status(200).json({
       message: `${user.username} updated ${comment.id}`,
       comment: comment,
     })
@@ -219,7 +219,7 @@ const getCommentById = async (req, res) => {
       })
     if (!comment) return res.status(404).json({ error: 'Comment not found!' })
 
-    res.status(200).json(comment)
+    return res.status(200).json(comment)
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }
@@ -284,7 +284,7 @@ const getCommentsByPostId = async (req, res) => {
 
     if (!comment) return res.status(404).json({ error: 'Comment not found!' })
 
-    res.status(200).json(comment)
+    return res.status(200).json(comment)
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }
@@ -321,76 +321,31 @@ const getCommentsByMe = async (req, res) => {
 
     if (!comment) return res.status(404).json({ error: 'Comment not found!' })
 
-    res.status(200).json(comment)
+    return res.status(200).json(comment)
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }
 }
 
 const getCommentsByUser = async (req, res) => {
-  const { userId } = req.params
+  const { id } = req.params
 
-  const selectedUser = await User.findOne({ id: userId })
-    .select({
-      hashedPassword: 0,
-    })
-    .populate('posts', {
-      id: 1,
-      title: 1,
-      tags: 1,
-      description: 1,
-      entry: 1,
-      user: 1,
-      comments: 1,
-      createdAt: 1,
-      updatedAt: 1,
-    })
-    .populate('comments', {
-      id: 1,
-      commentary: 1,
-      commentOn: 1,
-      commenter: 1,
-      createdAt: 1,
-      updatedAt: 1,
-    })
+  const user = await User.findById(mongoose.Types.ObjectId(id))
 
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    return res.status(400).json({ error: `${userId} is not valid user id!` })
+  if (!user) return res.status(404).json({ error: 'User not found' })
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: `${id} is not valid post id!` })
   }
 
-  if (!selectedUser) return res.status(404).json({ error: 'User not found' })
-
   try {
-    const comment = await Comment.findOne({
-      commenter: selectedUser.id,
+    const comments = await Comment.find({
+      commenter: mongoose.Types.ObjectId(user.id),
     })
-      .populate('commenter', {
-        id: 1,
-        username: 1,
-        email: 1,
-        posts: 1,
-        comments: 1,
-        isStaff: 1,
-        avatar: 1,
-        bio: 1,
-        createdAt: 1,
-        updatedAt: 1,
-      })
-      .populate('commentOn', {
-        id: 1,
-        title: 1,
-        tags: 1,
-        description: 1,
-        entry: 1,
-        user: 1,
-        comments: 1,
-        createdAt: 1,
-        updatedAt: 1,
-      })
-
-    if (!comment) return res.status(404).json({ error: 'Comment not found!' })
-
-    res.status(200).json(comment)
+    if (comments) {
+      console.log(comments)
+      return res.status(200).json(comments)
+    }
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }
