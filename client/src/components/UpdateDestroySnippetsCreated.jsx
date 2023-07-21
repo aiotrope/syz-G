@@ -52,7 +52,7 @@ const UpdateDestroySnippetsCreated = ({
   const { orderBy } = pkg
 
   const sortedPosts = orderBy(user.posts, ['updatedAt'], ['desc'])
-  console.log(sortedPosts)
+  //console.log(sortedPosts)
 
   return (
     <>

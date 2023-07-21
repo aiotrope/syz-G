@@ -133,13 +133,9 @@ const getMe = async (req, res) => {
         createdAt: 1,
         updatedAt: 1,
       })
-      .populate('comments', {
-        id: 1,
-        commentary: 1,
-        commentOn: 1,
-        commenter: 1,
-        createdAt: 1,
-        updatedAt: 1,
+      .populate({
+        path: 'comments',
+        populate: { path: 'commentOn', populate: { path: 'user' } },
       })
 
     return res.status(200).json(user)
@@ -167,13 +163,9 @@ const getUserById = async (req, res) => {
         createdAt: 1,
         updatedAt: 1,
       })
-      .populate('comments', {
-        id: 1,
-        commentary: 1,
-        commentOn: 1,
-        commenter: 1,
-        createdAt: 1,
-        updatedAt: 1,
+      .populate({
+        path: 'comments',
+        populate: { path: 'commentOn', populate: { path: 'user' } },
       })
 
     return res.status(200).json(user)

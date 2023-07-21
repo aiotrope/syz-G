@@ -11,6 +11,7 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 var _isomorphicDompurify = require("isomorphic-dompurify");
 var _post = _interopRequireDefault(require("../models/post"));
 var _user = _interopRequireDefault(require("../models/user"));
+var _comment = _interopRequireDefault(require("../models/comment"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
 var createPost = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(req, res) {
@@ -374,18 +375,23 @@ var deletePost = /*#__PURE__*/function () {
             new: true
           });
         case 16:
+          _context5.next = 18;
+          return _comment.default.deleteMany({
+            commentOn: _mongoose.default.Types.ObjectId(id)
+          });
+        case 18:
           return _context5.abrupt("return", res.status(204).end());
-        case 19:
-          _context5.prev = 19;
+        case 21:
+          _context5.prev = 21;
           _context5.t0 = _context5["catch"](11);
           return _context5.abrupt("return", res.status(422).json({
             error: _context5.t0.message
           }));
-        case 22:
+        case 24:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[11, 19]]);
+    }, _callee5, null, [[11, 21]]);
   }));
   return function deletePost(_x9, _x10) {
     return _ref5.apply(this, arguments);

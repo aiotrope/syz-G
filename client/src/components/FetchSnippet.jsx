@@ -79,7 +79,7 @@ const FetchSnippet = () => {
 
   if (postQuery?.isLoading || postQuery?.isFetching) return <Loader />
 
-  console.log(comments)
+  //console.log(comments)
   return (
     <Container className="col-sm-8 mx-auto">
       <Row>
@@ -88,8 +88,11 @@ const FetchSnippet = () => {
         </Col>
       </Row>
       <Row>
-        <Col>Posted {moment(post?.createdAt).fromNow()}</Col>
-        <Col sm={6}>Modified {moment(post?.updatedAt).fromNow()}</Col>
+        <Col sm={4}>Posted {moment(post?.createdAt).fromNow()}</Col>
+        <Col sm={4}>Modified {moment(post?.updatedAt).fromNow()}</Col>
+        <Col sm={4}>
+          {comments?.length >= 2 ? `${comments?.length} comments` : `${comments?.length} comment`}
+        </Col>
       </Row>
       <hr />
 

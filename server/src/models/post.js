@@ -45,14 +45,9 @@ PostSchema.virtual('id').get(function () {
   return this._id.toHexString()
 })
 
-/* PostSchema.pre('update', { document: true, query: false }, function (next) {
-  this.model('User').update(
-    {},
-    { $pull: { posts: this._id } },
-    { multi: true },
-    next
-  )
-}) */
+PostSchema.pre('deleteMany', { document: true, query: false }, function (next) {
+  this.model('Comment').deleteMany({ commentOn: this._id }, next)
+})
 const Post = model('Post', PostSchema)
 
 export default Post

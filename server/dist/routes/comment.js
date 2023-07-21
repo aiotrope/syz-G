@@ -12,10 +12,8 @@ var router = _express.default.Router();
 router.post('/:postId', _auth.default.tokenExtractor, _auth.default.userExtractor, _comment.default.createComment);
 router.delete('/delete/:id', _auth.default.tokenExtractor, _auth.default.userExtractor, _comment.default.deleteComment);
 router.patch('/update/:id', _auth.default.tokenExtractor, _auth.default.userExtractor, _comment.default.updateComment);
-router.get('/', _comment.default.getComments);
 router.get('/:id', _comment.default.getCommentById);
 router.get('/post/:postId', _comment.default.getCommentsByPostId);
-router.get('/me', _auth.default.tokenExtractor, _auth.default.userExtractor, _comment.default.getCommentsByMe);
 router.get('/user/:id',
 // as user id
 _comment.default.getCommentsByUser);

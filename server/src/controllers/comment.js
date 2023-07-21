@@ -289,43 +289,6 @@ const getCommentsByPostId = async (req, res) => {
     return res.status(422).json({ error: err.message })
   }
 }
-const getCommentsByMe = async (req, res) => {
-  const user = req.user
-  try {
-    const comment = await Comment.findOne({
-      commenter: user.id,
-    })
-      .populate('commenter', {
-        id: 1,
-        username: 1,
-        email: 1,
-        posts: 1,
-        comments: 1,
-        isStaff: 1,
-        avatar: 1,
-        bio: 1,
-        createdAt: 1,
-        updatedAt: 1,
-      })
-      .populate('commentOn', {
-        id: 1,
-        title: 1,
-        tags: 1,
-        description: 1,
-        entry: 1,
-        user: 1,
-        comments: 1,
-        createdAt: 1,
-        updatedAt: 1,
-      })
-
-    if (!comment) return res.status(404).json({ error: 'Comment not found!' })
-
-    return res.status(200).json(comment)
-  } catch (err) {
-    return res.status(422).json({ error: err.message })
-  }
-}
 
 const getCommentsByUser = async (req, res) => {
   const { id } = req.params
@@ -343,42 +306,9 @@ const getCommentsByUser = async (req, res) => {
       commenter: mongoose.Types.ObjectId(user.id),
     })
     if (comments) {
-      console.log(comments)
+      //console.log(comments)
       return res.status(200).json(comments)
     }
-  } catch (err) {
-    return res.status(422).json({ error: err.message })
-  }
-}
-
-const getComments = async (req, res) => {
-  try {
-    const comments = await Comment.find({})
-      .populate('commenter', {
-        id: 1,
-        username: 1,
-        email: 1,
-        posts: 1,
-        comments: 1,
-        isStaff: 1,
-        avatar: 1,
-        bio: 1,
-        createdAt: 1,
-        updatedAt: 1,
-      })
-      .populate('commentOn', {
-        id: 1,
-        title: 1,
-        tags: 1,
-        description: 1,
-        entry: 1,
-        user: 1,
-        comments: 1,
-        createdAt: 1,
-        updatedAt: 1,
-      })
-
-    return res.status(200).json(comments)
   } catch (err) {
     return res.status(422).json({ error: err.message })
   }
@@ -389,9 +319,7 @@ const commentController = {
   deleteComment,
   updateComment,
   getCommentById,
-  getComments,
   getCommentsByPostId,
-  getCommentsByMe,
   getCommentsByUser,
 }
 

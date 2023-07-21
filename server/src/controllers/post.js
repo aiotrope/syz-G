@@ -3,6 +3,7 @@ import { sanitize } from 'isomorphic-dompurify'
 
 import Post from '../models/post'
 import User from '../models/user'
+import Comment from '../models/comment'
 import validators from '../utils/validators'
 
 const createPost = async (req, res) => {
@@ -238,6 +239,8 @@ const deletePost = async (req, res) => {
       { $pull: { posts: id } },
       { multi: true, new: true }
     )
+
+    await Comment.deleteMany({ commentOn: mongoose.Types.ObjectId(id) })
 
     return res.status(204).end()
   } catch (err) {

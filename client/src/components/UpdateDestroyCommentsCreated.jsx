@@ -15,7 +15,7 @@ const UpdateDestroyCommentsCreated = ({
   userKeys,
   commentKeys,
   access,
-  //useQuery,
+  userQuery,
 }) => {
   const [commentId, setCommentId] = useState(null)
 
@@ -55,9 +55,10 @@ const UpdateDestroyCommentsCreated = ({
   }
 
   const { orderBy } = pkg
+  const userComments = userQuery?.data?.comments
 
-  const sortedComments = orderBy(user.comments, ['updatedAt'], ['desc'])
-  //console.log(user)
+  const sortedComments = orderBy(userComments, ['updatedAt'], ['desc'])
+  //console.log(sortedComments)
   return (
     <>
       <ListGroup as="ul">
@@ -66,10 +67,13 @@ const UpdateDestroyCommentsCreated = ({
             <div key={id}>
               <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                 <div className="ms-2 me-auto">
-                  <div className="fw-bold">
-                    <Link to={`/snippet/${commentOn}`} className="text-primary">
-                      comment posted {moment(createdAt).fromNow()}
-                    </Link>
+                  <div>
+                    Commented on{' '}
+                    <Link to={`/snippet/${commentOn?.id}`} className="text-primary">
+                      {commentOn?.title}
+                    </Link>{' '}
+                    by <Link to={`/user/${commentOn?.user?.id}`}>{commentOn?.user?.username}</Link>{' '}
+                    {moment(createdAt).fromNow()}
                   </div>
                   <Badge bg="warning">
                     <Link to={`/comment/update/${id}`}>UPDATE</Link>

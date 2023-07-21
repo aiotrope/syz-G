@@ -132,7 +132,7 @@ const Me = () => {
     try {
       const result = await userMutation.mutateAsync(data)
       if (result) {
-        console.log(result?.user)
+        //console.log(result?.user)
         toast.success(result?.message, { theme: 'colored' })
         setUser(result.user)
       }
@@ -176,7 +176,7 @@ const Me = () => {
   ) {
     return <Loader />
   }
-  console.log(commentsByUser)
+  //console.log(commentsByUser)
   return (
     <Container className="col-md-8 mx-auto">
       <Row>
@@ -250,7 +250,7 @@ const Me = () => {
                 userKeys={userKeys}
                 commentKeys={commentKeys}
                 access={_jwt}
-                useQuery={useQuery}
+                userQuery={userQuery}
               />
             )}
           </Col>

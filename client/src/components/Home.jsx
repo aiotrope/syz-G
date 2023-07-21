@@ -18,7 +18,7 @@ const Home = () => {
   const postsQuery = useQuery({
     queryKey: postKeys.details(),
     queryFn: postService?.getAll,
-    refetchInterval: 6000,
+    staleTime: 6000,
   })
 
   const setPosts = useSetRecoilState(posts_atom)

@@ -31,28 +31,6 @@ const getPostById = async (id) => {
   if (response.status === 200 && response.data) return response.data
 }
 
-/* const updatePost = async (id, data) => {
-  const accessToken = authService.getAccessToken()
-
-  const response = await axios.patch(`${baseUrl}/api/post/${id}`, data, {
-    withCredentials: true,
-    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-  })
-
-  if (response.status === 200 && response.data) return response.data
-}
-
-const deletePost = async ({ id }) => {
-  const accessToken = authService.getAccessToken()
-
-  const response = await axios.delete(`${baseUrl}/api/post/${id}`, {
-    withCredentials: true,
-    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-  })
-
-  if (response.status === 204) return response
-} */
-
 export const postService = {
   getAll,
   createPost,

@@ -6,9 +6,7 @@ import moment from 'moment'
 
 const SnippetsCreated = ({ user }) => {
   const { orderBy } = pkg
-
   const sortedPosts = orderBy(user.posts, ['updatedAt'], ['desc'])
-
   return (
     <>
       {user?.posts ? (

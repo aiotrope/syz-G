@@ -131,9 +131,7 @@ const CreateComment = () => {
     return <Loader />
   }
 
-  //console.log(postsQuery?.data)
-
-  console.log(comment)
+  //console.log(comment)
 
   return (
     <Stack className="col-md-9 mx-auto">

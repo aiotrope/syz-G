@@ -42,7 +42,12 @@ const List = ({ post }) => {
           <small>posted {moment(post?.createdAt).fromNow()}</small>
         </Col>
       </Row>
-      <div className="mt-1">
+      <Row className="justify-content-md-end">
+        <Col sm={5} className="align-self-end">
+          <small>Modified {moment(post?.updatedAt).fromNow()}</small>
+        </Col>
+      </Row>
+      <div className="my-1">
         <Row>
           <Col>
             <Link to={`/create-comment/${post?.id}`}>

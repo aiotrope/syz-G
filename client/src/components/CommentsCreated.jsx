@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-//import axios from 'axios'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Card from 'react-bootstrap/Card'
 import pkg from 'lodash'
@@ -7,9 +6,11 @@ import moment from 'moment'
 
 const { orderBy } = pkg
 
-const CommentsCreated = ({ user }) => {
-  const sortedComments = orderBy(user.comments, ['updatedAt'], ['desc'])
+const CommentsCreated = ({ user, userQuery }) => {
+  const userComments = userQuery?.data?.comments
 
+  const sortedComments = orderBy(userComments, ['updatedAt'], ['desc'])
+  //console.log(sortedComments)
   return (
     <>
       {user?.comments ? (
@@ -25,9 +26,12 @@ const CommentsCreated = ({ user }) => {
               {sortedComments &&
                 sortedComments?.map(({ id, createdAt, commentOn }) => (
                   <ListGroup.Item as="li" key={id}>
-                    <Link to={`/snippet/${commentOn}`} className="post-title">
-                      comment posted {moment(createdAt).fromNow()}
+                    Commented on{' '}
+                    <Link to={`/snippet/${commentOn?.id}`} className="post-title">
+                      {commentOn?.title}
                     </Link>{' '}
+                    by <Link to={`/user/${commentOn?.user?.id}`}>{commentOn?.user?.username}</Link>{' '}
+                    {moment(createdAt).fromNow()}
                   </ListGroup.Item>
                 ))}
             </ListGroup>

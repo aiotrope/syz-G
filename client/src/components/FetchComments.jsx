@@ -11,7 +11,6 @@ const FetchComments = ({ comments, pkg, ReactMarkdown, rehypeRaw, gfm, Highlight
   const { orderBy } = pkg
 
   const sortedComments = orderBy(comments, ['updatedAt'], ['desc'])
-
   //console.log(comments)
   return (
     <Stack>

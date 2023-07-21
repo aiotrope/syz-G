@@ -244,13 +244,14 @@ var getMe = /*#__PURE__*/function () {
             comments: 1,
             createdAt: 1,
             updatedAt: 1
-          }).populate('comments', {
-            id: 1,
-            commentary: 1,
-            commentOn: 1,
-            commenter: 1,
-            createdAt: 1,
-            updatedAt: 1
+          }).populate({
+            path: 'comments',
+            populate: {
+              path: 'commentOn',
+              populate: {
+                path: 'user'
+              }
+            }
           });
         case 6:
           user = _context4.sent;
@@ -292,13 +293,14 @@ var getUserById = /*#__PURE__*/function () {
             comments: 1,
             createdAt: 1,
             updatedAt: 1
-          }).populate('comments', {
-            id: 1,
-            commentary: 1,
-            commentOn: 1,
-            commenter: 1,
-            createdAt: 1,
-            updatedAt: 1
+          }).populate({
+            path: 'comments',
+            populate: {
+              path: 'commentOn',
+              populate: {
+                path: 'user'
+              }
+            }
           });
         case 4:
           user = _context5.sent;

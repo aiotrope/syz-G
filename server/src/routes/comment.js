@@ -26,18 +26,9 @@ router.patch(
   commentController.updateComment
 )
 
-router.get('/', commentController.getComments)
-
 router.get('/:id', commentController.getCommentById)
 
 router.get('/post/:postId', commentController.getCommentsByPostId)
-
-router.get(
-  '/me',
-  authMiddleware.tokenExtractor,
-  authMiddleware.userExtractor,
-  commentController.getCommentsByMe
-)
 
 router.get(
   '/user/:id', // as user id

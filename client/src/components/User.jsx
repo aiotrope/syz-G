@@ -17,8 +17,8 @@ import { user_atom } from '../recoil/auth'
 import { userKeys } from '../services/queryKeyFactory'
 
 const Loader = lazy(() => import('./misc/loader'))
-const SnippetsCreated = lazy(() => import('./SnippetsCreated'))
 const CommentsCreated = lazy(() => import('./CommentsCreated'))
+const SnippetsCreated = lazy(() => import('./SnippetsCreated'))
 
 const User = () => {
   const { id } = useParams()
@@ -100,7 +100,7 @@ const User = () => {
       </Row>
       <Row className="my-2">
         <Col>
-          <CommentsCreated user={user} />
+          <CommentsCreated user={user} userQuery={userQuery} />
         </Col>
       </Row>
     </Stack>
