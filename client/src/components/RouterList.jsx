@@ -23,15 +23,15 @@ const RouterList = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route exact path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/signup" element={_jwt ? <Navigate to="/dashboard" /> : <Signup />} />
       <Route path="/login" element={_jwt ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/dashboard" element={_jwt ? <Dashboard /> : <Navigate to="/login" />} />
       <Route path="/me" element={_jwt ? <Me /> : <Navigate to="/login" />} />
-      <Route path="/user/:id" element={<User />} />
+      <Route exact path="/user/:id" element={<User />} />
       <Route path="/create-snippet" element={_jwt ? <CreateSnippet /> : <Navigate to="/login" />} />
-      <Route path="/snippet/:id" element={<FetchSnippet />} />
+      <Route exact path="/snippet/:id" element={<FetchSnippet />} />
       <Route
         path="/snippet/update/:id"
         element={_jwt ? <UpdateSnippet /> : <Navigate to="/login" />}
