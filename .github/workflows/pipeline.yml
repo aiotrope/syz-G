@@ -1,0 +1,55 @@
+name: Pull Request Pipeline
+
+on:
+  pull_request:
+    types: [opened, synchronize, closed]
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+        mongodb-version: ['6.0']
+
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+        env:
+          MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - name: Install server dependencies
+        run: cd server/ && yarn install --frozen-lockfile
+      - name: Format and lint server
+        run: cd server/ && yarn format && yarn lint
+      - name: Build server
+        run: cd server/ && yarn build:server
+      - name: Run server unit tests
+        run: cd server/ && yarn test
+      - name: Install client dependencies
+        run: cd client/ && yarn install --frozen-lockfile
+      - name: Format and lint client
+        run: cd client/ && yarn format && yarn lint
+      - name: Build client
+        run: cd client/ && yarn build
+      - name: Cypress e2e Test
+        uses: cypress-io/github-action@v5
+        env:
+          MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
+        run: cd server/ && yarn start:test
+        with:
+          start: cd client/ && yarn preview
+          wait-on: http://localhost:5173
+
+  

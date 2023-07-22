@@ -39,6 +39,8 @@ const CLOUDINARY_KEY = process.env.CLOUDINARY_KEY
 
 const CLOUDINARY_SECRET = process.env.CLOUDINARY_SECRET
 
+const LOCAL_URL = process.env.LOCAL_URL
+
 const config = {
   port: PORT,
   frontend_url: FRONTEND_URL,
@@ -58,6 +60,7 @@ const config = {
   cloudinary_name: CLOUDINARY_NAME,
   cloudinary_key: CLOUDINARY_KEY,
   cloudinary_secret: CLOUDINARY_SECRET,
+  local_url: LOCAL_URL,
 }
 
 module.exports = config
