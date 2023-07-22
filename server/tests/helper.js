@@ -1,4 +1,4 @@
-import User from '../src/models/user'
+import User from '../dist/models/user'
 
 const savedUsers = async () => {
   const users = await User.find({})
@@ -6,7 +6,7 @@ const savedUsers = async () => {
 }
 
 const helper = {
-    savedUsers
+  savedUsers,
 }
 
 export default helper

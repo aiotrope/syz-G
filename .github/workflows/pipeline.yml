@@ -33,8 +33,7 @@ jobs:
     - run: yarn install
     - run: yarn format && yarn lint
     - run: yarn build:server
-    #- run: yarn test
-    - run: yarn start:test
+    - run: yarn test
       env:
         MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
 
