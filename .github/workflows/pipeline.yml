@@ -67,11 +67,11 @@ jobs:
     - run: yarn format && yarn lint
     - name: e2e Test
       uses: cypress-io/github-action@v4
-        env:
-          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL_DEV }}
-        with:
-          start: yarn test:e2e
-          wait-on: http://localhost:5173
+      env:
+        VITE_BASE_URL: ${{ secrets.VITE_BASE_URL_DEV }}
+      with:
+        start: yarn test:e2e
+        wait-on: http://localhost:5173
        
 
   
