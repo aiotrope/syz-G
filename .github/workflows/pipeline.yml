@@ -7,7 +7,7 @@ on:
       - 'README.md'
 jobs:
   build-server:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     defaults:
       run:
         working-directory: ./server
@@ -16,6 +16,13 @@ jobs:
       matrix:
         node-version: [18.x]
         mongodb-version: ['6.0']
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+        env:
+          MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
@@ -40,7 +47,10 @@ jobs:
         CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
         CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
         CLOUDINARY_PRESET_NAME: ${{ secrets.CLOUDINARY_PRESET_NAME }}
+    - run: yarn test
     - run: yarn start:test
+      env:
+        MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
 
   build-client:
     needs: build-server
