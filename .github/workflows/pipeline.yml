@@ -43,11 +43,12 @@ jobs:
         run: cd client/ && yarn format && yarn lint
       - name: Build client
         run: cd client/ && yarn build
+      - name: Start server
+        run: cd server/ && yarn start:test
       - name: Cypress e2e Test
         uses: cypress-io/github-action@v5
         env:
           MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
-        run: cd server/ && yarn start:test
         with:
           start: cd client/ && yarn preview
           wait-on: http://localhost:5173
