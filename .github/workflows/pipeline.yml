@@ -30,10 +30,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: "yarn"
         cache-dependency-path: "./server/yarn.lock"
-    # - run: yarn install
+    - run: yarn install
     - run: yarn format && yarn lint
     - run: yarn build:server
-    - run: yarn test
+    #- run: yarn test
     - run: yarn start:test
       env:
         MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
