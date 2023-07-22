@@ -29,7 +29,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - name: Install server dependencies
-        run: cd server/ && yarn install --frozen-lockfile
+        run: cd server/ && yarn
       - name: Format and lint server
         run: cd server/ && yarn format && yarn lint
       - name: Build server
@@ -37,7 +37,7 @@ jobs:
       - name: Run server unit tests
         run: cd server/ && yarn test
       - name: Install client dependencies
-        run: cd client/ && yarn install --frozen-lockfile
+        run: cd client/ && yarn
       - name: Format and lint client
         run: cd client/ && yarn format && yarn lint
       - name: Build client
