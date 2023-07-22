@@ -5,7 +5,6 @@ on:
     types: [opened, synchronize, closed]
     paths-ignore:
       - 'README.md'
-
 jobs:
   build:
     runs-on: ubuntu-latest
