@@ -8,6 +8,9 @@ on:
 jobs:
   build-server:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
 
     strategy:
       matrix:
@@ -22,30 +25,20 @@ jobs:
         env:
           MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
-          with:
-            node-version: 18.16.0
-            cache: "yarn"
-            cache-dependency-path: "./server/yarn.lock"
-      - name: Install server dependencies
-        working-directory: ./server
-        run: yarn install --frozen-lockfile
-      - name: Format and lint server
-        working-directory: ./server
-        run: yarn format && yarn lint
-      - name: Build server
-        working-directory: ./server
-        run: yarn build:server
-      - name: Run server unit tests
-        working-directory: ./server
-        run: yarn test
-      - name: Run server
-        working-directory: ./server
-        run: yarn start:test
+          node-version: 18.16.0
+          cache: "yarn"
+          cache-dependency-path: "./server/yarn.lock"
+     
+    - run: yarn install --frozen-lockfile
+    - run: yarn format && yarn lint
+    - run: yarn build:server
+    - run: yarn test
+    - run: yarn start:test
 
   
