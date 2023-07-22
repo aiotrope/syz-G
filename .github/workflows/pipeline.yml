@@ -30,11 +30,48 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: "yarn"
         cache-dependency-path: "./server/yarn.lock"
-    - run: yarn install
+    - run: yarn install --frozen-lockfile
     - run: yarn format && yarn lint
     - run: yarn build:server
-    - run: yarn test
       env:
+        FRONTEND_URL: ${{ secrets.FRONTEND_URL_DEV }}
+        BACKEND_URL: ${{ secrets.BACKEND_URL_DEV }}
+        ORIGINAL_FRONTEND_URL: ${{ secrets.ORIGINAL_FRONTEND_URL_DEV }}
         MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
+        LOCAL_URL: ${{ secrets.LOCAL_URL }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
+        CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
+        CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
+        CLOUDINARY_PRESET_NAME: ${{ secrets.CLOUDINARY_PRESET_NAME }}
+    - run: yarn start:test
+
+  build-client:
+    needs: build-server
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: "yarn"
+        cache-dependency-path: "./client/yarn.lock"
+    - run: yarn install --frozen-lockfile
+    - run: yarn format && yarn lint
+    - name: e2e Test
+      uses: cypress-io/github-action@v4
+        env:
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL_DEV }}
+        with:
+          start: yarn test:e2e
+          wait-on: http://localhost:5173
+       
 
   
