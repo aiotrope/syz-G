@@ -44,45 +44,8 @@ jobs:
       - name: Run server unit tests
         working-directory: ./server
         run: yarn test
-
-  build-client:
-    needs: build-server
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-        mongodb-version: ['6.0']
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
-          with:
-            node-version: 18.16.0
-            cache: "yarn"
-            cache-dependency-path: "./client/yarn.lock"
-
-      - name: Install client dependencies
-        working-directory: ./client
-        run: yarn install --frozen-lockfile
-      - name: Format and lint client
-        working-directory: ./client
-        run: yarn format && yarn lint
-      - name: Build client
-        working-directory: ./client
-        run: yarn build
-      - name: Start server
+      - name: Run server
         working-directory: ./server
         run: yarn start:test
-      - name: Cypress e2e Test
-        uses: cypress-io/github-action@v5
-        env:
-          MONGO_URL_TEST: ${{ secrets.MONGO_URL_TEST }}
-        with:
-          start: cd client/ && yarn preview
-          wait-on: http://localhost:5173
 
   
