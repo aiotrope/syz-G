@@ -29,8 +29,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: "yarn"
-        # cache-dependency-path: "./server/yarn.lock"
-    - run: yarn
+        cache-dependency-path: "./server/yarn.lock"
+    - run: yarn install
     - run: yarn format && yarn lint
     - run: yarn build:server
     - run: yarn test
