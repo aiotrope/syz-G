@@ -6,7 +6,7 @@ on:
     paths-ignore:
       - 'README.md'
 jobs:
-  build:
+  build-server:
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,22 +28,55 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+          with:
+            node-version: 18.16.0
+            cache: "yarn"
+            cache-dependency-path: "./server/yarn.lock"
       - name: Install server dependencies
-        run: cd server/ && yarn
+        working-directory: ./server
+        run: yarn install --frozen-lockfile
       - name: Format and lint server
-        run: cd server/ && yarn format && yarn lint
+        working-directory: ./server
+        run: yarn format && yarn lint
       - name: Build server
-        run: cd server/ && yarn build:server
+        working-directory: ./server
+        run: yarn build:server
       - name: Run server unit tests
-        run: cd server/ && yarn test
+        working-directory: ./server
+        run: yarn test
+
+  build-client:
+    needs: build-server
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+        mongodb-version: ['6.0']
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+          with:
+            node-version: 18.16.0
+            cache: "yarn"
+            cache-dependency-path: "./client/yarn.lock"
+
       - name: Install client dependencies
-        run: cd client/ && yarn
+        working-directory: ./client
+        run: yarn install --frozen-lockfile
       - name: Format and lint client
-        run: cd client/ && yarn format && yarn lint
+        working-directory: ./client
+        run: yarn format && yarn lint
       - name: Build client
-        run: cd client/ && yarn build
+        working-directory: ./client
+        run: yarn build
       - name: Start server
-        run: cd server/ && yarn start:test
+        working-directory: ./server
+        run: yarn start:test
       - name: Cypress e2e Test
         uses: cypress-io/github-action@v5
         env:
