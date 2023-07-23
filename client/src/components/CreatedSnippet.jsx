@@ -24,9 +24,9 @@ const CreatedSnippet = ({ post }) => {
           <div>
             Tags:{' '}
             {post?.tags?.map((tag, indx) => (
-              <div key={indx}>
+              <small key={indx}>
                 <Badge className="mx-1">{tag}</Badge>{' '}
-              </div>
+              </small>
             ))}
           </div>
         </Col>

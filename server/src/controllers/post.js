@@ -108,8 +108,42 @@ const getPostById = async (req, res) => {
 }
 
 const getPosts = async (req, res) => {
+  const { search } = req.query
+  let posts
   try {
-    const posts = await Post.find({})
+    if (search) {
+      posts = await Post.find({
+        $or: [
+          { title: search },
+          { tags: search },
+          { description: search },
+          { entry: search },
+        ],
+      })
+        .populate('user', {
+          id: 1,
+          username: 1,
+          email: 1,
+          posts: 1,
+          comments: 1,
+          isStaff: 1,
+          avatar: 1,
+          bio: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        })
+        .populate('comments', {
+          id: 1,
+          commentary: 1,
+          commentOn: 1,
+          commenter: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        })
+        .setOptions({ sanitizeFilter: true })
+      return res.status(200).json(posts)
+    }
+    posts = await Post.find()
       .populate('user', {
         id: 1,
         username: 1,
@@ -130,7 +164,6 @@ const getPosts = async (req, res) => {
         createdAt: 1,
         updatedAt: 1,
       })
-
     return res.status(200).json(posts)
   } catch (err) {
     return res.status(422).json({ error: err.message })

@@ -1,7 +1,7 @@
 import { useEffect, lazy } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
@@ -16,9 +16,7 @@ import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 
-//import { FaUserAlt } from 'react-icons/fa'
 import Highlighter from './misc/highlighter'
-
 import { postService } from '../services/post'
 import { commentService } from '../services/comment'
 import { post_atom } from '../recoil/post'
@@ -28,8 +26,10 @@ import { commentKeys, postKeys } from '../services/queryKeyFactory'
 const Loader = lazy(() => import('./misc/loader'))
 const FetchComments = lazy(() => import('./FetchComments'))
 
-const FetchSnippet = () => {
+const FetchSnippet = ({ setSearchText }) => {
   const { id } = useParams()
+
+  const navigate = useNavigate()
 
   const postQuery = useQuery([postKeys.detail(id), id], () => postService?.getPostById(id))
 
@@ -77,6 +77,11 @@ const FetchSnippet = () => {
     }
   }, [commentsQuery?.data, setComments])
 
+  const handleClickBadge = (event) => {
+    setSearchText(event.target.id)
+    navigate('/')
+  }
+
   if (postQuery?.isLoading || postQuery?.isFetching) return <Loader />
 
   //console.log(comments)
@@ -106,9 +111,11 @@ const FetchSnippet = () => {
       <Row className="my-1">
         <Col>
           {post?.tags?.map((tag, indx) => (
-            <div key={indx}>
-              <Badge bg="info">{tag}</Badge>{' '}
-            </div>
+            <small key={indx}>
+              <Badge bg="info" onClick={handleClickBadge} id={tag}>
+                {tag}
+              </Badge>{' '}
+            </small>
           ))}
         </Col>
       </Row>

@@ -35,6 +35,7 @@
     "recoil-persist": "^5.1.0",
     "rehype-raw": "^6.1.1",
     "remark-gfm": "^3.0.1",
+    "use-debounce": "^9.0.4",
     "yup": "^1.2.0"
   },
   "devDependencies": {

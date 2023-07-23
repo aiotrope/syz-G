@@ -19,7 +19,7 @@ const dbConnection = () => {
     dbURL = _config.default.mongo_url_test;
   }
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
-    dbURL = _config.default.mongo_url_test;
+    dbURL = _config.default.mongo_url;
   }
   _mongoose.default.connect(dbURL, opts);
   const db = _mongoose.default.connection;

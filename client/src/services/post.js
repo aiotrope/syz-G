@@ -31,8 +31,17 @@ const getPostById = async (id) => {
   if (response.status === 200 && response.data) return response.data
 }
 
+const search = async (searchText) => {
+  const response = await axios.get(`${baseUrl}/api/post?search=${searchText}`, {
+    withCredentials: true,
+  })
+
+  if (response.status === 200 && response.data) return response.data
+}
+
 export const postService = {
   getAll,
   createPost,
   getPostById,
+  search,
 }

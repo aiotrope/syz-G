@@ -51,6 +51,9 @@ const PostSchema = new Schema({
 PostSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
+
+//PostSchema.index({ '$**': 'text' })
+
 PostSchema.pre('deleteMany', {
   document: true,
   query: false

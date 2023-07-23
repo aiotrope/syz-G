@@ -45,6 +45,8 @@ PostSchema.virtual('id').get(function () {
   return this._id.toHexString()
 })
 
+//PostSchema.index({ '$**': 'text' })
+
 PostSchema.pre('deleteMany', { document: true, query: false }, function (next) {
   this.model('Comment').deleteMany({ commentOn: this._id }, next)
 })

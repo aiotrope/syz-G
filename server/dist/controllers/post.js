@@ -110,8 +110,46 @@ const getPostById = async (req, res) => {
   }
 };
 const getPosts = async (req, res) => {
+  const {
+    search
+  } = req.query;
+  let posts;
   try {
-    const posts = await _post.default.find({}).populate('user', {
+    if (search) {
+      posts = await _post.default.find({
+        $or: [{
+          title: search
+        }, {
+          tags: search
+        }, {
+          description: search
+        }, {
+          entry: search
+        }]
+      }).populate('user', {
+        id: 1,
+        username: 1,
+        email: 1,
+        posts: 1,
+        comments: 1,
+        isStaff: 1,
+        avatar: 1,
+        bio: 1,
+        createdAt: 1,
+        updatedAt: 1
+      }).populate('comments', {
+        id: 1,
+        commentary: 1,
+        commentOn: 1,
+        commenter: 1,
+        createdAt: 1,
+        updatedAt: 1
+      }).setOptions({
+        sanitizeFilter: true
+      });
+      return res.status(200).json(posts);
+    }
+    posts = await _post.default.find().populate('user', {
       id: 1,
       username: 1,
       email: 1,

@@ -1,4 +1,4 @@
-import { lazy } from 'react'
+import { lazy, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
@@ -19,11 +19,17 @@ const CreateComment = lazy(() => import('./CreateComment'))
 const UpdateComment = lazy(() => import('./UpdateComment'))
 
 const RouterList = () => {
+  const [searchText, setSearchText] = useState('')
+
   const _jwt = useRecoilValue(jwt_atom)
 
   return (
     <Routes>
-      <Route exact path="/" element={<Home />} />
+      <Route
+        exact
+        path="/"
+        element={<Home searchText={searchText} setSearchText={setSearchText} />}
+      />
       <Route path="/about" element={<About />} />
       <Route path="/signup" element={_jwt ? <Navigate to="/dashboard" /> : <Signup />} />
       <Route path="/login" element={_jwt ? <Navigate to="/dashboard" /> : <Login />} />
@@ -31,7 +37,11 @@ const RouterList = () => {
       <Route path="/me" element={_jwt ? <Me /> : <Navigate to="/login" />} />
       <Route exact path="/user/:id" element={<User />} />
       <Route path="/create-snippet" element={_jwt ? <CreateSnippet /> : <Navigate to="/login" />} />
-      <Route exact path="/snippet/:id" element={<FetchSnippet />} />
+      <Route
+        exact
+        path="/snippet/:id"
+        element={<FetchSnippet searchText={searchText} setSearchText={setSearchText} />}
+      />
       <Route
         path="/snippet/update/:id"
         element={_jwt ? <UpdateSnippet /> : <Navigate to="/login" />}

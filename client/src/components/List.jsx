@@ -5,10 +5,10 @@ import Badge from 'react-bootstrap/Badge'
 import moment from 'moment'
 import Image from 'react-bootstrap/Image'
 
-const List = ({ post }) => {
+const List = ({ post, setSearchText }) => {
   //console.log(post)
   return (
-    <div key={post?.id}>
+    <>
       <Row>
         <Col>
           <Link to={`/snippet/${post?.id}`} className="post-title">
@@ -19,11 +19,13 @@ const List = ({ post }) => {
         </Col>
       </Row>
       <Row className="mt-2">
-        <Col>
+        <Col sm={12}>
           {post?.tags.map((tag, indx) => (
-            <div key={indx}>
-              <Badge bg="info">{tag}</Badge>{' '}
-            </div>
+            <small key={indx}>
+              <Badge bg="info" onClick={() => setSearchText(tag)}>
+                {tag}
+              </Badge>{' '}
+            </small>
           ))}
         </Col>
       </Row>
@@ -67,7 +69,7 @@ const List = ({ post }) => {
           </Col>
         </Row>
       </div>
-    </div>
+    </>
   )
 }
 

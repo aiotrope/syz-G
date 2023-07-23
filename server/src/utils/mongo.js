@@ -20,7 +20,7 @@ const dbConnection = () => {
     process.env.NODE_ENV === 'development' ||
     process.env.NODE_ENV === 'production'
   ) {
-    dbURL = config.mongo_url_test
+    dbURL = config.mongo_url
   }
 
   mongoose.connect(dbURL, opts)
