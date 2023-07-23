@@ -30,7 +30,7 @@ app.use(
       config.frontend_url,
       config.original_frontend_url,
       config.backend_url,
-      config.local_url
+      config.local_url,
     ],
     credentials: true,
     optionsSuccessStatus: 200,

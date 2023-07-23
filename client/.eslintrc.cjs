@@ -8,11 +8,12 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
+    'plugin:cypress/recommended',
     'prettier',
   ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
-  plugins: ['react-refresh'],
+  plugins: ['react-refresh', 'cypress'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'linebreak-style': ['error', 'unix'],

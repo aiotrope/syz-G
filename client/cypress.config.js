@@ -1,17 +1,11 @@
 import { defineConfig } from 'cypress'
-import mongo from 'cypress-mongodb'
 
 export default defineConfig({
+  defaultCommandTimeout: 80000,
   e2e: {
+    // eslint-disable-next-line no-unused-vars
     setupNodeEvents(on, config) {
       // implement node event listeners here
-      mongo.configurePlugin(on)
     },
-  },
-  env: {
-    mongodb: {
-      uri: 'mongodb://127.0.0.1:27017',
-    },
-    baseUrl: 'http://localhost:5173',
   },
 })

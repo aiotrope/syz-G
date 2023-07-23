@@ -4,7 +4,7 @@ import User from '../models/user'
 
 const router = express.Router()
 
-router.post('/reset', async(req, res) => {
+router.post('/reset', async (req, res) => {
   //await Post.deleteMany({})
   await User.deleteMany({})
 
