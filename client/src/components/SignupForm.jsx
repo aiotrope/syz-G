@@ -80,7 +80,7 @@ const SignupForm = ({ handleSubmit, onSubmit, register, errors, reset }) => {
         )}
       </FormGroup>
       <FormGroup className="d-grid mt-3">
-        <Button variant="primary" size="lg" type="submit" onClick={() => reset()}>
+        <Button variant="primary" size="lg" type="submit" id="signup-btn" onClick={() => reset()}>
           Submit Registration
         </Button>
       </FormGroup>

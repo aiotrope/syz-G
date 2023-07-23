@@ -139,7 +139,7 @@ const FetchSnippet = () => {
       <div className="my-3">
         <Row>
           <Col>
-            <Link to={`/create-comment/${post?.id}`}>
+            <Link to={`/create-comment/${post?.id}`} id="add-comment-link">
               <Badge bg="light" text="primary">
                 Add a comment
               </Badge>

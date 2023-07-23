@@ -10,7 +10,7 @@
     "format": "prettier --write \"**/*.+(js|jsx|json|md|ts|tsx|css|scss)\"",
     "preview": "vite preview",
     "cypress:open": "cypress open",
-    "test:e2e": "NODE_ENV=test cypress run"
+    "test:e2e": "cypress run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",

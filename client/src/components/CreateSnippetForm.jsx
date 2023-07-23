@@ -35,7 +35,13 @@ const CreateSnippetForm = ({
           Particular topics? programming languages involve? Can enter one or more tags.
         </Form.Text>
         <div className="mb-2">
-          <Button type="button" size="sm" variant="outline-secondary" onClick={handleClickLang}>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline-secondary"
+            onClick={handleClickLang}
+            id="add-tag-btn"
+          >
             ADD TAG
           </Button>
           <br />
@@ -91,7 +97,13 @@ const CreateSnippetForm = ({
       <FormGroup className="my-5">
         <Row>
           <Col>
-            <Button variant="info" size="lg" type="submit" onClick={() => postMutation.reset()}>
+            <Button
+              variant="info"
+              size="lg"
+              type="submit"
+              onClick={() => postMutation.reset()}
+              id="create-snippet-btn"
+            >
               SUBMIT POST
             </Button>
           </Col>

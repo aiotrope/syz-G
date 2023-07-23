@@ -35,13 +35,13 @@ const AuthTopNav = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <LinkContainer to="/">
+              <LinkContainer to="/" id="home-link">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/about">
                 <Nav.Link>About</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/create-snippet">
+              <LinkContainer to="/create-snippet" id="create-snippet-link">
                 <Nav.Link>
                   <Badge bg="primary">Create Snippet</Badge>
                 </Nav.Link>
@@ -61,14 +61,14 @@ const AuthTopNav = () => {
                 </LinkContainer>
               ) : (
                 <>
-                  <LinkContainer to="/me" className="username text-danger">
+                  <LinkContainer to="/me" className="username text-danger" id="me-link">
                     <Nav.Link>{decoded?.username}</Nav.Link>
                   </LinkContainer>
                 </>
               )}
 
               <Nav.Item>
-                <Button onClick={() => logout()} variant="warning">
+                <Button onClick={() => logout()} variant="warning" id="logout-btn">
                   Logout
                 </Button>
               </Nav.Item>

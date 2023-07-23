@@ -38,6 +38,7 @@ const CreateSnippetForm = ({
               size="lg"
               type="submit"
               onClick={() => commentMutation.reset()}
+              id="create-comment-btn"
             >
               CREATE COMMENT
             </Button>

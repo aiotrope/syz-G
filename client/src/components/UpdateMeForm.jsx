@@ -46,13 +46,14 @@ const UpdateMeForm = ({ handleSubmit, onSubmit, register, errors, user }) => {
           aria-invalid={errors.bio?.message ? 'true' : 'false'}
           className={`${errors.bio?.message ? 'is-invalid' : ''} `}
           size="lg"
+          id="update-bio-input"
         />
         {errors.bio?.message && (
           <FormControl.Feedback type="invalid">{errors.bio?.message}</FormControl.Feedback>
         )}
       </FormGroup>
       <FormGroup className="d-grid mt-3">
-        <Button variant="light" size="lg" type="submit">
+        <Button variant="light" size="lg" type="submit" id="update-me-btn">
           UPDATE PROFILE
         </Button>
       </FormGroup>

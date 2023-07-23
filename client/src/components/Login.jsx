@@ -59,9 +59,9 @@ const Login = () => {
     try {
       const result = await mutateAsync(formData)
       if (result) {
-        navigate('/dashboard')
         toast.success(result?.message, { theme: 'colored' })
         setJWT(result?.access)
+        navigate('/dashboard')
       }
     } catch (err) {
       //console.error(err.response.data.error)
