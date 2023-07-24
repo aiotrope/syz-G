@@ -62,7 +62,7 @@ describe('POST signup - unit test for users with 2 users on db', () => {
     expect(usernames).toContain(newUser.username)
   })
 
-  test('authenticated user can update their own profile. Eg. update username, email and bio', async () => {
+  test('PATCH - authenticated user can update their own profile. Eg. update username, email and bio', async () => {
     const sampleUser = await User.findOne({
       email: 'testuser2@test.com',
       username: 'username2',

@@ -62,7 +62,7 @@ beforeAll(async () => {
   await Promise.all([user, reservedUser, snippet0, snippet1, snippet2])
 })
 
-describe('GET all posts - unit test for get request @ /api/post with three default posts created by username11', () => {
+describe('GET all posts - unit test for /api/post with three default posts created by username11', () => {
   test('it should return an array with 3 post snippet objects', async () => {
     await request(app)
       .get('/api/post')
@@ -179,6 +179,103 @@ describe('GET all posts - unit test for get request @ /api/post with three defau
         expect(response.body.comment.commentary).toEqual(helper.sampleComment)
         expect(response.body.comment.commenter.id).toEqual(sampleUser.id)
         expect(response.body.comment.commentOn.id).toEqual(savedPost.id)
+      })
+  })
+
+  test('Only authenticated user can create comment', async () => {
+    const commentData = {
+      commentary: helper.sampleComment,
+    }
+
+    const savedPost = await Post.findOne({ title: helper.testPosts[2].title })
+
+    await request(app)
+      .post(`/api/comment/${savedPost.id}`)
+      .send(commentData)
+      .then((response) => {
+        //console.log(response.body)
+        expect(response.type).toEqual('application/json')
+        expect(response.statusCode).toEqual(401)
+      })
+  })
+
+  test('PATCH - Auth user can updated their own post snippet', async () => {
+    const sampleUser = await User.findOne({
+      username: 'username11',
+      email: 'testuser11@test.com',
+    })
+
+    const savedPost = await Post.findOne({ title: helper.testPosts[0].title })
+
+    const token = sign(
+      {
+        username: sampleUser.username,
+        id: sampleUser.id,
+        email: sampleUser.email,
+      },
+      config.jwt_secret,
+      { expiresIn: '2h' }
+    )
+
+    const updatePostData = {
+      title: helper.testPosts[4].title,
+      description: helper.testPosts[4].description,
+      entry: helper.testPosts[4].entry,
+    }
+
+    await request(app)
+      .patch(`/api/post/${savedPost.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(updatePostData)
+      .then((response) => {
+        //console.log(response.body)
+        expect(response.type).toEqual('application/json')
+        expect(response.statusCode).toEqual(200)
+        expect(response.body.message).toBe(
+          `${sampleUser.username} updated ${updatePostData.title}`
+        )
+        expect(response.body.post.title).toEqual(helper.testPosts[4].title)
+        expect(response.body.post.entry).toEqual(helper.testPosts[4].entry)
+        expect(response.body.post.user.id).toEqual(sampleUser.id)
+        expect(response.body.post.user.email).toEqual(sampleUser.email)
+      })
+  })
+
+  test('PATCH - Only the auth user that has object reference to the post can update that certain post', async () => {
+    const sampleUser = await User.findOne({
+      username: 'username12',
+      email: 'testuser12@test.com',
+    })
+
+    const savedPost = await Post.findOne({ title: helper.testPosts[1].title })
+
+    const token = sign(
+      {
+        username: sampleUser.username,
+        id: sampleUser.id,
+        email: sampleUser.email,
+      },
+      config.jwt_secret,
+      { expiresIn: '2h' }
+    )
+
+    const updatePostData = {
+      title: helper.testPosts[5].title,
+      description: helper.testPosts[5].description,
+      entry: helper.testPosts[5].entry,
+    }
+
+    await request(app)
+      .patch(`/api/post/${savedPost.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(updatePostData)
+      .then((response) => {
+        //console.log(response.body)
+        expect(response.type).toEqual('application/json')
+        expect(response.statusCode).toEqual(403)
+        expect(response.body.error).toBe(
+          `Not allowed to update ${helper.testPosts[1].title}`
+        )
       })
   })
 })

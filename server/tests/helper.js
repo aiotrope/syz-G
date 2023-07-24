@@ -38,6 +38,21 @@ const testPosts = [
       'Neck beard pairing Linux Dijkstra spy cache duck typing. Antipattern architecture neck beard naming things branch freelancer security serverless.',
     entry: "print('Hello, World!')",
   },
+  {
+    title: 'We need to optimize the concurrent big O developer!',
+    tags: 'js',
+    description:
+      'Microservices TOML test-driven website senior-engineer parameter Babel state hardcoded reactive. Mock domain Babel REST interface scale observer pattern DSL engineer. I engineer presenter microservices pair programming state package manager bike-shedding.',
+    entry: "console.log('Do some modification!')",
+  },
+  {
+    title:
+      'If we compose the developer avocado, we can get to the DSL antipattern through the bitwise UX singleton!',
+    tags: 'js',
+    description:
+      'OTP dynamic programming engineer UX document object model brownfield gzip Kubernetes RPC.',
+    entry: "console.log('Do some modification again!')",
+  },
 ]
 
 const sampleComment =
