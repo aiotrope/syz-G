@@ -14,8 +14,9 @@ const SearchForm = ({ setSearchText }) => {
             <FormLabel htmlFor="search"></FormLabel>
             <FormControl
               type="text"
-              placeholder="search posts title, tags, description or entry"
+              placeholder="search post title, tags, description or entry"
               onChange={({ target }) => setSearchText(target.value)}
+              size="lg"
             />
           </FormGroup>
         </Col>

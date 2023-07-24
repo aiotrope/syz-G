@@ -7,6 +7,7 @@ import { useDebounce } from 'use-debounce'
 import Container from 'react-bootstrap/Container'
 import Stack from 'react-bootstrap/Stack'
 import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
 
 import { postService } from '../services/post'
 import { posts_atom } from '../recoil/post'
@@ -74,7 +75,6 @@ const Home = ({ searchText, setSearchText }) => {
   }
 
   //console.log(postsSearchQuery?.data)
-
   return (
     <Stack>
       <Container className="col-sm-8 mx-auto">
@@ -86,9 +86,9 @@ const Home = ({ searchText, setSearchText }) => {
         <div className="my-1">
           <SearchForm searchText={searchText} setSearchText={setSearchText} />
           <div className="my-2">
-            <Badge pill bg="light" text="primary" onClick={() => setSearchText('')}>
+            <Button variant="light" size="sm" onClick={() => setSearchText('')}>
               Set all posts
-            </Badge>
+            </Button>
           </div>
         </div>
         <div className="my-2">
