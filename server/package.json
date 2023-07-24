@@ -11,7 +11,8 @@
     "format": "prettier --ignore-path .prettierignore --write \"**/*.+(js|jsx|json|md|ts|tsx|css|scss)\"",
     "linting": "eslint --ignore-path .eslintignore './**/*.{ts,mjs,js}'",
     "lint": "yarn run linting -- --fix",
-    "start:testMode": "NODE_ENV=test yarn dev"
+    "start:testMode": "NODE_ENV=test yarn dev",
+    "test": "NODE_ENV=test jest --verbose --runInBand --forceExit"
   },
   "dependencies": {
     "@babel/register": "^7.22.5",
@@ -49,6 +50,8 @@
     "@babel/preset-env": "^7.22.7",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
-    "prettier": "^3.0.0"
+    "jest": "^29.6.1",
+    "prettier": "^3.0.0",
+    "supertest": "^6.3.3"
   }
 }
