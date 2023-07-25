@@ -9,7 +9,7 @@ Xzymous is a web app project submitted in partial fulfillment of LUT's CT30A3204
 [![Logo](https://drive.google.com/uc?export=view&id=1HpzHwBj5EriL1ZVpkMrqAMrFXyEEuOhR)](https://www.arnelimperial.com)
 
 
-## Tech Stack
+## 🤖 Tech Stack
 The following is a non-exhaustive list of technologies used to carry out this project.
 
 **Client:** React, Axios, TanStack Query, Recoil, Bootstrap, Sass
@@ -25,7 +25,7 @@ The following is a non-exhaustive list of technologies used to carry out this pr
 **Deployment:** Vercel
 
 
-## Installation
+## 🚀 Installation
 
 Install this project with yarn.
 
@@ -37,4 +37,9 @@ Install this project with yarn.
   # install client dependencies 
   cd client && yarn
 ```
+
+## 🎓 Lessons Learned
+
+Apart from my goal of writing understandable code, the main challenge I faced while working on this project was the options for choosing the best tool and environment for a variety of tasks and effectively managing my time. Due to my lack of Typescript technical knowledge, the construction of the front end and back end took longer than expected. I changed to Javascript as the primary coding language of this project. I am sure I can deliver the codes in TS, but time is now working against me, and I worry that I won't be able to finish the project on schedule. 
+
     
