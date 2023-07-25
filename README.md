@@ -40,6 +40,5 @@ Install this project with yarn.
 
 ## 🎓 Lessons Learned
 
-Apart from my goal of writing understandable code, the main challenge I faced while working on this project was the options for choosing the best tool and environment for a variety of tasks and effectively managing my time. Due to my lack of Typescript technical knowledge, the construction of the front end and back end took longer than expected. I changed to Javascript as the primary coding language of this project. I am sure I can deliver the codes in TS, but time is now working against me, and I worry that I won't be able to finish the project on schedule. 
-
+Apart from my goal of writing readable code, the main challenge I faced while working on this project was the options for choosing the best tool and environment for a variety of jobs and effectively managing my time. I intended to write both the front-end and back-end in TS, but due to my lack of Typescript technical knowledge, the development progressed took longer than expected. I changed to Javascript as the primary coding language of this project. I am sure I can deliver the codes in TS, but time now is my adversary, and I worry that I won't be able to finish the project on schedule. 
     
