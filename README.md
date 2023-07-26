@@ -27,15 +27,15 @@ Basic understanding of MERN (MongoDB, Express, React, Node) stack web developmen
 <a name="tech-stack"></a>
 ### 🤖 Tech Stack
 
-The author chose the technological stack in the project based on his prior experiences with the stack, the application of technologies covered in the CT30A3204 course curriculum, and the motivation to try something new to carry out an extra feature to the app built. 
+The author chose the technological stack in the project based on his prior experiences with the stack, the application of technologies covered in the `CT30A3204` course curriculum, and the motivation to try something new to carry out an extra feature to the app built. 
 `Vite` was used as a build tool to scaffold the project on the client side instead of `Create React App` due to faster hot module reloading. 
-The aim for uniformity between the backend and frontend code during development phase led to the optional decision of the author to implement Babel transpilation to CommonJS on production.
+The aim for uniformity between the backend and frontend code during development phase led to the optional decision of the author to implement `Babel` transpilation to CommonJS on production.
 
 The following is a non-exhaustive list of technologies used in the project.
 
 **Client:** React, Axios, TanStack Query, Recoil, Bootstrap, Sass
 
-**Server:** Node, Express, Jsonwebtoken, Mongoose
+**Server:** Node, Express, Jsonwebtoken, Mongoose, Babel
 
 **Database:** Mongodb
 
@@ -112,7 +112,11 @@ The main issue I had when working on this project was determining the right too
 <a name="deployment"></a>
 ### 🚀 Deployment
 
-Backend api (https://xzymous-api.vercel.app/) as serverless function and frontend app (https://www.arnelimperial.com) was hosted by [Vercel](https://vercel.com/new).
+Web services by [Vercel](https://vercel.com/new)
+
+**Backend api as serverless function:** https://xzymous-api.vercel.app/
+
+**Frontend app:** https://www.arnelimperial.com
 
 <a name="author"></a>
 ### 👨🏻‍💻 Author
