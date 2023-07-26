@@ -27,7 +27,11 @@ Basic understanding of MERN (MongoDB, Express, React, Node) stack web developmen
 <a name="tech-stack"></a>
 ### 🤖 Tech Stack
 
-The following is a non-exhaustive list of technologies used to carry out this project.
+The author chose the technological stack in the project based on his prior experiences with the stack, the application of technologies covered in the CT30A3204 course curriculum, and the motivation to try something new to carry out an extra feature to the app built. 
+`Vite` was used as a build tool to scaffold the project on the client side instead of `Create React App` due to faster hot module reloading. 
+The aim for uniformity between the backend and frontend code during development phase led to the optional decision of the author to implement Babel transpilation to CommonJS on production.
+
+The following is a non-exhaustive list of technologies used in the project.
 
 **Client:** React, Axios, TanStack Query, Recoil, Bootstrap, Sass
 
