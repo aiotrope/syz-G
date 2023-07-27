@@ -141,7 +141,7 @@ Start the client on development mode
 
 To run this project, you will need to add the following environment variables to your .env file.
 
-For `server` directory the .env must be located at the root of `server` directory. Port `8080` is not configured by default and must be specified as an environment variable. For the `client` directory, place the .env file in the client folder's `src` directory.
+For `server` directory, the .env must be located at the root of `server` directory. Port `8080` is not configured by default and must be specified as an `environment variable`. For the `client` directory, place the .env file in the client folder's `src` directory.
 
 MongoDB credentials and connection were established via [MongoDB Atlas](https://www.mongodb.com/atlas/database), however locally installed MongoDB will suffice.
 
@@ -153,7 +153,7 @@ PORT=8080
 MONGO_URL=<MONGO_CONNECTION_URL> # MongoDB connection other than test mode (debug & production mode)
 MONGO_URL_TEST=<MONGO_CONNECTION_URL> # MongoDB connection for test environment
 LOCAL_URL=http://localhost:5173 # Client side base URL. Must be set as-is
-JWT_SECRET=<YOUR_RANDOM_SECRET_STRING>
+JWT_SECRET=<YOUR_RANDOM_SECRET_STRING> 
 CLOUDINARY_NAME=<YOUR_CLOUDINARY_NAME>
 CLOUDINARY_KEY=<YOUR_CLOUDINARY_KEY>
 CLOUDINARY_SECRET=<YOUR_CLOUDINARY_SECRET>
@@ -377,7 +377,7 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
 | `id`    | `string` | **Required**  |
 
 <a name="tests"></a>
-## Running Tests
+### 🧪 Running Tests
 
 To run server's unit tests, run the following commands
 
@@ -392,21 +392,45 @@ yarn test
 To run End-to-end test, run the following commands
 
 ```bash
-# go to server directory and build server. Build folder at ./dist
+# go to server directory and build server. Build folder at ./server/dist
 cd server && yarn build:server
 # run the server on test mode at port 8080
 yarn start:testMode
 
-# go to client directory and build client. Build folder at ./dist
+# go to client directory and build client. Build folder at ./client/dist
 cd client && yarn build
 # run client's preview at port 5173
 yarn preview
-# Choose where to run
-# to run the test with GUI
+# choose where to run
+# to run with GUI
 yarn cypress:open
-# to run the test in terminal
+# to run the in the terminal
 yarn test:e2e
 ```
+
+<a name="feat"></a>
+### ✨ Features
+
+The projected points for each feature are solely dependent on the author's perspective.
+
+*Basic/mandatory requirements includes: Implementation of backend with Node.js, utilization of database(MongoDB), authentication(JWT),
+post new code snippets, comment on existing posts, users who are not logged in can view posts and comments, there is a page that lists all of the posts; when opening a post, the comments are also listed, responsive design, and documentation.
+
+
+| Feautures                                                | Points     |
+| :------------------------------------------------------- | :--------- |
+| `*Basic/mandatory requirements`                          | `25`       |
+| `Users can edit their own comments/posts`                | `4`        |
+| `Utilization of a frontside framework`                   |  `5`       |
+| `Use some highlight library with markdown`               |  `2`       |
+| `Test software for accessibility`                        |  `2`       |
+| `Search filter for post title and tags`                  |  `2`       |
+| `User profile image for posts & comments`                |  `3`       |
+| `Clickable user account and profile with info`           |  `2`       |
+| `Last edited timestamp is stored and shown`              |  `2`       |
+| `E2E test with cypress (> 10 tests)`                     |  `5`       |
+| `Backend unit test with jest & supertest (> 10 tests)`   |  `5`       |
+
 
 <a name="license"></a>
 ### 📝 License
