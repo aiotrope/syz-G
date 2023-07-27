@@ -1,4 +1,5 @@
 <a name="intro"></a>
+
 # xzymous
 
 Xzymous is a web app project submitted in partial fulfillment of LUT's CT30A3204 course. The application's architecture which consists of server-side deployed as serverless function and client-side code is separately published on the internet and maintained in a single git repository. The client side, which acts as a single-page application, can send HTTP requests to the server, providing the resources such as users, posts, and comments. Anonymous users can only access some of the resources through `GET` requests through rendered data on the website; otherwise, users must authenticate to the system to execute further interactive operations.
@@ -23,49 +24,51 @@ Xzymous is a web app project submitted in partial fulfillment of LUT's CT30A3204
 12. [ Author ](#author)
 
 <a name="requisite"></a>
+
 ### 🤔 Requisite
 
 Basic understanding of MERN (MongoDB, Express, React, Node) stack web development.
 
 <a name="tech-stack"></a>
+
 ### 🤖 Tech Stack
 
-The author chose the technological stack in the project based on his prior experiences with the stack, the application of technologies covered in the `CT30A3204` course curriculum, and the motivation to try something new to carry out an extra feature to the app built. 
-`Vite` was used as a build tool to scaffold the project on the client side instead of `Create React App` due to faster hot module reloading feature. 
+The author chose the technological stack in the project based on his prior experiences with the stack, the application of technologies covered in the `CT30A3204` course curriculum, and the motivation to try something new to carry out an extra feature to the app built.
+`Vite` was used as a build tool to scaffold the project on the client side instead of `Create React App` due to faster hot module reloading feature.
 The aim for uniformity between the backend and frontend code during development phase led to the optional decision of the author to implement `Babel` transpilation to CommonJS on production.
 Node version `v18.16.1`, yarn version `1.22.19` and [N](https://github.com/tj/n) nodejs package manager was use for development setup.
 
-**Server** 
+**Server**
 
-| Dependencies           | Uses                                      |
-|------------------------|-------------------------------------------|
-| express                | API request handler and DB connetor       |
-| bcrypt                 | Hashing password                          |
-| cloudinary             | SDK integration for image upload          |
-| cors                   | CORS middleware                           |
-| dotenv                 | For environment variables                 |
-| helmet                 | Add security layer to the app             |
-| express-async-errors   | Async/await error handling                |
-| express-mongo-sanitize | Prevent MongoDB operator injection        |
-| isomorphic-dompurify   | Sanitize use input                        |
-| joi                    | For schema validation                     |
-| jsonwebtoken           | Generation and verification of JWT token  |
-| mongoose               | wrapper for MongoDB                       |
-| morgan                 | Development logger                        |
-| nocache                | Prevent caching from client               |
-| safe-regex             | To safe guard regex used                  |
-| winston                | Developent logger                         |
-| http-errors            | For error handling                        |
-| lodash                 | Utilities for data manipulation           |
-| jest/supertest         | For backend unit testing                  |
-| eslint/prettier        | Formatting codes                          |
-| nodemon                | Dev server                                |
-| babel et al            | Code transpiler                           |
+| Dependencies           | Uses                                     |
+| ---------------------- | ---------------------------------------- |
+| express                | API request handler and DB connetor      |
+| bcrypt                 | Hashing password                         |
+| cloudinary             | SDK integration for image upload         |
+| cors                   | CORS middleware                          |
+| dotenv                 | For environment variables                |
+| helmet                 | Add security layer to the app            |
+| express-async-errors   | Async/await error handling               |
+| express-mongo-sanitize | Prevent MongoDB operator injection       |
+| isomorphic-dompurify   | Sanitize use input                       |
+| joi                    | For schema validation                    |
+| jsonwebtoken           | Generation and verification of JWT token |
+| mongoose               | wrapper for MongoDB                      |
+| morgan                 | Development logger                       |
+| nocache                | Prevent caching from client              |
+| safe-regex             | To safe guard regex used                 |
+| winston                | Developent logger                        |
+| http-errors            | For error handling                       |
+| lodash                 | Utilities for data manipulation          |
+| jest/supertest         | For backend unit testing                 |
+| eslint/prettier        | Formatting codes                         |
+| nodemon                | Dev server                               |
+| babel et al            | Code transpiler                          |
 
-**Client** 
+**Client**
 
 | Dependencies              | Uses                                   |
-|---------------------------|----------------------------------------|
+| ------------------------- | -------------------------------------- |
 | react                     | User interface builder                 |
 | @hookform/resolvers       | Connecting validator to form           |
 | @tanstack/react-query     | Server side state manager              |
@@ -92,6 +95,7 @@ Node version `v18.16.1`, yarn version `1.22.19` and [N](https://github.com/tj/n)
 | lodash                    | Utilities for data manipulation        |
 
 <a name="installation"></a>
+
 ### 💻 Run Locally
 
 Clone the project
@@ -115,6 +119,7 @@ Install dependencies
 Start the server on development mode
 
 ```bash
+# by default it will start at http://localhost:8080
   yarn dev
 ```
 
@@ -133,27 +138,32 @@ Install dependencies
 Start the client on development mode
 
 ```bash
+# by default it will start at http://localhost:5173
   yarn dev
 ```
 
 <a name="envs"></a>
+
 ### 🌱 Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file.
 
-For `server` directory, the .env must be located at the root of `server` directory. Port `8080` is not configured by default and must be specified as an `environment variable`. For the `client` directory, place the .env file in the client folder's `src` directory.
+- For `server` directory, the .env must be located at the root of `server` directory.
 
-MongoDB credentials and connection were established via [MongoDB Atlas](https://www.mongodb.com/atlas/database), however locally installed MongoDB will suffice.
+- Port `8080` is preconfigured by default in the `server`.
 
-The backend application also requires credentials to [Cloudinary](https://cloudinary.com/). To your account, add new `upload preset` and set it to `unsigned`.
+- For the `client` directory, place the .env file in the client folder's `src` directory.
+
+- MongoDB credentials and connection were established via [MongoDB Atlas](https://www.mongodb.com/atlas/database), however locally installed MongoDB will suffice.
+
+- The backend application also requires credentials to [Cloudinary](https://cloudinary.com/). To your account, add new `upload preset` and set it to `unsigned`.
 
 ```bash
 # server .env file e.g.
-PORT=8080
 MONGO_URL=<MONGO_CONNECTION_URL> # MongoDB connection other than test mode (debug & production mode)
 MONGO_URL_TEST=<MONGO_CONNECTION_URL> # MongoDB connection for test environment
 LOCAL_URL=http://localhost:5173 # Client side base URL. Must be set as-is
-JWT_SECRET=<YOUR_RANDOM_SECRET_STRING> 
+JWT_SECRET=<YOUR_RANDOM_SECRET_STRING>
 CLOUDINARY_NAME=<YOUR_CLOUDINARY_NAME>
 CLOUDINARY_KEY=<YOUR_CLOUDINARY_KEY>
 CLOUDINARY_SECRET=<YOUR_CLOUDINARY_SECRET>
@@ -170,6 +180,7 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
 ```
 
 <a name="api"></a>
+
 ### ⚙️ API Reference
 
 #### User
@@ -180,12 +191,12 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   POST /api/user/signup
 ```
 
-| Body      | Type     | Description    |
-| :-------- | :------- | :--------------|
-| `username`| `string` | **Required**   |
-| `email`   | `string` | **Required**   |
-| `password`| `string` | **Required**   |
-| `confirm` | `string` | **Required**   |
+| Body       | Type     | Description  |
+| :--------- | :------- | :----------- |
+| `username` | `string` | **Required** |
+| `email`    | `string` | **Required** |
+| `password` | `string` | **Required** |
+| `confirm`  | `string` | **Required** |
 
 ##### Login user
 
@@ -193,10 +204,10 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   GET /api/user/signin
 ```
 
-| Body      | Type     | Description    |
-| :-------- | :------- | :--------------|
-| `email`   | `string` | **Required**   |
-| `password`| `string` | **Required**   |
+| Body       | Type     | Description  |
+| :--------- | :------- | :----------- |
+| `email`    | `string` | **Required** |
+| `password` | `string` | **Required** |
 
 ##### Get auth user. Authentication required
 
@@ -204,9 +215,9 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   GET /api/user/me/${id}
 ```
 
-| Param     | Type     | Description    |
-| :-------- | :------- | :--------------|
-| `id`      | `string` | **Required**.  |
+| Param | Type     | Description   |
+| :---- | :------- | :------------ |
+| `id`  | `string` | **Required**. |
 
 ##### Get user by id
 
@@ -214,9 +225,9 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   GET /api/user/${id}
 ```
 
-| Parameter | Type     | Description    |
-| :-------- | :------- | :--------------|
-| `id`      | `string` | **Required**   |
+| Parameter | Type     | Description  |
+| :-------- | :------- | :----------- |
+| `id`      | `string` | **Required** |
 
 ##### Update user by id. Authentication required
 
@@ -224,12 +235,12 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   PATCH /api/user/update/${id}
 ```
 
-| Params/Body | Type     | Description   |
-| :---------- | :------- | :-------------|
-| `id`        | `string` | **Required**  |
-| `username`  | `string` | **Optional**  |
-| `email`     | `string` | **Optional**  |
-| `bio`       | `string` | **Optional**  |
+| Params/Body | Type     | Description  |
+| :---------- | :------- | :----------- |
+| `id`        | `string` | **Required** |
+| `username`  | `string` | **Optional** |
+| `email`     | `string` | **Optional** |
+| `bio`       | `string` | **Optional** |
 
 ##### Update user profile photo. Authentication required
 
@@ -237,10 +248,10 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   PATCH /api/user/update/avatar/${id}
 ```
 
-| Params/Body | Type     | Description   |
-| :---------- | :------- | :-------------|
-| `id`        | `string` | **Required**  |
-| `image`     | `string` | **Required**  |
+| Params/Body | Type     | Description  |
+| :---------- | :------- | :----------- |
+| `id`        | `string` | **Required** |
+| `image`     | `string` | **Required** |
 
 ##### Delete user by id. Authentication required
 
@@ -248,9 +259,9 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   DELETE /api/user/delete/${id}
 ```
 
-| Params      | Type     | Description   |
-| :---------- | :------- | :-------------|
-| `id`        | `string` | **Required**  |
+| Params | Type     | Description  |
+| :----- | :------- | :----------- |
+| `id`   | `string` | **Required** |
 
 ##### Get all users
 
@@ -266,12 +277,12 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   POST /api/post
 ```
 
-| Body          | Type     | Description   |
-| :------------ | :------- | :-------------|
-| `title`       | `string` | **Required**  |
-| `description` | `string` | **Optional**  |
-| `tags`        | `string` | **Optional**  |
-| `entry`       | `string` | **Optional**  |
+| Body          | Type     | Description  |
+| :------------ | :------- | :----------- |
+| `title`       | `string` | **Required** |
+| `description` | `string` | **Optional** |
+| `tags`        | `string` | **Optional** |
+| `entry`       | `string` | **Optional** |
 
 ##### Get post snippet by id
 
@@ -279,9 +290,9 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   GET /api/post/${id}
 ```
 
-| Params      | Type     | Description   |
-| :---------- | :------- | :-------------|
-| `id`        | `string` | **Required**  |
+| Params | Type     | Description  |
+| :----- | :------- | :----------- |
+| `id`   | `string` | **Required** |
 
 ##### Get all post
 
@@ -295,12 +306,12 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   PATCH /api/post/${id}
 ```
 
-| Params/Body   | Type     | Description   |
-| :------------ | :------- | :-------------|
-| `id`          | `string` | **Required**  |
-| `title`       | `string` | **Required**  |
-| `description` | `string` | **Optional**  |
-| `entry`       | `string` | **Optional**  |
+| Params/Body   | Type     | Description  |
+| :------------ | :------- | :----------- |
+| `id`          | `string` | **Required** |
+| `title`       | `string` | **Required** |
+| `description` | `string` | **Optional** |
+| `entry`       | `string` | **Optional** |
 
 ##### Delete post. Authentication required
 
@@ -308,9 +319,9 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   DELETE /api/post/${id}
 ```
 
-| Params        | Type     | Description   |
-| :------------ | :------- | :-------------|
-| `id`          | `string` | **Required**  |
+| Params | Type     | Description  |
+| :----- | :------- | :----------- |
+| `id`   | `string` | **Required** |
 
 #### Post
 
@@ -320,10 +331,10 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   POST /api/comment/${postId}
 ```
 
-| Params/Body   | Type     | Description   |
-| :------------ | :------- | :-------------|
-| `postId`      | `string` | **Required**  |
-| `commentary`  | `string` | **Required**  |
+| Params/Body  | Type     | Description  |
+| :----------- | :------- | :----------- |
+| `postId`     | `string` | **Required** |
+| `commentary` | `string` | **Required** |
 
 ##### Get comment by post snippet id
 
@@ -331,9 +342,9 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   GET /api/comment/post/${postId}
 ```
 
-| Params        | Type     | Description   |
-| :------------ | :------- | :-------------|
-| `postId`      | `string` | **Required**  |
+| Params   | Type     | Description  |
+| :------- | :------- | :----------- |
+| `postId` | `string` | **Required** |
 
 ##### Get comment by id
 
@@ -341,9 +352,9 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   GET /api/comment/${id}
 ```
 
-| Params        | Type     | Description   |
-| :------------ | :------- | :-------------|
-| `id`          | `string` | **Required**  |
+| Params | Type     | Description  |
+| :----- | :------- | :----------- |
+| `id`   | `string` | **Required** |
 
 ##### Update comment by id. Authentication required
 
@@ -351,10 +362,10 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   PATCH /api/comment/update/${id}
 ```
 
-| Params/Body   | Type     | Description   |
-| :------------ | :------- | :-------------|
-| `id`          | `string` | **Required**  |
-| `commentary`  | `string` | **Optional**  |
+| Params/Body  | Type     | Description  |
+| :----------- | :------- | :----------- |
+| `id`         | `string` | **Required** |
+| `commentary` | `string` | **Optional** |
 
 ##### Delete comment by id. Authentication required
 
@@ -362,9 +373,9 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   DELETE /api/comment/delete/${id}
 ```
 
-| Params   | Type     | Description   |
-| :--------| :------- | :-------------|
-| `id`     | `string` | **Required**  |
+| Params | Type     | Description  |
+| :----- | :------- | :----------- |
+| `id`   | `string` | **Required** |
 
 ##### Get comment by user id
 
@@ -372,11 +383,12 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   GET /api/comment/user/${id}
 ```
 
-| Params  | Type     | Description   |
-| :-------| :------- | :-------------|
-| `id`    | `string` | **Required**  |
+| Params | Type     | Description  |
+| :----- | :------- | :----------- |
+| `id`   | `string` | **Required** |
 
 <a name="tests"></a>
+
 ### 🧪 Running Tests
 
 To run server's unit tests, run the following commands
@@ -390,6 +402,8 @@ yarn test
 ```
 
 To run End-to-end test, run the following commands
+
+_video test output: ./client/cypress/videos/spec.cy.js.mp4_
 
 ```bash
 # go to server directory and build server. Build folder at ./server/dist
@@ -409,41 +423,56 @@ yarn test:e2e
 ```
 
 <a name="feat"></a>
+
 ### ✨ Features
 
 The projected points for each feature are solely dependent on the author's perspective.
 
-*Basic/mandatory requirements includes: Implementation of backend with Node.js, utilization of database(MongoDB), authentication(JWT),
+\*Basic/mandatory requirements includes: Implementation of backend with Node.js, utilization of database(MongoDB), authentication(JWT),
 post new code snippets, comment on existing posts, users who are not logged in can view posts and comments, there is a page that lists all of the posts; when opening a post, the comments are also listed, responsive design, and documentation.
 
+| Feautures                                              | Points |
+| :----------------------------------------------------- | :----- |
+| `*Basic/mandatory requirements`                        | `25`   |
+| `Users can edit their own comments/posts`              | `4`    |
+| `Utilization of a frontside framework`                 | `5`    |
+| `Use some highlight library with markdown`             | `2`    |
+| `Test software for accessibility`                      | `2`    |
+| `Search filter for post title and tags`                | `2`    |
+| `User profile image for posts & comments`              | `3`    |
+| `Clickable user account and profile with info`         | `2`    |
+| `Last edited timestamp is stored and shown`            | `2`    |
+| `E2E test with cypress (> 10 tests)`                   | `5`    |
+| `Backend unit test with jest & supertest (> 10 tests)` | `5`    |
 
-| Feautures                                                | Points     |
-| :------------------------------------------------------- | :--------- |
-| `*Basic/mandatory requirements`                          | `25`       |
-| `Users can edit their own comments/posts`                | `4`        |
-| `Utilization of a frontside framework`                   |  `5`       |
-| `Use some highlight library with markdown`               |  `2`       |
-| `Test software for accessibility`                        |  `2`       |
-| `Search filter for post title and tags`                  |  `2`       |
-| `User profile image for posts & comments`                |  `3`       |
-| `Clickable user account and profile with info`           |  `2`       |
-| `Last edited timestamp is stored and shown`              |  `2`       |
-| `E2E test with cypress (> 10 tests)`                     |  `5`       |
-| `Backend unit test with jest & supertest (> 10 tests)`   |  `5`       |
+#### Additional Features
+
+| Feautures                                              | Points |
+| :----------------------------------------------------- | :----- |
+| `Deployment`                                           | `38`   |
+
+*Well, I think that any new web app should be tested online and must be configured for production deployment.
+
+**Backend api as serverless function:** https://xzymous-api.vercel.app/
+
+**Frontend app:** https://www.arnelimperial.com
 
 
 <a name="license"></a>
+
 ### 📝 License
 
 [BSD Zero Clause](https://choosealicense.com/licenses/0bsd/)
 
 <a name="lessons"></a>
+
 ### 🎓 Lessons Learned
 
-The main issue I had when working on this project was determining the right tool and environment for a variety of tasks while also efficiently managing my time. I intended to write both the front-end and back-end in Typescript to be included as a feature of the project, however the development took longer than expected due to my lack of Typescript know-how. To meet the needs of time, I turned to Javascript for this matter. I'm certain that I can give the codes in TS, but time is now my adversary, and I'm worried that I won't be able to finish the project on time. I don't think I'm wasting time on that portion, but sitting in front of my computer, configuring, retooling my project at the same time reviewing TS gives me a sense of unfinished work, especially as the clock approaches a deadline. TS is good, however I think I'll use it on personal projects that offer me plenty of time. 
+The main issue I had when working on this project was determining the right tool and environment for a variety of tasks while also efficiently managing my time. I intended to write both the front-end and back-end in Typescript to be included as a feature of the project, however the development took longer than expected due to my lack of Typescript know-how. To meet the needs of time, I turned to Javascript for this matter. I'm certain that I can give the codes in TS, but time is now my adversary, and I'm worried that I won't be able to finish the project on time. I don't think I'm wasting time on that portion, but sitting in front of my computer, configuring, retooling my project at the same time reviewing TS gives me a sense of unfinished work, especially as the clock approaches a deadline. TS is good, however I think I'll use it on personal projects that offer me plenty of time.
 I also learned to prioritise the project's mandatory requirements before adding extra features that can slow down development.
 
 <a name="deployment"></a>
+
 ### 🚀 Deployment
 
 Web services by [Vercel](https://vercel.com/new)
@@ -453,6 +482,7 @@ Web services by [Vercel](https://vercel.com/new)
 **Frontend app:** https://www.arnelimperial.com
 
 <a name="author"></a>
+
 ### 👨🏻‍💻 Author
 
 - [@aiotrope](https://github.com/aiotrope)

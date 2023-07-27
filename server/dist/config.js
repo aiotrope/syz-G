@@ -6,7 +6,7 @@ var _path = _interopRequireDefault(require("path"));
 _dotenv.default.config({
   path: _path.default.resolve(__dirname, '../../.env')
 });
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const ORIGINAL_FRONTEND_URL = process.env.ORIGINAL_FRONTEND_URL;
 const BACKEND_URL = process.env.BACKEND_URL;
