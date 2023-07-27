@@ -202,7 +202,7 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   GET /api/user/me/${id}
 ```
 
-| Parameter | Type     | Description    |
+| Param     | Type     | Description    |
 | :-------- | :------- | :--------------|
 | `id`      | `string` | **Required**.  |
 
