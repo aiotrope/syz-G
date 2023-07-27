@@ -15,10 +15,12 @@ Xzymous is a web app project submitted in partial fulfillment of LUT's CT30A3204
 4. [ Installation ](#installation)
 5. [ Environment Variables ](#envs)
 6. [ API Reference ](#api)
-7. [ License ](#license)
-8. [ Lessons ](#lessons)
-9. [ Deployment ](#deployment)
-10. [ Author ](#author)
+7. [ Running Tests ](#tests)
+8. [ Features ](#feat)
+9. [ License ](#license)
+10. [ Lessons ](#lessons)
+11. [ Deployment ](#deployment)
+12. [ Author ](#author)
 
 <a name="requisite"></a>
 ### 🤔 Requisite
@@ -143,12 +145,12 @@ For `server` directory the .env must be located at the root of `server` director
 
 MongoDB credentials and connection were established via [MongoDB Atlas](https://www.mongodb.com/atlas/database), however locally installed MongoDB will suffice.
 
-The backend application also requires credentials to [Cloudinary](https://cloudinary.com/).
+The backend application also requires credentials to [Cloudinary](https://cloudinary.com/). To your account, add new `upload preset` and set it to `unsigned`.
 
 ```bash
 # server .env file e.g.
 PORT=8080
-MONGO_URL=<MONGO_CONNECTION_URL>
+MONGO_URL=<MONGO_CONNECTION_URL> # MongoDB connection other than test mode (debug & production mode)
 MONGO_URL_TEST=<MONGO_CONNECTION_URL> # MongoDB connection for test environment
 LOCAL_URL=http://localhost:5173 # Client side base URL. Must be set as-is
 JWT_SECRET=<YOUR_RANDOM_SECRET_STRING>
@@ -374,6 +376,37 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
 | :-------| :------- | :-------------|
 | `id`    | `string` | **Required**  |
 
+<a name="tests"></a>
+## Running Tests
+
+To run server's unit tests, run the following commands
+
+```bash
+cd server
+# build backend code to production. Build folder at ./dist
+yarn build:server
+# run test
+yarn test
+```
+
+To run End-to-end test, run the following commands
+
+```bash
+# go to server directory and build server. Build folder at ./dist
+cd server && yarn build:server
+# run the server on test mode at port 8080
+yarn start:testMode
+
+# go to client directory and build client. Build folder at ./dist
+cd client && yarn build
+# run client's preview at port 5173
+yarn preview
+# Choose where to run
+# to run the test with GUI
+yarn cypress:open
+# to run the test in terminal
+yarn test:e2e
+```
 
 <a name="license"></a>
 ### 📝 License
