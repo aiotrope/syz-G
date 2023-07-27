@@ -14,10 +14,11 @@ Xzymous is a web app project submitted in partial fulfillment of LUT's CT30A3204
 3. [ Tech Stack ](#tech-stack)
 4. [ Installation ](#installation)
 5. [ Environment Variables ](#envs)
-6. [ License ](#license)
-6. [ Lessons ](#lessons)
-7. [ Deployment ](#deployment)
-8. [ Author ](#author)
+6. [ API Reference ](#api)
+7. [ License ](#license)
+8. [ Lessons ](#lessons)
+9. [ Deployment ](#deployment)
+10. [ Author ](#author)
 
 <a name="requisite"></a>
 ### 🤔 Requisite
@@ -165,6 +166,208 @@ BACKEND_URL=http://localhost:8080 # Server side base URL. Must be set as-is
 # client .env file e.g.
 VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
 ```
+
+<a name="api"></a>
+### ⚙️ API Reference
+
+#### User
+
+##### Create user
+
+```http
+  POST /api/user/signup
+```
+
+| Body      | Type     | Description    |
+| :-------- | :------- | :--------------|
+| `username`| `string` | **Required**   |
+| `email`   | `string` | **Required**   |
+| `password`| `string` | **Required**   |
+| `confirm` | `string` | **Required**   |
+
+##### Login user
+
+```http
+  GET /api/user/signin
+```
+
+| Body      | Type     | Description    |
+| :-------- | :------- | :--------------|
+| `email`   | `string` | **Required**   |
+| `password`| `string` | **Required**   |
+
+##### Get auth user. Authentication required
+
+```http
+  GET /api/user/me/${id}
+```
+
+| Parameter | Type     | Description    |
+| :-------- | :------- | :--------------|
+| `id`      | `string` | **Required**.  |
+
+##### Get user by id
+
+```http
+  GET /api/user/${id}
+```
+
+| Parameter | Type     | Description    |
+| :-------- | :------- | :--------------|
+| `id`      | `string` | **Required**   |
+
+##### Update user by id. Authentication required
+
+```http
+  PATCH /api/user/update/${id}
+```
+
+| Params/Body | Type     | Description   |
+| :---------- | :------- | :-------------|
+| `id`        | `string` | **Required**  |
+| `username`  | `string` | **Optional**  |
+| `email`     | `string` | **Optional**  |
+| `bio`       | `string` | **Optional**  |
+
+##### Update user profile photo. Authentication required
+
+```http
+  PATCH /api/user/update/avatar/${id}
+```
+
+| Params/Body | Type     | Description   |
+| :---------- | :------- | :-------------|
+| `id`        | `string` | **Required**  |
+| `image`     | `string` | **Required**  |
+
+##### Delete user by id. Authentication required
+
+```http
+  DELETE /api/user/delete/${id}
+```
+
+| Params      | Type     | Description   |
+| :---------- | :------- | :-------------|
+| `id`        | `string` | **Required**  |
+
+#### Post
+
+##### Create post snippet. Authentication required
+
+```http
+  POST /api/post
+```
+
+| Body          | Type     | Description   |
+| :------------ | :------- | :-------------|
+| `title`       | `string` | **Required**  |
+| `description` | `string` | **Optional**  |
+| `tags`        | `string` | **Optional**  |
+| `entry`       | `string` | **Optional**  |
+
+##### Get post snippet by id
+
+```http
+  GET /api/post/${id}
+```
+
+| Params      | Type     | Description   |
+| :---------- | :------- | :-------------|
+| `id`        | `string` | **Required**  |
+
+##### Get all post
+
+```http
+  GET /api/post
+```
+
+##### Update post. Authentication required
+
+```http
+  PATCH /api/post/${id}
+```
+
+| Params/Body   | Type     | Description   |
+| :------------ | :------- | :-------------|
+| `id`          | `string` | **Required**  |
+| `title`       | `string` | **Required**  |
+| `description` | `string` | **Optional**  |
+| `entry`       | `string` | **Optional**  |
+
+##### Delete post. Authentication required
+
+```http
+  DELETE /api/post/${id}
+```
+
+| Params        | Type     | Description   |
+| :------------ | :------- | :-------------|
+| `id`          | `string` | **Required**  |
+
+#### Post
+
+##### Create comment. Authentication required
+
+```http
+  POST /api/comment/${postId}
+```
+
+| Params/Body   | Type     | Description   |
+| :------------ | :------- | :-------------|
+| `postId`      | `string` | **Required**  |
+| `commentary`  | `string` | **Required**  |
+
+##### Get comment by post snippet id
+
+```http
+  GET /api/comment/post/${postId}
+```
+
+| Params        | Type     | Description   |
+| :------------ | :------- | :-------------|
+| `postId`      | `string` | **Required**  |
+
+##### Get comment by id
+
+```http
+  GET /api/comment/${id}
+```
+
+| Params        | Type     | Description   |
+| :------------ | :------- | :-------------|
+| `id`          | `string` | **Required**  |
+
+##### Update comment by id. Authentication required
+
+```http
+  PATCH /api/comment/update/${id}
+```
+
+| Params/Body   | Type     | Description   |
+| :------------ | :------- | :-------------|
+| `id`          | `string` | **Required**  |
+| `commentary`  | `string` | **Optional**  |
+
+##### Delete comment by id. Authentication required
+
+```http
+  DELETE /api/comment/delete/${id}
+```
+
+| Params        | Type     | Description   |
+| :------------ | :------- | :-------------|
+| `id`          | `string` | **Required**  |
+
+##### Get comment by user id
+
+```http
+  GET /api/comment/user/${id}
+```
+
+| Params  | Type     | Description   |
+| :-------| :------- | :-------------|
+| `id`    | `string` | **Required**  |
+
 
 <a name="license"></a>
 ### 📝 License
