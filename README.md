@@ -250,6 +250,12 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
 | :---------- | :------- | :-------------|
 | `id`        | `string` | **Required**  |
 
+##### Get all users
+
+```http
+  GET /api/user/all
+```
+
 #### Post
 
 ##### Create post snippet. Authentication required
@@ -354,9 +360,9 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
   DELETE /api/comment/delete/${id}
 ```
 
-| Params        | Type     | Description   |
-| :------------ | :------- | :-------------|
-| `id`          | `string` | **Required**  |
+| Params   | Type     | Description   |
+| :--------| :------- | :-------------|
+| `id`     | `string` | **Required**  |
 
 ##### Get comment by user id
 
