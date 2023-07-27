@@ -28,22 +28,65 @@ Basic understanding of MERN (MongoDB, Express, React, Node) stack web developmen
 ### 🤖 Tech Stack
 
 The author chose the technological stack in the project based on his prior experiences with the stack, the application of technologies covered in the `CT30A3204` course curriculum, and the motivation to try something new to carry out an extra feature to the app built. 
-`Vite` was used as a build tool to scaffold the project on the client side instead of `Create React App` due to faster hot module reloading. 
+`Vite` was used as a build tool to scaffold the project on the client side instead of `Create React App` due to faster hot module reloading feature. 
 The aim for uniformity between the backend and frontend code during development phase led to the optional decision of the author to implement `Babel` transpilation to CommonJS on production.
+Node version `v18.16.1`, yarn version `1.22.19` and [N](https://github.com/tj/n) nodejs package manager was use for development setup.
 
-The following is a non-exhaustive list of technologies used in the project.
+**Server** 
 
-**Client:** React, Axios, TanStack Query, Recoil, Bootstrap, Sass
+| Dependencies           | Uses                                      |
+|------------------------|-------------------------------------------|
+| express                | API request handler and DB connetor       |
+| bcrypt                 | Hashing password                          |
+| cloudinary             | SDK integration for image upload          |
+| cors                   | CORS middleware                           |
+| dotenv                 | For environment variables                 |
+| helmet                 | Add security layer to the app             |
+| express-async-errors   | Async/await error handling                |
+| express-mongo-sanitize | Prevent MongoDB operator injection        |
+| isomorphic-dompurify   | Sanitize use input                        |
+| joi                    | For schema validation                     |
+| jsonwebtoken           | Generation and verification of JWT token  |
+| mongoose               | wrapper for MongoDB                       |
+| morgan                 | Development logger                        |
+| nocache                | Prevent caching from client               |
+| safe-regex             | To safe guard regex used                  |
+| winston                | Developent logger                         |
+| http-errors            | For error handling                        |
+| lodash                 | Utilities for data manipulation           |
+| jest/supertest         | For backend unit testing                  |
+| eslint/prettier        | Formatting codes                          |
+| nodemon                | Dev server                                |
+| babel et al            | Code transpiler                           |
 
-**Server:** Node, Express, Jsonwebtoken, Mongoose, Babel
+**Client** 
 
-**Database:** Mongodb
-
-**Frontend development tool:** Vite
-
-**Unit and e2e testing tools:** Jest, Supertest, Cypress
-
-**Deployment:** Vercel
+| Dependencies              | Uses                                   |
+|---------------------------|----------------------------------------|
+| react                     | User interface builder                 |
+| @hookform/resolvers       | Connecting validator to form           |
+| @tanstack/react-query     | Server side state manager              |
+| axios                     | Manage HTTP request from the client    |
+| react-bootstrap/bootstrap | Responsive components for creating UI  |
+| jwt-decode                | Decoding JWT access token              |
+| moment                    | Formatting timestamp                   |
+| react-markdown            | Rendering markdown                     |
+| react-hook-form           | Hook for building forms                |
+| yup                       | For schema validation                  |
+| react-syntax-highlighter  | Code highlighter                       |
+| sass                      | CSS preprocessor                       |
+| react-toastify            | Notification and messages              |
+| recoil/recoil-persist     | Client side state manager              |
+| use-debounce              | Delaying execution of state update     |
+| remark-gfm                | Plugin to support GFM                  |
+| @axe-core/react           | Accessibility test on dev mode         |
+| cypress                   | For E2E testing                        |
+| react-router-dom          | Routing for react                      |
+| eslint/prettier           | Formatting codes                       |
+| eslint-plugin-jsx-a11y    | Accessibility checker rule on dev mode |
+| vite                      | Frontend build tool                    |
+| isomorphic-dompurify      | Sanitize use input                     |
+| lodash                    | Utilities for data manipulation        |
 
 <a name="installation"></a>
 ### 💻 Run Locally
@@ -91,13 +134,37 @@ Start the client on development mode
 ```
 
 <a name="envs"></a>
-#### 🌱 Environment Variables
+### 🌱 Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env file.
 
-`API_KEY`
+For `server` directory the .env must be located at the root of `server` directory. Port `8080` is not configured by default and must be specified as an environment variable. For the `client` directory, place the .env file in the client folder's `src` directory.
 
-`ANOTHER_API_KEY`
+MongoDB credentials and connection were established via [MongoDB Atlas](https://www.mongodb.com/atlas/database), however locally installed MongoDB will suffice.
+
+The backend application also requires credentials to [Cloudinary](https://cloudinary.com/).
+
+```bash
+# server .env file e.g.
+PORT=8080
+MONGO_URL=<MONGO_CONNECTION_URL>
+MONGO_URL_TEST=<MONGO_CONNECTION_URL> # MongoDB connection for test environment
+LOCAL_URL=http://localhost:5173 # Client side base URL. Must be set as-is
+JWT_SECRET=<YOUR_RANDOM_SECRET_STRING>
+CLOUDINARY_NAME=<YOUR_CLOUDINARY_NAME>
+CLOUDINARY_KEY=<YOUR_CLOUDINARY_KEY>
+CLOUDINARY_SECRET=<YOUR_CLOUDINARY_SECRET>
+CLOUDINARY_PRESET_NAME=<YOUR_CLOUDINARY_PRESET>
+FRONTEND_URL=http://localhost:5173 # Client side base URL. Must be set as-is
+ORIGINAL_FRONTEND_URL=http://localhost:5173 # Client side base URL. Must be set as-is
+BACKEND_URL=http://localhost:8080 # Server side base URL. Must be set as-is
+
+```
+
+```bash
+# client .env file e.g.
+VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
+```
 
 <a name="license"></a>
 ### 📝 License
