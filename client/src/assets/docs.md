@@ -1,0 +1,323 @@
+## About this project
+
+__Xzymous__ is a web app project submitted in partial fulfillment of Lappeenranta–Lahti University of Technology's CT30A3204 course. The application's architecture which consists of server-side deployed as serverless function and client-side code is separately published on the internet and maintained in a single git repository. The client side, which acts as a single-page application, can send HTTP requests to the server, providing the resources such as users, posts, and comments. Anonymous users can only access some of the resources through `GET` requests through rendered data on the website; otherwise, users must authenticate to the system to execute further interactive operations.
+
+---
+
+## Features
+
+Legends:
+
+__Frontend (client) base URL on debug__: https://localhost:5173
+
+__Frontend (client) base URL on production__: https://www.arnelimperial.com
+
+__Backend (server) base URL on debug__: https://localhost:8080
+
+__Backend (server) base URL on production__: https://xzymous-api.vercel.app
+
+__object__: refers to the backend model object
+
+__request__: CRUD operation
+
+__endpoint__: resource access locations for APIs.
+
+__page__: denotes routes primarily in the frontend, but some in the backend as well
+
+__redirect__: refers to reroutes in the frontend, but also in the backend.
+
+__BE/FE__: shorthand for backend (server) and frontend (client)
+
+__req.user__: Current authenticated user
+
+### Object: User
+
+The `req.user` has permission to perform all CRUD operations and has control over the object created by the request. user or a currently authenticated user. The admin user has complete access to all database objects. All requests are supported by __JWT-based authentication__.
+
+#### Registration and authentication flow
+
+The first step in using this website is to register an account by providing the requested details on the __http://localhost:5173/signup__ page, including a `username`, `email address`, `password` and `confirmation password`. Upon successful registration, the user will be re-directed to  __http://localhost:5173/login__ page asking them for login credentials such as `email address` and `password`. 
+
+##### Signup
+```bash
+request: POST
+endpoint: http://localhost:8080/auth/user/signup
+page: http://localhost:5173/signup
+redirect: http://localhost:5173/login
+```
+##### Login
+
+```bash
+request: POST
+endpoint: http://localhost:8080/auth/user/signin
+page: http://localhost:5173/login
+redirect: http://localhost:5173/dashboard
+```
+### Authenticated user account 
+
+Authenticated users can __update__ their username, email, bio info and avatar. Can also `delete` their account.
+
+#### Username, email, bio update
+
+`id` as user's id
+
+```bash
+request: PATCH
+endpoint: http://localhost:8080/api/user/update/${id}
+page: http://localhost:5173/me
+```
+
+#### Profile photo update
+
+`id` as user's id
+
+```bash
+request: PATCH
+endpoint: http://localhost:8080/api/user/update/avatar/${id}
+page: http://localhost:5173/me
+```
+
+#### Account deletion
+
+All of the references that has association to the user will be deleted: __Post and Comment__
+
+`id` as user's id
+
+```bash
+request: DELETE
+endpoint: http://localhost:8080/api/user/delete/${id}
+page: http://localhost:5173/me
+redirect: http://localhost:5173/login
+```
+### User list and count
+
+Although anonymous users can see the number of users, only admin users can see the list of users.
+
+#### All users count
+
+Admin/staff users are not included in this request.
+
+    request: GET
+    endpoint: /api/user-counts/
+    page: /
+
+#### All default (auto-generated) users count
+
+    request: GET
+    endpoint: /api/user-counts/
+    page: /
+
+#### All normal users count
+
+Normal users are those who signed up for the site manually.
+
+    request: GET
+    endpoint: /api/user-unfabricated-counts/
+    page: /
+ ---
+
+### Object: Contact
+
+The application includes a contact messaging form, but it is only accessible to authenticated users. Contact objects can only be viewed by the __request.user__ who created them, as well as admin users.
+
+#### Create contact
+
+    request: POST
+    endpoint: /api/contacts/
+    page: /contact
+    redirect: /contact-form-submitted
+
+#### Retrieve contact
+
+    request: GET
+    endpoint: /api/contacts/
+    page: /me
+
+---
+
+### Object: Item
+
+Item object has the User as foreign key. Item objects list and retrieve actions can be access by __anonymous users__ but only __request.user__ can view their own item objects created. Creating, updating and deleting item objects can only be done when user is authenticated.
+
+#### Item list and count
+
+Anonymous users can view the list and number of items and can perform retrieve actions.
+
+#### All items count
+
+    request: GET
+    endpoint: /api/user-counts/
+    page: /
+
+#### All default (auto-generated) items count
+
+    request: GET
+    endpoint: /api/item-fabricated-counts/
+    page: /
+
+#### All normal items count
+
+Normal items are those created by users who are not auto-generated by the system. If ever a user use the __default users__ to make a request those will count as auto-generated even if the request is manually operated.
+
+    request: GET
+    endpoint: /api/item-unfabricated-counts/
+    page: /
+---
+
+#### Create item
+
+Authenticated users must provide the item's name, description, and price. The price field is a decimal field that accepts only whole numbers and floating point values up to two decimal places. As a thousands separator, commas and spaces are not permitted; only dot(.) is permitted. The price attributes will be converted to the *de_DE * locale format by the backend before being converted to the *fi_FI * locale format by the frontend. User who created the item is the __merchant__(Item) or the __seller__(Purchase) attribute in the models respectively.
+
+    request: POST
+    endpoint: /api/items/
+    page: /user-items
+
+#### List all items
+
+    request: GET
+    endpoint: /api/items/
+    page: /shop
+
+#### Retrieve an item
+
+Access a single item. Even anonymous users have access.
+
+    request: GET
+    endpoint: /api/items/{itemId}/
+    page: /item/:id
+
+#### List all items created by the request.user
+
+    request: GET
+    endpoint: /api/item-owned/
+    page: /user-items
+
+#### Update an item
+
+Partial update(PATCH) and update(PUT) are supported in this endpoint but partial update are the implemented on the frontend. Only the __request.user who have the association with item through foreign key relationship__ can update the item object. Item name, description and price can be edited.
+
+    request: PATCH
+    endpoint: /api/items/{itemId}/
+    page: /item/:id
+
+#### Delete an item
+
+Similarly to a partial update request, the user who owns/created the object item has the ability to delete the selected object.
+
+    request: DELETE
+    endpoint: /api/items/{itemId}/
+    page: /item/:id    
+
+---
+
+### Object: Cart
+
+Cart object has a foreign key relationship to __Item__ and __User__ object. All Cart object actions and methods are directly controlled by the request.user who has relationship with the object. The request.user who created the cart object becomes a __customer__ attribute on the Cart model. Users are not permitted to select their own item(s) if they are the __merchant__ of the __item__ object. This functionality is not yet implemented on the backend. The __on_stock__ attribute of item object will be updated from __"Available"__ to __"On Hold"__ once cart is created. But if the cart is deleted an item will be revert back to __"Available"__ status.
+
+#### Create a cart
+
+    request: POST
+    endpoint: /api/carts/
+    page: /shop and /item/:id 
+
+#### List all the carts created by the request.user
+
+    request: GET
+    endpoint: /api/carts/
+    page: /cart
+
+#### Delete a cart
+
+Only request.user who owns the cart object can delete their cart.
+
+    request: DELETE
+    endpoint: /api/carts/{cartId}/
+    page: /cart
+
+---
+
+### Object: Purchase
+
+Purchase object has a foreign key relationship to the  Cart and User object. All Purchase object actions and methods are directly controlled by the request.user who has relationship with the object. The request.user who created the purchase object becomes a __buyer__ attribute on the Purchase model. Although it has a similarity with cart object, purchase object signifies that the __request.user__ already bought an item(s). The __on_stock__ attribute of item object will be updated from __"On Hold"__ to __"Sold Out"__ once cart is created.
+
+#### Create a purchase
+
+    request: POST
+    endpoint: /api/purchases/
+    page: /cart
+
+#### List all items purchased by the request.user
+
+    request: GET
+    endpoint: /api/purchases/
+    page: /user-items
+
+#### List all items sold by the request.user
+
+    request: GET
+    endpoint: /api/purchases-seller/
+    page: /user-items
+
+#### Email notification for buyer and sellers
+
+Following the successful purchase of a __user (buyer)__, an email notification will be sent notifying the items purchased as well as notification to __sellers__ for the items sold.
+
+---
+
+### Search
+
+Anonymous and login users can search the items by the item's name. The main functionality was implemented on the backend's search filter and use debouncing on the frontend.
+
+    request: GET
+    endpoint: /api/items/?search=${nameOfItem}
+    page: /shop
+
+---
+### Pagination
+
+Backend pagination class used using page number pagination with page item size of 10 items per page.
+
+    request: GET
+    endpoint: /api/items/?page=${currentPage}
+    page: /shop
+---
+
+#### Headless CMS
+
+[Contenful](https://www.contentful.com "Contenful") CMS was used to create this guide page.
+
+----
+
+### Axios interceptors for access and refresh token
+
+The access token is valid for 60 minutes but can only be refreshed once. The refresh token has a one-day lifespan.
+
+---
+
+### Security
+
+__Content Security Policy__ and __Permissions Policy__ protection was added to boost the security features of the application.
+
+The following backend security configurations are enabled on this application:
+
+    - SECURE_PROXY_SSL_HEADER
+    - SECURE_SSL_REDIRECT
+    - SECURE_HSTS_SECONDS
+    - SECURE_HSTS_INCLUDE_SUBDOMAINS
+    - SECURE_HSTS_PRELOAD
+    - SECURE_CONTENT_TYPE_NOSNIFF
+    - SECURE_REFERRER_POLICY
+    - SESSION_COOKIE_SECURE
+    - SESSION_COOKIE_HTTPONLY
+    - SECURE_BROWSER_XSS_FILTER
+    - X_FRAME_OPTIONS
+    - CSRF_COOKIE_SECURE
+    - CSRF_TRUSTED_ORIGINS
+    - CORS_REPLACE_HTTPS_REFERER
+
+---
+
+##### Synchro project relies on a number tools to function properly:
+
+- Web service and production database provided by [render.io ](https://render.com/).
+- Emailing and SMTP delivery by [SMTP2GO](https://www.smtp2go.com/).

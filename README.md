@@ -16,12 +16,13 @@ Xzymous is a web app project submitted in partial fulfillment of LUT's CT30A3204
 4. [ Installation ](#installation)
 5. [ Environment Variables ](#envs)
 6. [ API Reference ](#api)
-7. [ Running Tests ](#tests)
-8. [ Features ](#feat)
-9. [ License ](#license)
-10. [ Lessons ](#lessons)
-11. [ Deployment ](#deployment)
-12. [ Author ](#author)
+7. [ Documentation ](#docs)
+8. [ Running Tests ](#tests)
+9. [ Features ](#feat)
+10. [ License ](#license)
+11. [ Lessons ](#lessons)
+12. [ Deployment ](#deployment)
+13. [ Author ](#author)
 
 <a name="requisite"></a>
 
@@ -392,6 +393,15 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
 | Params | Type     | Description  |
 | :----- | :------- | :----------- |
 | `id`   | `string` | **Required** |
+
+
+<a name="docs"></a>
+
+### 📜 Documentation
+
+[Documentation](https://www.arneimperial.com/docs)
+
+
 
 <a name="tests"></a>
 
