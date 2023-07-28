@@ -38,8 +38,8 @@ const AuthTopNav = () => {
               <LinkContainer to="/" id="home-link">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/about">
-                <Nav.Link>About</Nav.Link>
+              <LinkContainer to="/docs">
+                <Nav.Link>Documentation</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/create-snippet" id="create-snippet-link">
                 <Nav.Link>

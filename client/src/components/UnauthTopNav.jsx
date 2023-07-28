@@ -24,8 +24,8 @@ const UnAuthTopNav = () => {
                 <LinkContainer to="/">
                   <Nav.Link>Home</Nav.Link>
                 </LinkContainer>
-                <LinkContainer to="/about">
-                  <Nav.Link>About</Nav.Link>
+                <LinkContainer to="/docs">
+                  <Nav.Link>Documentation</Nav.Link>
                 </LinkContainer>
                 <Nav.Link>
                   <Badge bg="secondary" onClick={() => setModalShow(true)}>

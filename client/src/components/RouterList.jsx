@@ -1,10 +1,12 @@
 import { lazy, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
+import { ContentfulProvider } from 'react-contentful'
 
 import { jwt_atom } from '../recoil/auth'
+import { contentfulClient } from '../services/contentful'
 const Home = lazy(() => import('./Home'))
-const About = lazy(() => import('./About'))
+const Documentation = lazy(() => import('./Docs'))
 const CreateSnippet = lazy(() => import('./CreateSnippet'))
 const FetchSnippet = lazy(() => import('./FetchSnippet'))
 const UpdateSnippet = lazy(() => import('./UpdateSnippet'))
@@ -30,7 +32,14 @@ const RouterList = () => {
         path="/"
         element={<Home searchText={searchText} setSearchText={setSearchText} />}
       />
-      <Route path="/about" element={<About />} />
+      <Route
+        path="/docs"
+        element={
+          <ContentfulProvider client={contentfulClient}>
+            <Documentation />
+          </ContentfulProvider>
+        }
+      />
       <Route path="/signup" element={_jwt ? <Navigate to="/dashboard" /> : <Signup />} />
       <Route path="/login" element={_jwt ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/dashboard" element={_jwt ? <Dashboard /> : <Navigate to="/login" />} />

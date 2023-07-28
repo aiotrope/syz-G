@@ -104,6 +104,12 @@ Clone the project
   git clone git@github.com:aiotrope/xzymous.git
 ```
 
+Go to the root directory, delete .git and create .env file
+
+```bash
+  cd xzymous && rm -rf .git && touch .env
+```
+
 Go to the server directory
 
 ```bash
@@ -148,7 +154,7 @@ Start the client on development mode
 
 To run this project, you will need to add the following environment variables to your .env file.
 
-- For `server` directory, the .env must be located at the root of `server` directory.
+- For `server` directory, the .env must be located at the root of `xzymous` directory.
 
 - Port `8080` is preconfigured by default in the `server`.
 
@@ -403,7 +409,7 @@ yarn test
 
 To run End-to-end test, run the following commands
 
-__video test output @ ./client/cypress/videos/spec.cy.js.mp4__
+**video test output @ ./client/cypress/videos/spec.cy.js.mp4**
 
 ```bash
 # go to server directory and build server. Build folder at ./server/dist
@@ -431,32 +437,36 @@ The projected points for each feature are solely dependent on the author's persp
 \*Basic/mandatory requirements includes: Implementation of backend with Node.js, utilization of database(MongoDB), authentication(JWT),
 post new code snippets, comment on existing posts, users who are not logged in can view posts and comments, there is a page that lists all of the posts; when opening a post, the comments are also listed, responsive design, and documentation.
 
-| Feautures                                              | Points |
-| :----------------------------------------------------- | :----- |
-| `*Basic/mandatory requirements`                        | `25`   |
-| `Users can edit their own comments/posts`              | `4`    |
-| `Utilization of a frontside framework`                 | `5`    |
-| `Use some highlight library with markdown`             | `2`    |
-| `Test software for accessibility`                      | `2`    |
-| `Search filter for post title and tags`                | `2`    |
-| `User profile image for posts & comments`              | `3`    |
-| `Clickable user account and profile with info`         | `2`    |
-| `Last edited timestamp is stored and shown`            | `2`    |
-| `E2E test with cypress (> 10 tests)`                   | `5`    |
-| `Backend unit test with jest & supertest (> 10 tests)` | `5`    |
+| Feautures                                      | Points |
+| :--------------------------------------------- | :----- |
+| `*Basic/mandatory requirements`                | `25`   |
+| `Users can edit their own comments/posts`      | `4`    |
+| `Utilization of a frontside framework`         | `5`    |
+| `Use some highlight library with markdown`     | `2`    |
+| `Test software for accessibility`              | `2`    |
+| `Search filter for post title and tags`        | `2`    |
+| `User profile image for posts & comments`      | `3`    |
+| `Clickable user account and profile with info` | `2`    |
+| `Last edited timestamp is stored and shown`    | `2`    |
+| `E2E test with cypress (> 10 tests)`           | `5`    |
 
 #### Additional Features
 
 | Feautures                                              | Points |
 | :----------------------------------------------------- | :----- |
-| `Deployment`                                           | `38`   |
+| `Deployment`                                           | `18`   |
+| `Backend unit test with jest & supertest (> 10 tests)` | `5`    |
+| `Authenticated user can update profile `               | `5`    |
+| `Authenticated user can delete their account`          | `5`    |
+| `Authenticated user can delete their comments`         | `5`    |
+| `Authenticated user can add/update profile image`      | `5`    |
+| `Adding security to production web app`                | `5`    |
 
-*Well, I think that any new web app should be tested online and must be configured for production deployment.
+- I think that any new web app should be tested online and must be configured f production deployment with different environment setup.
 
 **Backend api as serverless function:** https://xzymous-api.vercel.app/
 
 **Frontend app:** https://www.arnelimperial.com
-
 
 <a name="license"></a>
 
