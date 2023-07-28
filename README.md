@@ -492,19 +492,19 @@ post new code snippets, comment on existing posts, users who are not logged in c
 | `Authenticated user can add/update profile image`      | `5`    |
 | `Adding security to production web app`                | `5`    |
 
-- Deployment: I think that any new web app should be tested online and must be configured f production deployment with different environment setup
+- **Deployment:** I think that any new web app should be tested online and must be configured f production deployment with different environment setup
 
-- Backend unit test: Additional unit test dedicated to backend can be a good practice
+- **Backend unit test:** Additional unit test dedicated to backend can be a good practice
 
-- Update user profile: This feature can give the `req.user` permission and control to the object created
+- **Update user profile:** This feature can give the `req.user` permission and control to the object created
 
-- User can delete their comment: This feature can give the `req.user` permission and control to the object created
+- **User can delete their comment:** This feature can give the `req.user` permission and control to the object created
 
-- User can add or update profile image: This feature can give the `req.user` permission and control to the object created
+- **User can add or update profile image:** This feature can give the `req.user` permission and control to the object created
 
-- User can delete their account: User has the right to delete their data from any system without traces
+- **User can delete their account:** User has the right to delete their data from any system without traces
 
-- Adding security to production web app: On the production app, user validation form input, sanitising user input, protecting the database from any type of malicious attack, and so on are all taken into account
+- **Adding security to production web app:** On the production app, user validation form input, sanitising user input, protecting the database from any type of malicious attack, and so on are all taken into account
 
 <a name="license"></a>
 
