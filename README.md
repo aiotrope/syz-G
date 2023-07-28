@@ -465,6 +465,8 @@ The projected points for each feature are solely dependent on the author's persp
 \*Basic/mandatory requirements includes: Implementation of backend with Node.js, utilization of database(MongoDB), authentication(JWT),
 post new code snippets, comment on existing posts, users who are not logged in can view posts and comments, there is a page that lists all of the posts; when opening a post, the comments are also listed, responsive design, and documentation.
 
+#### Based on the [project work guidline submission list](https://docs.google.com/document/d/1zSfVZcnv7FUnu6VxwKLXBPZHqTIdRX1w3d9Yer_mKVU/edit)
+
 | Feautures                                      | Points |
 | :--------------------------------------------- | :----- |
 | `*Basic/mandatory requirements`                | `25`   |
@@ -482,7 +484,7 @@ post new code snippets, comment on existing posts, users who are not logged in c
 
 | Feautures                                              | Points |
 | :----------------------------------------------------- | :----- |
-| `Deployment`                                           | `8`    |
+| `Deployment`                                           | `15`   |
 | `Backend unit test with jest & supertest (> 10 tests)` | `5`    |
 | `Authenticated user can update profile `               | `5`    |
 | `Authenticated user can delete their account`          | `5`    |
