@@ -399,7 +399,7 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
 
 ### 📜 Documentation
 
-[Documentation](https://www.arneimperial.com/docs)
+[Documentation](https://www.arnelimperial.com/docs)
 
 
 
