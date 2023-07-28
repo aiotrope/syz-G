@@ -37,7 +37,7 @@ Basic understanding of MERN (MongoDB, Express, React, Node) stack web developmen
 The author chose the technological stack in the project based on his prior experiences with the stack, the application of technologies covered in the `CT30A3204` course curriculum, and the motivation to try something new to carry out an extra feature to the app built.
 `Vite` was used as a build tool to scaffold the project on the client side instead of `Create React App` due to faster hot module reloading feature.
 The aim for uniformity between the backend and frontend code during development phase led to the optional decision of the author to implement `Babel` transpilation to CommonJS on production.
-Node version `v18.16.1`, yarn version `1.22.19` and [N](https://github.com/tj/n) nodejs package manager was use for development setup.
+Node version `v18.16.1`, yarn version `1.22.19` and [N](https://github.com/tj/n) nodejs package manager was used for development setup.
 
 **Server**
 
@@ -166,6 +166,14 @@ To run this project, you will need to add the following environment variables to
 - The backend application also requires credentials to [Cloudinary](https://cloudinary.com/). To your account, add new `upload preset` and set it to `unsigned`.
 
 ```bash
+.
+├── client
+└── server
+└── .env # .env for server
+
+```
+
+```bash
 # server .env file e.g.
 MONGO_URL=<MONGO_CONNECTION_URL> # MongoDB connection other than test mode (debug & production mode)
 MONGO_URL_TEST=<MONGO_CONNECTION_URL> # MongoDB connection for test environment
@@ -179,6 +187,16 @@ FRONTEND_URL=http://localhost:5173 # Client side base URL. Must be set as-is
 ORIGINAL_FRONTEND_URL=http://localhost:5173 # Client side base URL. Must be set as-is
 BACKEND_URL=http://localhost:8080 # Server side base URL. Must be set as-is
 
+```
+
+```bash
+.src
+├── assets
+├── components
+├── recoil
+├── sass
+└── services
+└── .env.development.local # or .env from the ./client/src
 ```
 
 ```bash
@@ -464,7 +482,7 @@ post new code snippets, comment on existing posts, users who are not logged in c
 
 | Feautures                                              | Points |
 | :----------------------------------------------------- | :----- |
-| `Deployment`                                           | `18`   |
+| `Deployment`                                           | `8`    |
 | `Backend unit test with jest & supertest (> 10 tests)` | `5`    |
 | `Authenticated user can update profile `               | `5`    |
 | `Authenticated user can delete their account`          | `5`    |
@@ -472,11 +490,19 @@ post new code snippets, comment on existing posts, users who are not logged in c
 | `Authenticated user can add/update profile image`      | `5`    |
 | `Adding security to production web app`                | `5`    |
 
-- I think that any new web app should be tested online and must be configured f production deployment with different environment setup.
+- Deployment: I think that any new web app should be tested online and must be configured f production deployment with different environment setup
 
-**Backend api as serverless function:** https://xzymous-api.vercel.app/
+- Backend unit test: Additional unit test dedicated to backend can be a good practice
 
-**Frontend app:** https://www.arnelimperial.com
+- Update user profile: This feature can give the `req.user` permission and control to the object created
+
+- User can delete their comment: This feature can give the `req.user` permission and control to the object created
+
+- User can add or update profile image: This feature can give the `req.user` permission and control to the object created
+
+- User can delete their account: User has the right to delete their data from any system without traces
+
+- Adding security to production web app: On the production app, user validation form input, sanitising user input, protecting the database from any type of malicious attack, and so on are all taken into account
 
 <a name="license"></a>
 

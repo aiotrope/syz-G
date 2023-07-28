@@ -1,50 +1,58 @@
 ## About this project
 
-__Xzymous__ is a web app project submitted in partial fulfillment of Lappeenranta–Lahti University of Technology's CT30A3204 course. The application's architecture which consists of server-side deployed as serverless function and client-side code is separately published on the internet and maintained in a single git repository. The client side, which acts as a single-page application, can send HTTP requests to the server, providing the resources such as users, posts, and comments. Anonymous users can only access some of the resources through `GET` requests through rendered data on the website; otherwise, users must authenticate to the system to execute further interactive operations.
+**Xzymous** is a web app project submitted in partial fulfillment of Lappeenranta–Lahti University of Technology's **CT30A3204** course. The application's architecture which consists of server-side deployed as serverless function and client-side code is separately published on the internet and maintained in a single git repository. The client side, which acts as a single-page application, can send HTTP requests to the server, providing the resources such as users, posts, and comments. Anonymous users can only access some of the resources through `GET` requests through rendered data on the website; otherwise, users must authenticate to the system to execute further interactive operations.
 
 ---
 
-## Features
+## App general overview and workflow description
+
+Non-exhaustive description on how to use the app. Although some terminology is technical, this guide is intended for adopters, collaborators, and reviewers with basic knowledge with MERN app architecture. However, the author assumes that any user, regardless of technical knowledge, may navigate or use the web app as long as they knows how to fill out a form and create an account. Same familiarity when visiting any web applications in the internet. The Author intends to update this documentation to make it easier for laypeople to grasp.
 
 Legends:
 
-__Frontend (client) base URL on debug__: https://localhost:5173
+**Frontend (client) base URL on debug**: https://localhost:5173
 
-__Frontend (client) base URL on production__: https://www.arnelimperial.com
+**Frontend (client) base URL on production**: https://www.arnelimperial.com
 
-__Backend (server) base URL on debug__: https://localhost:8080
+**Backend (server) base URL on debug**: https://localhost:8080
 
-__Backend (server) base URL on production__: https://xzymous-api.vercel.app
+**Backend (server) base URL on production**: https://xzymous-api.vercel.app
 
-__object__: refers to the backend model object
+**object**: refers to the backend model object
 
-__request__: CRUD operation
+**request**: CRUD operation
 
-__endpoint__: resource access locations for APIs.
+**endpoint**: resource access locations for APIs.
 
-__page__: denotes routes primarily in the frontend, but some in the backend as well
+**page**: denotes routes primarily in the frontend (client)
 
-__redirect__: refers to reroutes in the frontend, but also in the backend.
+**redirect**: refers to reroutes in the frontend, but also in the backend.
 
-__BE/FE__: shorthand for backend (server) and frontend (client)
+**req.user**: Current authenticated user
 
-__req.user__: Current authenticated user
+**req.params**: property is an object that has properties mapped to the named route "parameters"
+
+**req.body**: property includes data given in the request body as key-value pairs
+
+**anonymous users**: Non-authenticated user
 
 ### Object: User
 
-The `req.user` has permission to perform all CRUD operations and has control over the object created by the request. user or a currently authenticated user. The admin user has complete access to all database objects. All requests are supported by __JWT-based authentication__.
+The `req.user` has permission to perform all CRUD operations and has control over the object created by the request. user or a currently authenticated user. The admin user has complete access to all database objects. All requests are supported by **JWT-based authentication**. User has an array of reference to `Post` and `Comment` object model as `posts` and `comments` respectively. The `createdAt/updatedAt` timestamp, an empty array of `posts` and `comments` for reference, a default value for the `bio` field of `Hello, World!`, and an `avatar` field with an image from `https://ui-avatars.com/api?name=xz&bold=true&size=70&color=a0a0a0` as well as `id` are all generated once a user signs up for the system.
 
 #### Registration and authentication flow
 
-The first step in using this website is to register an account by providing the requested details on the __http://localhost:5173/signup__ page, including a `username`, `email address`, `password` and `confirmation password`. Upon successful registration, the user will be re-directed to  __http://localhost:5173/login__ page asking them for login credentials such as `email address` and `password`. 
+The first step in using this website is to register an account by providing the requested details on the **http://localhost:5173/signup** page, including a `username`, `email address`, `password` and `confirmation password`. Upon successful registration, the user will be re-directed to **http://localhost:5173/login** page asking them for login credentials such as `email address` and `password`.
 
 ##### Signup
+
 ```bash
 request: POST
 endpoint: http://localhost:8080/auth/user/signup
 page: http://localhost:5173/signup
 redirect: http://localhost:5173/login
 ```
+
 ##### Login
 
 ```bash
@@ -53,9 +61,11 @@ endpoint: http://localhost:8080/auth/user/signin
 page: http://localhost:5173/login
 redirect: http://localhost:5173/dashboard
 ```
-### Authenticated user account 
 
-Authenticated users can __update__ their username, email, bio info and avatar. Can also `delete` their account.
+### Authenticated user account
+
+Authenticated users can **update** their username, email, bio info and avatar. Can also `delete` their account.
+Only the `req.user` that has reference to or created the object can update and delete their `Post` and `Comment`.
 
 #### Username, email, bio update
 
@@ -79,7 +89,7 @@ page: http://localhost:5173/me
 
 #### Account deletion
 
-All of the references that has association to the user will be deleted: __Post and Comment__
+All of the references that has association to the user will be deleted: **Post and Comment**
 
 `id` as user's id
 
@@ -89,235 +99,128 @@ endpoint: http://localhost:8080/api/user/delete/${id}
 page: http://localhost:5173/me
 redirect: http://localhost:5173/login
 ```
-### User list and count
-
-Although anonymous users can see the number of users, only admin users can see the list of users.
-
-#### All users count
-
-Admin/staff users are not included in this request.
-
-    request: GET
-    endpoint: /api/user-counts/
-    page: /
-
-#### All default (auto-generated) users count
-
-    request: GET
-    endpoint: /api/user-counts/
-    page: /
-
-#### All normal users count
-
-Normal users are those who signed up for the site manually.
-
-    request: GET
-    endpoint: /api/user-unfabricated-counts/
-    page: /
- ---
-
-### Object: Contact
-
-The application includes a contact messaging form, but it is only accessible to authenticated users. Contact objects can only be viewed by the __request.user__ who created them, as well as admin users.
-
-#### Create contact
-
-    request: POST
-    endpoint: /api/contacts/
-    page: /contact
-    redirect: /contact-form-submitted
-
-#### Retrieve contact
-
-    request: GET
-    endpoint: /api/contacts/
-    page: /me
 
 ---
 
-### Object: Item
+### Object: Post
 
-Item object has the User as foreign key. Item objects list and retrieve actions can be access by __anonymous users__ but only __request.user__ can view their own item objects created. Creating, updating and deleting item objects can only be done when user is authenticated.
+`Post` object has `User` object reference and array of reference to `Comment` as `user` and `comments` respectively. `Post` objects list and retrieve actions can be access by **anonymous users** as well as viewing each user's posts snippets objects created. Creating, updating and deleting `post` objects can only be done when user is authenticated and if the `req.user` has reference to the objects. The `http://localhost:5173/me` page can manage the update and deletion of `req.user` object references including the deletion of their account. When an authenticated user created a post snippet at `http://localhost:5173/create-snippet`, the reference `user`` object was automatically filled in with an empty array of `comments`as another reference as well as`createdAt`and`updatedAt` timestamp.
 
-#### Item list and count
+Take note when filling the form on `entry` filled, anything that contains `?` or `.`, particularly in the beginning, will be sanitised and cleared out.
 
-Anonymous users can view the list and number of items and can perform retrieve actions.
+#### Post snippets list
 
-#### All items count
+Anonymous users can view the list and number of posts and can perform retrieve actions.
 
-    request: GET
-    endpoint: /api/user-counts/
-    page: /
+```bash
+request: GET
+endpoint: http://localhost:8080/api/user
+page: http://localhost:5173
+```
 
-#### All default (auto-generated) items count
+#### Viewing single post snippet
 
-    request: GET
-    endpoint: /api/item-fabricated-counts/
-    page: /
+Anonymous users can view a single post by clicking the link on each `title` of the post snippet in http://localhost:5173. Comments for each post are also listed.
 
-#### All normal items count
+`id` as post's id
 
-Normal items are those created by users who are not auto-generated by the system. If ever a user use the __default users__ to make a request those will count as auto-generated even if the request is manually operated.
+```bash
+request: GET
+endpoint: http://localhost:8080/api/post/${id}
+page: http://localhost:5173/snippet/${id}
+```
 
-    request: GET
-    endpoint: /api/item-unfabricated-counts/
-    page: /
----
+#### Create post
 
-#### Create item
+Authenticated users must provide the post's title, description, tags and entry. The `entry` field which is textarea field is recommended to be filled in `markdown` form but plain text can be suitable as well.
 
-Authenticated users must provide the item's name, description, and price. The price field is a decimal field that accepts only whole numbers and floating point values up to two decimal places. As a thousands separator, commas and spaces are not permitted; only dot(.) is permitted. The price attributes will be converted to the *de_DE * locale format by the backend before being converted to the *fi_FI * locale format by the frontend. User who created the item is the __merchant__(Item) or the __seller__(Purchase) attribute in the models respectively.
+```bash
+request: POST
+endpoint: http://localhost:8080/api/post
+page: http://localhost:5173/create-snippet
+```
 
-    request: POST
-    endpoint: /api/items/
-    page: /user-items
+#### Update post
 
-#### List all items
+Partial update(PATCH) is supported in this endpoint. Only the **req.user who has the association with post through reference** can update the post object. Post title, description and entry can be edited.
 
-    request: GET
-    endpoint: /api/items/
-    page: /shop
+`id` as post's id
 
-#### Retrieve an item
+```bash
+request: PATCH
+endpoint: http://localhost:8080/api/post/${id}
+page: http://localhost:5173/me
+```
 
-Access a single item. Even anonymous users have access.
+#### Delete a post
 
-    request: GET
-    endpoint: /api/items/{itemId}/
-    page: /item/:id
+Similarly to a partial update request, the user who owns/created the object post snippet has the ability to delete the selected object.
 
-#### List all items created by the request.user
-
-    request: GET
-    endpoint: /api/item-owned/
-    page: /user-items
-
-#### Update an item
-
-Partial update(PATCH) and update(PUT) are supported in this endpoint but partial update are the implemented on the frontend. Only the __request.user who have the association with item through foreign key relationship__ can update the item object. Item name, description and price can be edited.
-
-    request: PATCH
-    endpoint: /api/items/{itemId}/
-    page: /item/:id
-
-#### Delete an item
-
-Similarly to a partial update request, the user who owns/created the object item has the ability to delete the selected object.
-
-    request: DELETE
-    endpoint: /api/items/{itemId}/
-    page: /item/:id    
+```bash
+request: DELETE
+endpoint: http://localhost:8080/api/post/${id}
+page: http://localhost:5173/me
+```
 
 ---
 
-### Object: Cart
+### Object: Comment
 
-Cart object has a foreign key relationship to __Item__ and __User__ object. All Cart object actions and methods are directly controlled by the request.user who has relationship with the object. The request.user who created the cart object becomes a __customer__ attribute on the Cart model. Users are not permitted to select their own item(s) if they are the __merchant__ of the __item__ object. This functionality is not yet implemented on the backend. The __on_stock__ attribute of item object will be updated from __"Available"__ to __"On Hold"__ once cart is created. But if the cart is deleted an item will be revert back to __"Available"__ status.
+Comment object has a reference relationship to **Post** and **User** object. All Comment object actions and methods are directly controlled by the `req.user` who has relationship with the object such updating and deleting the `req.user` comments. The reference object `commenter` denotes the user who created the comment and `commentOn` that reference to the post snippet object being commented are all generated once the comment is created along with `createdAt` and `updatedAt` timestamp.
 
-#### Create a cart
+#### Create a comment
 
-    request: POST
-    endpoint: /api/carts/
-    page: /shop and /item/:id 
+Authenticated user can comment on any post snippets including their own posts. The `commentary` is the only `req.body` or filled that are required to be filled in and it is recommended to enter a `comment` in `markdown` format but plain text will suffice. Created comments by the `req.user` will be listed, can be updated and deleted in `http://localhost:5173/me`. Comments per post snippet can be viewed by authenticated and anonymous users at `http://localhost:5173/snippet/${id}`, where `id` is the id of the post snippet. `Add a comment` button is only available when user is authenticated and can be accessed in `http://localhost:5173` and `http://localhost:5173/snippet/${id}`.
 
-#### List all the carts created by the request.user
+`postId` as `req.params` that stands for auto-generated id of the post
 
-    request: GET
-    endpoint: /api/carts/
-    page: /cart
+```bash
+request: POST
+endpoint: http://localhost:8080/api/comment/${postId}
+page: http://localhost:5173/create-comment/${postId}
+```
 
-#### Delete a cart
+#### Update a comment
 
-Only request.user who owns the cart object can delete their cart.
+Only request.user who owns the comment object can update a certain comment.
 
-    request: DELETE
-    endpoint: /api/carts/{cartId}/
-    page: /cart
+`id` as id of the comment
 
----
+```bash
+request: PATCH
+endpoint: http://localhost:8080/api/comment/api/comment/update/${id}
+page: http://localhost:5173/me
+```
 
-### Object: Purchase
+#### Delete a comment
 
-Purchase object has a foreign key relationship to the  Cart and User object. All Purchase object actions and methods are directly controlled by the request.user who has relationship with the object. The request.user who created the purchase object becomes a __buyer__ attribute on the Purchase model. Although it has a similarity with cart object, purchase object signifies that the __request.user__ already bought an item(s). The __on_stock__ attribute of item object will be updated from __"On Hold"__ to __"Sold Out"__ once cart is created.
+Only request.user who owns the comment object can delete a certain comment. The `comments` reference from both `User` and `Post` object will also deleted once the comment associated is removed.
 
-#### Create a purchase
+`id` as id of the comment
 
-    request: POST
-    endpoint: /api/purchases/
-    page: /cart
-
-#### List all items purchased by the request.user
-
-    request: GET
-    endpoint: /api/purchases/
-    page: /user-items
-
-#### List all items sold by the request.user
-
-    request: GET
-    endpoint: /api/purchases-seller/
-    page: /user-items
-
-#### Email notification for buyer and sellers
-
-Following the successful purchase of a __user (buyer)__, an email notification will be sent notifying the items purchased as well as notification to __sellers__ for the items sold.
+```bash
+request: DELETE
+endpoint: http://localhost:8080/api/comment/api/comment/delete/${id}
+page: http://localhost:5173/me
+```
 
 ---
 
 ### Search
 
-Anonymous and login users can search the items by the item's name. The main functionality was implemented on the backend's search filter and use debouncing on the frontend.
+Anonymous and login users can search the post snippet by the post `title`, `tag`, `description` or `entry` . The main functionality was implemented on the backend mongoose `Find` filter and use debouncing on the frontend.
 
-    request: GET
-    endpoint: /api/items/?search=${nameOfItem}
-    page: /shop
+```bash
+request: GET
+endpoint: http://localhost:8080/api/post
+page: http://localhost:5173
 
----
-### Pagination
-
-Backend pagination class used using page number pagination with page item size of 10 items per page.
-
-    request: GET
-    endpoint: /api/items/?page=${currentPage}
-    page: /shop
+```
 ---
 
-#### Headless CMS
+### Customization
 
-[Contenful](https://www.contentful.com "Contenful") CMS was used to create this guide page.
+Go to the client directory > src > sass and select the directory you want to update, such as the entire app or the index, or add variables, if you want to modify the theme of the website and add your own stylesheets. 
 
-----
+By changing the images in client directory > public, it is also possible to change the site's favicon and images. To edit any of the elements in the site documentation, go to client > assets > doc.md.
 
-### Axios interceptors for access and refresh token
-
-The access token is valid for 60 minutes but can only be refreshed once. The refresh token has a one-day lifespan.
-
----
-
-### Security
-
-__Content Security Policy__ and __Permissions Policy__ protection was added to boost the security features of the application.
-
-The following backend security configurations are enabled on this application:
-
-    - SECURE_PROXY_SSL_HEADER
-    - SECURE_SSL_REDIRECT
-    - SECURE_HSTS_SECONDS
-    - SECURE_HSTS_INCLUDE_SUBDOMAINS
-    - SECURE_HSTS_PRELOAD
-    - SECURE_CONTENT_TYPE_NOSNIFF
-    - SECURE_REFERRER_POLICY
-    - SESSION_COOKIE_SECURE
-    - SESSION_COOKIE_HTTPONLY
-    - SECURE_BROWSER_XSS_FILTER
-    - X_FRAME_OPTIONS
-    - CSRF_COOKIE_SECURE
-    - CSRF_TRUSTED_ORIGINS
-    - CORS_REPLACE_HTTPS_REFERER
-
----
-
-##### Synchro project relies on a number tools to function properly:
-
-- Web service and production database provided by [render.io ](https://render.com/).
-- Emailing and SMTP delivery by [SMTP2GO](https://www.smtp2go.com/).
