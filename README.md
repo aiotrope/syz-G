@@ -196,7 +196,9 @@ To run this project, you will need to add the following environment variables to
 
 - MongoDB credentials and connection were established via [MongoDB Atlas](https://www.mongodb.com/atlas/database), however locally installed MongoDB will suffice.
 
-- The backend also suggests obtaining [Cloudinary](https://cloudinary.com/) such as such as the `API KEYS`, `API SECRET`, `CLOUD NAME` and `PRESET NAME`. To your account, add new `upload preset` and set it to `unsigned`. Clodinary integration is only optional and the app will run even without it but image upload cannot be tested.
+- The backend also suggests obtaining [Cloudinary](https://cloudinary.com/) credentials such as: `API KEYS`, `API SECRET`, `CLOUD NAME` and `PRESET NAME`. To your Cloudinary account, add new `upload preset` and set it to `unsigned`. This feature is for adding and updating the user's profile avatar/image.
+
+Clodinary integration is only optional and the app will run even without it but image upload cannot be tested on your local machine. You can go to [production website](https://www.arnelimperial.com) and authenticate to the system, if you want to try this feature.
 
 ```bash
 # .env location for server
@@ -210,15 +212,25 @@ To run this project, you will need to add the following environment variables to
 ```bash
 # server .env file e.g.
 MONGO_URL=<MONGO_CONNECTION_URL> # MongoDB connection other than test mode (debug & production mode)
+
 MONGO_URL_TEST=<MONGO_CONNECTION_URL> # MongoDB connection for test environment
+
 LOCAL_URL=http://localhost:5173 # Client side base URL. Must be set as-is
+
 JWT_SECRET=<YOUR_RANDOM_SECRET_STRING>
-CLOUDINARY_NAME=<YOUR_CLOUDINARY_NAME>
-CLOUDINARY_KEY=<YOUR_CLOUDINARY_KEY>
-CLOUDINARY_SECRET=<YOUR_CLOUDINARY_SECRET>
-CLOUDINARY_PRESET_NAME=<YOUR_CLOUDINARY_PRESET>
+
+CLOUDINARY_NAME=<YOUR_CLOUDINARY_NAME> # provide your own
+
+CLOUDINARY_KEY=<YOUR_CLOUDINARY_KEY> # provide your own
+
+CLOUDINARY_SECRET=<YOUR_CLOUDINARY_SECRET> # provide your own
+
+CLOUDINARY_PRESET_NAME=<YOUR_CLOUDINARY_PRESET> # provide your own
+
 FRONTEND_URL=http://localhost:5173 # Client side base URL. Must be set as-is
+
 ORIGINAL_FRONTEND_URL=http://localhost:5173 # Client side base URL. Must be set as-is
+
 BACKEND_URL=http://localhost:8080 # Server side base URL. Must be set as-is
 
 ```
@@ -236,6 +248,7 @@ BACKEND_URL=http://localhost:8080 # Server side base URL. Must be set as-is
 ```bash
 # client .env file e.g.
 VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
+
 ```
 
 <a name="api"></a>
@@ -547,8 +560,8 @@ post new code snippets, comment on existing posts, users who are not logged in c
 
 ### 🎓 Lessons Learned
 
-The main issue I had when working on this project was determining the right tool and environment for a variety of tasks while also efficiently managing my time. I intended to write both the front-end and back-end in Typescript to be included as a feature of the project, however the development took longer than expected due to my lack of Typescript know-how. To meet the needs of time, I turned to Javascript for this matter. I'm certain that I can give the codes in TS, but time is now my adversary, and I'm worried that I won't be able to finish the project on time. I don't think I'm wasting time on that portion, but sitting in front of my computer, configuring, retooling my project at the same time reviewing TS gives me a sense of unfinished work, especially as the clock approaches a deadline. TS is good, however I think I'll use it on personal projects that offer me plenty of time.
-I also learned to prioritise the project's mandatory requirements before adding extra features that can slow down development.
+The main issue I had when working on this project was determining the right tool and environment for a variety of tasks while also efficiently managing my time. I intended to write both the front-end and back-end in Typescript to be included as a feature of the project, however the development took longer than expected due to my lack of Typescript know-how. To meet the needs of time, I switched to Javascript for this matter. I'm certain that I can give the codes in TS, but time is now my adversary, and I'm worried that I won't be able to finish the project on time. I don't think I'm wasting time on that portion, but sitting in front of my computer, configuring, retooling my project at the same time reviewing TS gives me a sense of unfinished work, especially as the clock approaches a deadline. TS is good, however I think I'll use it on personal projects that offer me plenty of time.
+I also learned to prioritise first the project's mandatory requirements before adding extra features that can slow down development.
 
 <a name="deployment"></a>
 
