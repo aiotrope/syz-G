@@ -182,7 +182,6 @@ cd server && yarn format && yarn lint
 cd client && yarn format && yarn lint
 ```
 
-
 <a name="envs"></a>
 
 ### 🌱 Environment Variables
@@ -197,7 +196,7 @@ To run this project, you will need to add the following environment variables to
 
 - MongoDB credentials and connection were established via [MongoDB Atlas](https://www.mongodb.com/atlas/database), however locally installed MongoDB will suffice.
 
-- The backend also suggests obtaining [Cloudinary](https://cloudinary.com/) such as such as the `API KEYS`, `API SECRET`, `CLOUD NAME` and `PRESET NAME`. To your account, add new `upload preset` and set it to `unsigned`. Clodinary integration is only optional and the app will run even without it but image upload cannot be tested. 
+- The backend also suggests obtaining [Cloudinary](https://cloudinary.com/) such as such as the `API KEYS`, `API SECRET`, `CLOUD NAME` and `PRESET NAME`. To your account, add new `upload preset` and set it to `unsigned`. Clodinary integration is only optional and the app will run even without it but image upload cannot be tested.
 
 ```bash
 .
@@ -446,14 +445,11 @@ VITE_BASE_URL=http://127.0.0.1:8080 # Server side base URL. Must be set as-is
 | :----- | :------- | :----------- |
 | `id`   | `string` | **Required** |
 
-
 <a name="docs"></a>
 
 ### 📜 Documentation
 
 [Documentation](https://www.arnelimperial.com/docs)
-
-
 
 <a name="tests"></a>
 
@@ -566,6 +562,5 @@ Web services by [Vercel](https://vercel.com/new)
 <a name="author"></a>
 
 ### 👨🏻‍💻 Author
-
 
 - [@aiotrope](https://github.com/aiotrope)
