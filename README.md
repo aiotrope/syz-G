@@ -163,7 +163,7 @@ To run this project, you will need to add the following environment variables to
 
 - MongoDB credentials and connection were established via [MongoDB Atlas](https://www.mongodb.com/atlas/database), however locally installed MongoDB will suffice.
 
-- The backend application also requires credentials to [Cloudinary](https://cloudinary.com/). To your account, add new `upload preset` and set it to `unsigned`. Clodinary integration is only optional and the app will run even without it but image upload cannot be tested. 
+- The backend also suggests obtaining [Cloudinary](https://cloudinary.com/) such as such as the `API KEYS`, `API SECRET`, `CLOUD NAME` and `PRESET NAME`. To your account, add new `upload preset` and set it to `unsigned`. Clodinary integration is only optional and the app will run even without it but image upload cannot be tested. 
 
 ```bash
 .

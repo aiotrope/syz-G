@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import Stack from 'react-bootstrap/Stack'
 import Container from 'react-bootstrap/Container'
 
 import mdFile from '../assets/docs.md'
@@ -31,21 +30,15 @@ const Documentation = () => {
   }, [])
 
   return (
-    <Stack>
-      <Container fluid>
-        <Row>
-          <Col>
-            <ReactMarkdown
-              rehypePlugins={[rehypeRaw]}
-              remarkPlugins={[gfm]}
-              components={Highlighter}
-            >
-              {markdown}
-            </ReactMarkdown>
-          </Col>
-        </Row>
-      </Container>
-    </Stack>
+    <Container>
+      <Row>
+        <Col className="col-lg-10 mx-auto docs">
+          <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]} components={Highlighter}>
+            {markdown}
+          </ReactMarkdown>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
