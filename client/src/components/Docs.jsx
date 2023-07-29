@@ -3,9 +3,12 @@ import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import Stack from 'react-bootstrap/Stack'
+import Container from 'react-bootstrap/Container'
 
 import mdFile from '../assets/docs.md'
 import Highlighter from './misc/highlighter'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 // main documentation page component
 const Documentation = () => {
@@ -28,10 +31,20 @@ const Documentation = () => {
   }, [])
 
   return (
-    <Stack className="col-sm-10 mx-auto">
-      <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]} components={Highlighter}>
-        {markdown}
-      </ReactMarkdown>
+    <Stack>
+      <Container fluid>
+        <Row>
+          <Col>
+            <ReactMarkdown
+              rehypePlugins={[rehypeRaw]}
+              remarkPlugins={[gfm]}
+              components={Highlighter}
+            >
+              {markdown}
+            </ReactMarkdown>
+          </Col>
+        </Row>
+      </Container>
     </Stack>
   )
 }
