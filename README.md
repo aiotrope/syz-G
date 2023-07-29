@@ -188,21 +188,22 @@ cd client && yarn format && yarn lint
 
 To run this project, you will need to add the following environment variables to your .env file.
 
-- For `server` directory, the .env must be located at the root of `xzymous` directory.
+- For `server` directory, the .env file must be located at the root of `xzymous` directory.
 
 - Port `8080` is preconfigured by default in the `server`.
 
-- For the `client` directory, place the .env file in the client folder's `src` directory.
+- For the `client` directory, place the .env or .env.development.local file at the root of `client` folder.
 
 - MongoDB credentials and connection were established via [MongoDB Atlas](https://www.mongodb.com/atlas/database), however locally installed MongoDB will suffice.
 
 - The backend also suggests obtaining [Cloudinary](https://cloudinary.com/) such as such as the `API KEYS`, `API SECRET`, `CLOUD NAME` and `PRESET NAME`. To your account, add new `upload preset` and set it to `unsigned`. Clodinary integration is only optional and the app will run even without it but image upload cannot be tested.
 
 ```bash
+# .env location for server
 .
 ├── client
 └── server
-└── .env # .env for server
+└── .env # .env file at the root of xzymous directory
 
 ```
 
@@ -223,13 +224,13 @@ BACKEND_URL=http://localhost:8080 # Server side base URL. Must be set as-is
 ```
 
 ```bash
-.src
-├── assets
-├── components
-├── recoil
-├── sass
-└── services
-└── .env.development.local # or .env from the ./client/src
+# .env location for client
+.
+├── cypress
+├── node_modules
+├── public
+└── src
+└── .env.development.local # or .env file at the root of ./client
 ```
 
 ```bash
