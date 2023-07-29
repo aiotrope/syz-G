@@ -2,8 +2,6 @@
 
 **Xzymous** is a web app project submitted in partial fulfillment of Lappeenranta–Lahti University of Technology's **CT30A3204** course. The application's architecture which consists of server-side deployed as serverless function and client-side code is separately published on the internet and maintained in a single git repository. The client side, which acts as a single-page application, can send HTTP requests to the server, providing the resources such as users, posts, and comments. Anonymous users can only access some of the resources through `GET` requests through rendered data on the website; otherwise, users must authenticate to the system to execute further interactive operations.
 
----
-
 ## App general overview and workflow description
 
 Non-exhaustive description on how to use the app. Although some terminology is technical, this guide is intended for adopters, collaborators, and reviewers with basic knowledge with MERN app architecture. However, the author assumes that any user, regardless of technical knowledge, may navigate or use the web app as long as they knows how to fill out a form and create an account. Same familiarity when visiting any web applications in the internet. The Author intends to update this documentation to make it easier for laypeople to grasp.
