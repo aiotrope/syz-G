@@ -31,8 +31,8 @@ const Documentation = () => {
 
   return (
     <Container>
-      <Row>
-        <Col className="col-lg-10 mx-auto docs">
+      <Row className="justify-content-md-center">
+        <Col className="docs" xs={9} md={10}>
           <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]} components={Highlighter}>
             {markdown}
           </ReactMarkdown>
