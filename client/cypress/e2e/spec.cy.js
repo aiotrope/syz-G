@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
 describe('spec', () => {
   const user = {
     username: 'isaacClarke8#',

@@ -5,6 +5,7 @@ import app from '../dist/app'
 import mongoose from 'mongoose'
 import User from '../dist/models/user'
 import Post from '../dist/models/post'
+import Comment from '../dist/models/comment'
 import helper from './helper'
 import bcrypt from 'bcrypt'
 import { sign } from 'jsonwebtoken'
@@ -280,5 +281,8 @@ describe('GET all posts - unit test for /api/post with three default posts creat
   })
 })
 afterAll(async () => {
+  await User.deleteMany({})
+  await Post.deleteMany({})
+  await Comment.deleteMany({})
   await mongoose.connection.close()
 })
