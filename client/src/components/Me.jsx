@@ -173,7 +173,7 @@ const Me = () => {
 
   // finding user's posts
   const snippetsByUser = user?.posts?.find((post) => post.user === decoded.id)
-// finding user's comments
+  // finding user's comments
   const commentsByUser = user?.comments?.find((comment) => comment.commenter === decoded.id)
 
   if (

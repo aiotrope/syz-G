@@ -28,7 +28,7 @@ const schema = yup
   })
   .required()
 
-  // main component page for creating snippet
+// main component page for creating snippet
 const CreateSnippet = () => {
   const [tag, setTag] = useState([])
 

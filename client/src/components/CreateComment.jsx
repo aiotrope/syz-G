@@ -33,7 +33,7 @@ const schema = yup
   })
   .required()
 
-  // main component for creating comments
+// main component for creating comments
 const CreateComment = () => {
   const { postId } = useParams()
 
