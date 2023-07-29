@@ -437,7 +437,7 @@ yarn test
 
 To run End-to-end test, run the following commands
 
-**video test output @ ./client/cypress/videos/spec.cy.js.mp4**
+**video e2e test output @ ./client/cypress/videos/spec.cy.js.mp4**
 
 ```bash
 # go to server directory and build server. Build folder at ./server/dist
