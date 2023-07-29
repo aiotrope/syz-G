@@ -180,7 +180,6 @@ const Me = () => {
     userMutation.isLoading ||
     avatarMutation.isLoading ||
     userQuery.isLoading ||
-    userQuery.isFetching ||
     deleteMutation.isLoading
   ) {
     return <Loader />

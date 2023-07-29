@@ -24,17 +24,15 @@
 
 Non-exhaustive description on how to use the app. Although some terminology is technical, this guide is intended for adopters, collaborators, and reviewers with basic knowledge with MERN app architecture. However, the author assumes that any user, regardless of technical knowledge, may navigate or use the web app as long as they knows how to fill out a form and create an account. Same familiarity when visiting any web applications in the internet. The Author intends to update this documentation to make it easier for laypeople to grasp.
 
-Legends:
+---
+
+### Terminologies
 
 **Frontend (client) base URL on debug**: https://localhost:5173
 
-**Frontend (client) base URL on production**: https://www.arnelimperial.com
-
 **Backend (server) base URL on debug**: https://localhost:8080
 
-**Backend (server) base URL on production**: https://xzymous-api.vercel.app
-
-**object**: refers to the backend model object
+**collection**: group of stored data in MongoDB
 
 **request**: CRUD operation
 
@@ -52,9 +50,11 @@ Legends:
 
 **anonymous users**: Non-authenticated user
 
-### Object: User
+---
 
-The `req.user` has permission to perform all CRUD operations and has control over the object created by the request. user or a currently authenticated user. The admin user has complete access to all database objects. All requests are supported by **JWT-based authentication**. User has an array of reference to `Post` and `Comment` object model as `posts` and `comments` respectively. The `createdAt/updatedAt` timestamp, an empty array of `posts` and `comments` for reference, a default value for the `bio` field of `Hello, World!`, and an `avatar` field with an image from `https://ui-avatars.com/api?name=xz&bold=true&size=70&color=a0a0a0` as well as `id` are all generated once a user signs up for the system.
+### Collection: users
+
+The `req.user` has permission to perform all CRUD operations and has control over the object created by the request. user or a currently authenticated user. The admin user has complete access to all database objects. All requests are supported by **JWT-based authentication**. User has an array of reference to `posts` and `comments` field. The `createdAt/updatedAt` timestamp, an empty array of `posts` and `comments` for reference, a default value for the `bio` field of `Hello, World!`, and an `avatar` field with an image from `https://ui-avatars.com/api?name=xz&bold=true&size=70&color=a0a0a0` as well as `id` are all generated once a user signs up for the system.
 
 #### Registration and authentication flow
 
@@ -81,7 +81,7 @@ redirect: http://localhost:5173/dashboard
 ### Authenticated user account
 
 Authenticated users can **update** their username, email, bio info and avatar. Can also `delete` their account.
-Only the `req.user` that has reference to or created the object can update and delete their `Post` and `Comment`.
+Only the `req.user` that has reference to or created the object can update and delete their `posts` and `comments`.
 
 #### Username, email, bio update
 
@@ -105,7 +105,7 @@ page: http://localhost:5173/me
 
 #### Account deletion
 
-All of the references that has association to the user will be deleted: **Post and Comment**
+All of the references that has association to the user will be deleted: **posts and comments**
 
 `id` as user's id
 
@@ -118,9 +118,9 @@ redirect: http://localhost:5173/login
 
 ---
 
-### Object: Post
+### Collection: posts
 
-`Post` object has `User` object reference and array of reference to `Comment` as `user` and `comments` respectively. `Post` objects list and retrieve actions can be access by **anonymous users** as well as viewing each user's posts snippets objects created. Creating, updating and deleting `post` objects can only be done when user is authenticated and if the `req.user` has reference to the objects. The `http://localhost:5173/me` page can manage the update and deletion of `req.user` object references including the deletion of their account. When an authenticated user created a post snippet at `http://localhost:5173/create-snippet`, the reference `user`` object was automatically filled in with an empty array of `comments`as another reference as well as`createdAt`and`updatedAt` timestamp.
+The `posts` has `user` object reference and array of reference to `comments`. The object's list and retrieve actions can be access by **anonymous users** as well as viewing each user's posts snippets objects created. Creating, updating and deleting `posts` objects can only be done when user is authenticated and if the `req.user` has reference to the objects. The `http://localhost:5173/me` page can manage the update and deletion of `req.user` object references including the deletion of their account. When an authenticated user created a post snippet at `http://localhost:5173/create-snippet`, the reference `user`` object was automatically filled in with an empty array of `comments`as another reference as well as`createdAt`and`updatedAt` timestamp.
 
 Take note when filling the form on `entry` filled, anything that contains `?` or `.`, particularly in the beginning, will be sanitised and cleared out.
 
@@ -180,9 +180,9 @@ page: http://localhost:5173/me
 
 ---
 
-### Object: Comment
+### Collection: comments
 
-Comment object has a reference relationship to **Post** and **User** object. All Comment object actions and methods are directly controlled by the `req.user` who has relationship with the object such updating and deleting the `req.user` comments. The reference object `commenter` denotes the user who created the comment and `commentOn` that reference to the post snippet object being commented are all generated once the comment is created along with `createdAt` and `updatedAt` timestamp.
+Comment object has a reference relationship to **posts** and **users** object as `commentOn` and `commenter` field respectively. All Comment object actions and methods are directly controlled by the `req.user` who has relationship with the object such updating and deleting the `req.user` comments. The reference object `commenter` denotes the user who created the comment and `commentOn` that reference to the post snippet object being commented are all generated once the comment is created along with `createdAt` and `updatedAt` timestamp.
 
 #### Create a comment
 
@@ -210,7 +210,7 @@ page: http://localhost:5173/me
 
 #### Delete a comment
 
-Only request.user who owns the comment object can delete a certain comment. The `comments` reference from both `User` and `Post` object will also deleted once the comment associated is removed.
+Only request.user who owns the comment object can delete a certain comment. The `comments` reference from both `users` and `posts` objects will also deleted once the comment associated is removed.
 
 `id` as id of the comment
 
@@ -255,36 +255,12 @@ export default defineConfig({
 
 Customization of server and client codes as a whole can be achieved mainly by changing the codes in the `src` directory of the two major folder.
 
-### Other CLI commnds
+---
 
-**Build**
+### Production URL
 
-```bash
-# building server app
-cd server && yarn build:server
-# to run production build at port 8080
-yarn start
-```
+**Frontend (client) base URL on production**: https://www.arnelimperial.com
 
-```bash
-# building client app
-cd client && yarn build
-# to view the production build @ port 5173
-yarn preview
-```
+**Backend (server) base URL on production**: https://xzymous-api.vercel.app
 
-**Format & Lint**
-
-Format codes with prettier and eslint
-
-```bash
-# server
-cd server && yarn format && yarn lint
-
-```
-
-```bash
-# client
-cd client && yarn format && yarn lint
-```
 </docs>

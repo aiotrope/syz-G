@@ -24,10 +24,6 @@ const UserSchema = new _mongoose.Schema({
     required: false,
     default: null
   },
-  isStaff: {
-    type: Boolean,
-    default: false
-  },
   avatar: {
     type: String,
     required: true,

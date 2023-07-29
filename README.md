@@ -149,6 +149,40 @@ Start the client on development mode
   yarn dev
 ```
 
+#### Other CLI Commands
+
+**Build**
+
+```bash
+# building server app
+cd server && yarn build:server
+# to run production build at port 8080
+yarn start
+```
+
+```bash
+# building client app
+cd client && yarn build
+# to view the production build @ port 5173
+yarn preview
+```
+
+**Format & Lint**
+
+Format codes with prettier and eslint
+
+```bash
+# server
+cd server && yarn format && yarn lint
+
+```
+
+```bash
+# client
+cd client && yarn format && yarn lint
+```
+
+
 <a name="envs"></a>
 
 ### 🌱 Environment Variables

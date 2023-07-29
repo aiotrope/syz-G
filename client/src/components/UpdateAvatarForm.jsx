@@ -30,7 +30,7 @@ const UpdateAvatarForm = ({ avatarForm, onAvatarFormSubmit }) => {
       </FormGroup>
       <FormGroup className="d-grid mt-3">
         <Button
-          variant="secondary"
+          variant="dark"
           size="lg"
           type="submit"
           disabled={!avatarForm.formState.isDirty}

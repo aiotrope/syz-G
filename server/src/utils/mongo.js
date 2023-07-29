@@ -16,10 +16,11 @@ const dbConnection = () => {
     dbURL = config.mongo_url_test
   }
 
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.NODE_ENV === 'production'
-  ) {
+  if (process.env.NODE_ENV === 'development') {
+    dbURL = config.mongo_url
+  }
+
+  if (process.env.NODE_ENV === 'production') {
     dbURL = config.mongo_url
   }
 
