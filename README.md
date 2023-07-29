@@ -514,9 +514,9 @@ post new code snippets, comment on existing posts, users who are not logged in c
 
 | Feautures                                              | Points |
 | :----------------------------------------------------- | :----- |
-| `Deployment`                                           | `15`   |
+| `Deployment`                                           | `14`   |
 | `Backend unit test with jest & supertest (> 10 tests)` | `5`    |
-| `Authenticated user can update profile `               | `5`    |
+| `Authenticated user can update profile `               | `4`    |
 | `Authenticated user can delete their account`          | `5`    |
 | `Authenticated user can delete their comments`         | `5`    |
 | `Authenticated user can add/update profile image`      | `5`    |
