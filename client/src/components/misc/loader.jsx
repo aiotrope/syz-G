@@ -1,5 +1,6 @@
 import Spinner from 'react-bootstrap/Spinner'
 
+// loader component
 const Loader = () => {
   return (
     <Spinner animation="grow" className="spinner">

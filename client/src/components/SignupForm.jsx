@@ -4,6 +4,7 @@ import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
 import FormLabel from 'react-bootstrap/FormLabel'
 
+// child component from Signup component rendering the signup form
 const SignupForm = ({ handleSubmit, onSubmit, register, errors, reset }) => {
   return (
     <Form className="mt-2" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>

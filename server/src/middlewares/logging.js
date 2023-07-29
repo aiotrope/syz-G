@@ -2,6 +2,8 @@ import morgan from 'morgan'
 
 import logger from '../utils/logger'
 
+// logging middleware
+
 const stream = {
   write: (message) => logger.http(message),
 }

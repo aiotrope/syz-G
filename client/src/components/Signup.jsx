@@ -28,8 +28,10 @@ const Loader = lazy(() => import('./misc/loader'))
 
 const SignupForm = lazy(() => import('./SignupForm'))
 
+// main signup component
 const Signup = () => {
   const queryClient = useQueryClient()
+  // mutation to create user
   const { isLoading, reset, mutateAsync } = useMutation({
     mutationFn: authService.createUser,
     onSuccess: () => {

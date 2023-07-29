@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card'
 import pkg from 'lodash'
 import moment from 'moment'
 
+// non-persistent component before and after a user created a post snippet
 const SnippetsCreated = ({ user }) => {
   const { orderBy } = pkg
   const sortedPosts = orderBy(user.posts, ['updatedAt'], ['desc'])

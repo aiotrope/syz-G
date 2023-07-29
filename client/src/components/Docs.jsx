@@ -7,6 +7,7 @@ import Stack from 'react-bootstrap/Stack'
 import mdFile from '../assets/docs.md'
 import Highlighter from './misc/highlighter'
 
+// main documentation page component
 const Documentation = () => {
   const [markdown, setMarkdown] = useState('')
 

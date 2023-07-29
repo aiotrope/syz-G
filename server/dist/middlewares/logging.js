@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _morgan = _interopRequireDefault(require("morgan"));
 var _logger = _interopRequireDefault(require("../utils/logger"));
+// logging middleware
+
 const stream = {
   write: message => _logger.default.http(message)
 };

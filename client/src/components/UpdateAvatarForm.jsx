@@ -4,6 +4,7 @@ import FormGroup from 'react-bootstrap/FormGroup'
 import FormLabel from 'react-bootstrap/FormLabel'
 import Button from 'react-bootstrap/Button'
 
+// form component of updating user's avatar
 const UpdateAvatarForm = ({ avatarForm, onAvatarFormSubmit }) => {
   return (
     <Form onSubmit={avatarForm.handleSubmit(onAvatarFormSubmit)} className="mt-1 mb-5">

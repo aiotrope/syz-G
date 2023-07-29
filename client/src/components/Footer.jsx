@@ -2,6 +2,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import Stack from 'react-bootstrap/Stack'
 import Nav from 'react-bootstrap/Nav'
 
+// main footer component
 const Footer = () => {
   return (
     <footer>

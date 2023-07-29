@@ -1,5 +1,6 @@
 import Container from 'react-bootstrap/Container'
 
+// additional page/component as privacy term
 const Privacy = () => {
   return (
     <Container>

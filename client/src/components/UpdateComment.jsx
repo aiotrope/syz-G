@@ -21,6 +21,7 @@ const Loader = lazy(() => import('./misc/loader'))
 const UpdateCommentForm = lazy(() => import('./UpdateCommentForm'))
 const CreatedOrUpdatedComment = lazy(() => import('./CreatedOrUpdatedComment'))
 
+// main component for updating comment
 const UpdateComment = () => {
   const queryClient = useQueryClient()
 

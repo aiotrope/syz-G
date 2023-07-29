@@ -26,6 +26,7 @@ import { commentKeys, postKeys } from '../services/queryKeyFactory'
 const Loader = lazy(() => import('./misc/loader'))
 const FetchComments = lazy(() => import('./FetchComments'))
 
+// component that display single post snippet
 const FetchSnippet = ({ setSearchText }) => {
   const { id } = useParams()
 

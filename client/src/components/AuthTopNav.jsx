@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 
 import { jwt_atom, user_atom } from '../recoil/auth'
 
+// authenticated top nav component; child component of Header
 const AuthTopNav = () => {
   const resetJWTAtom = useResetRecoilState(jwt_atom)
   const token = useRecoilValue(jwt_atom)

@@ -11,6 +11,7 @@ var _post = _interopRequireDefault(require("../models/post"));
 var _user = _interopRequireDefault(require("../models/user"));
 var _comment = _interopRequireDefault(require("../models/comment"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
+// creating post with req.body: title, tag as an array, description and entry
 const createPost = async (req, res) => {
   const {
     title
@@ -70,6 +71,8 @@ const createPost = async (req, res) => {
     });
   }
 };
+
+// get post by id as param
 const getPostById = async (req, res) => {
   const {
     id
@@ -109,6 +112,8 @@ const getPostById = async (req, res) => {
     });
   }
 };
+
+// get all posts
 const getPosts = async (req, res) => {
   const {
     search
@@ -175,6 +180,8 @@ const getPosts = async (req, res) => {
     });
   }
 };
+
+// updating post by post id as param
 const updatePost = async (req, res) => {
   const {
     id
@@ -226,6 +233,8 @@ const updatePost = async (req, res) => {
     });
   }
 };
+
+// deleting post with post id as param
 const deletePost = async (req, res) => {
   const {
     id

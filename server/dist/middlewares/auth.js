@@ -9,6 +9,7 @@ var _config = _interopRequireDefault(require("../config"));
 var _httpErrors = _interopRequireDefault(require("http-errors"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 var _user = _interopRequireDefault(require("../models/user"));
+// middleware for extracting access token
 const tokenExtractor = async (req, res, next) => {
   const authorization = req.get('authorization');
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
@@ -18,6 +19,8 @@ const tokenExtractor = async (req, res, next) => {
   }
   next();
 };
+
+// middleware for extracting req.user
 const userExtractor = async (req, res, next) => {
   const token = req.token;
   const decoded = _jsonwebtoken.default.verify(token, _config.default.jwt_secret);

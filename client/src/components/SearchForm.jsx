@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
 
+// child form component from Home component
 const SearchForm = ({ setSearchText }) => {
   return (
     <Form>

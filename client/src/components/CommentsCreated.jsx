@@ -6,6 +6,7 @@ import moment from 'moment'
 
 const { orderBy } = pkg
 
+// non-persistent component after comments are created
 const CommentsCreated = ({ user, userQuery }) => {
   const userComments = userQuery?.data?.comments
 

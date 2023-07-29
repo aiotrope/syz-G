@@ -20,6 +20,7 @@ const Loader = lazy(() => import('./misc/loader'))
 const CommentsCreated = lazy(() => import('./CommentsCreated'))
 const SnippetsCreated = lazy(() => import('./SnippetsCreated'))
 
+// component that renders the public user's profile and objects created
 const User = () => {
   const { id } = useParams()
 

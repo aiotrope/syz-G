@@ -4,6 +4,8 @@ import { authService } from './auth'
 
 const baseUrl = import.meta.env.VITE_BASE_URL
 
+// helper functions for post api calls
+
 const getAll = async () => {
   const response = await axios.get(`${baseUrl}/api/post`, {
     withCredentials: true,

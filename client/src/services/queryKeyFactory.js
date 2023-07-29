@@ -1,3 +1,4 @@
+// keys for tanstack query and muatations
 export const userKeys = {
   all: ['users'],
   lists: () => [...userKeys.all, 'list'],

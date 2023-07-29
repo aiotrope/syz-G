@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 
+// form component for updating posts
 const UpdateSnippetForm = ({ handleSubmit, onSubmit, register, errors, updateMutation, reset }) => {
   return (
     <Form className="mt-2" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>

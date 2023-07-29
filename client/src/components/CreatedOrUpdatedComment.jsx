@@ -7,6 +7,7 @@ import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import Highlighter from './misc/highlighter'
 
+// component for updating and deleting component
 const CreatedOrUpdatedComment = ({ comment }) => {
   return (
     <div>

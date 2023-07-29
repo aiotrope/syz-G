@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import pkg from 'lodash'
 
+// components for updating and creating user's created snippets
 const UpdateDestroySnippetsCreated = ({
   user,
   queryClient,

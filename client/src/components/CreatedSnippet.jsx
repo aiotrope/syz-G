@@ -8,6 +8,7 @@ import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import Highlighter from './misc/highlighter'
 
+// none-persist component that renders the created post snippet after creation
 const CreatedSnippet = ({ post }) => {
   //console.log(post)
   return (

@@ -6,6 +6,7 @@ import Post from '../models/post'
 import User from '../models/user'
 import validators from '../utils/validators'
 
+// creating comments with post id params and commentary as re.body
 const createComment = async (req, res) => {
   const { postId } = req.params
 
@@ -78,6 +79,7 @@ const createComment = async (req, res) => {
   }
 }
 
+// delete comment with comment id param by req.user
 const deleteComment = async (req, res) => {
   const { id } = req.params
 
@@ -128,6 +130,7 @@ const deleteComment = async (req, res) => {
   }
 }
 
+// updating comment with comment id param by req.user
 const updateComment = async (req, res) => {
   const { id } = req.params
 
@@ -185,6 +188,7 @@ const updateComment = async (req, res) => {
   }
 }
 
+// get comment by comment id
 const getCommentById = async (req, res) => {
   const { id } = req.params
 
@@ -225,6 +229,7 @@ const getCommentById = async (req, res) => {
   }
 }
 
+// get all comments by post snippet id
 const getCommentsByPostId = async (req, res) => {
   const { postId } = req.params
 
@@ -290,6 +295,7 @@ const getCommentsByPostId = async (req, res) => {
   }
 }
 
+// get all comments by user id as param
 const getCommentsByUser = async (req, res) => {
   const { id } = req.params
 

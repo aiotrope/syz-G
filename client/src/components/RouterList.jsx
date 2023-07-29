@@ -18,6 +18,7 @@ const Privacy = lazy(() => import('./Privacy'))
 const CreateComment = lazy(() => import('./CreateComment'))
 const UpdateComment = lazy(() => import('./UpdateComment'))
 
+// main component that holds all the routes of the frontend
 const RouterList = () => {
   const [searchText, setSearchText] = useState('')
 

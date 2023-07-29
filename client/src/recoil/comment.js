@@ -1,5 +1,7 @@
 import { atom } from 'recoil'
 
+// atoms for comments
+
 export const comments_atom = atom({
   key: 'comments_atom',
   default: [],

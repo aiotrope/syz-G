@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/esm/Row'
 import Col from 'react-bootstrap/esm/Col'
 
+// form component for creating snippet
 const CreateSnippetForm = ({
   handleSubmit,
   onSubmit,

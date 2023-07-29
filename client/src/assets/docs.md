@@ -216,11 +216,58 @@ endpoint: http://localhost:8080/api/post
 page: http://localhost:5173
 
 ```
+
 ---
 
 ### Customization
 
-Go to the client directory > src > sass and select the directory you want to update, such as the entire app or the index, or add variables, if you want to modify the theme of the website and add your own stylesheets. 
+Go to the client directory > src > sass and select the directory you want to update, such as the entire app or the index, or add variables, if you want to modify the theme of the website and add your own stylesheets.
 
 By changing the images in client directory > public, it is also possible to change the site's favicon and images. To edit any of the elements in the site documentation, go to client > assets > doc.md.
 
+Port number for server can be change by adding environment variable in .env file as `PORT`. For client go to client folder > vite.config.js and specify the preferred port number by adding server object:
+
+```bash
+export default defineConfig({
+  // ...some configs
+  server: {
+    port: 3000,
+  },
+});
+
+```
+
+Customization of server and client codes as a whole can be achieved mainly by changing the codes in the `src` directory of the two major folder.
+
+### Other CLI commnds
+
+**Build**
+
+```bash
+# building server app
+cd server && yarn build:server
+# to run production build at port 8080
+yarn start
+```
+
+```bash
+# building client app
+cd client && yarn build
+# to view the production build @ port 5173
+yarn preview
+```
+
+**Format & Lint**
+
+Format codes with prettier and eslint
+
+```bash
+# server
+cd server && yarn format && yarn lint
+
+```
+
+```bash
+# client
+cd client && yarn format && yarn lint
+```

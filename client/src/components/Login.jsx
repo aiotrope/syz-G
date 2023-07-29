@@ -23,6 +23,7 @@ const schema = yup
   })
   .required()
 
+// Main login component
 const Login = () => {
   /* eslint-disable-next-line no-unused-vars */
   const [_, setJWT] = useRecoilState(jwt_atom)
@@ -34,6 +35,7 @@ const Login = () => {
 
   const _jwt = useRecoilValue(jwt_atom)
 
+  // mutation to login a user
   const { isLoading, reset, mutateAsync } = useMutation({
     mutationFn: authService.login,
     onSuccess: () => {

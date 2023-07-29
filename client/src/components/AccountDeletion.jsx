@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button'
 
+// user account deletion component
 const AccountDeletion = ({ handleDeleteAccount }) => {
   return (
     <>

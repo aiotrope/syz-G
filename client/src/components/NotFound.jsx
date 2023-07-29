@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 
+// main component for 404 page
 const NotFound = () => {
   const location = useLocation()
   return (

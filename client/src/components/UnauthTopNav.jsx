@@ -7,6 +7,7 @@ import Badge from 'react-bootstrap/Badge'
 
 const LoginNotification = lazy(() => import('./misc/loginNotification'))
 
+// non-authenticated top nav component; child component of Header
 const UnAuthTopNav = () => {
   const [modalShow, setModalShow] = useState(false)
 

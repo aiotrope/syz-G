@@ -11,6 +11,7 @@ var _comment = _interopRequireDefault(require("../models/comment"));
 var _post = _interopRequireDefault(require("../models/post"));
 var _user = _interopRequireDefault(require("../models/user"));
 var _validators = _interopRequireDefault(require("../utils/validators"));
+// creating comments with post id params and commentary as re.body
 const createComment = async (req, res) => {
   const {
     postId
@@ -76,6 +77,8 @@ const createComment = async (req, res) => {
     });
   }
 };
+
+// delete comment with comment id param by req.user
 const deleteComment = async (req, res) => {
   const {
     id
@@ -133,6 +136,8 @@ const deleteComment = async (req, res) => {
     });
   }
 };
+
+// updating comment with comment id param by req.user
 const updateComment = async (req, res) => {
   const {
     id
@@ -185,6 +190,8 @@ const updateComment = async (req, res) => {
     });
   }
 };
+
+// get comment by comment id
 const getCommentById = async (req, res) => {
   const {
     id
@@ -227,6 +234,8 @@ const getCommentById = async (req, res) => {
     });
   }
 };
+
+// get all comments by post snippet id
 const getCommentsByPostId = async (req, res) => {
   const {
     postId
@@ -290,6 +299,8 @@ const getCommentsByPostId = async (req, res) => {
     });
   }
 };
+
+// get all comments by user id as param
 const getCommentsByUser = async (req, res) => {
   const {
     id

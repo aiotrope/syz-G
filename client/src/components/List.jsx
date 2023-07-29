@@ -5,6 +5,7 @@ import Badge from 'react-bootstrap/Badge'
 import moment from 'moment'
 import Image from 'react-bootstrap/Image'
 
+// child component from Home that list all posts
 const List = ({ post, setSearchText }) => {
   //console.log(post)
   return (

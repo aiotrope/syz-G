@@ -21,6 +21,7 @@ const Loader = lazy(() => import('./misc/loader'))
 const UpdateSnippetForm = lazy(() => import('./UpdateSnippetForm'))
 const UpdatedSnippet = lazy(() => import('./UpdatedSnippet'))
 
+// main component for updating post snippet
 const UpdateSnippet = () => {
   const queryClient = useQueryClient()
 

@@ -11,6 +11,7 @@ const Loader = lazy(() => import('./components/misc/loader'))
 const root = ReactDOM.createRoot(document.getElementById('root'))
 const queryClient = new QueryClient()
 
+// dev mode test for a11y accessibility
 if (import.meta.env.MODE !== 'production') {
   import('@axe-core/react').then((axe) => {
     axe.default(React, ReactDOM, 1000)

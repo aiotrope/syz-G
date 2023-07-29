@@ -7,6 +7,7 @@ import axios from 'axios'
 import moment from 'moment'
 import pkg from 'lodash'
 
+// update and delete component for user's created comment
 const UpdateDestroyCommentsCreated = ({
   user,
   queryClient,

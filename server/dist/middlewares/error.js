@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _httpErrors = _interopRequireDefault(require("http-errors"));
 var _logger = _interopRequireDefault(require("../utils/logger"));
+// error handlers
+
 const endPoint404 = (req, res, next) => {
   next((0, _httpErrors.default)(404));
 };

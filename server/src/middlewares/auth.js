@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 
 import User from '../models/user'
 
+// middleware for extracting access token
 const tokenExtractor = async (req, res, next) => {
   const authorization = req.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
@@ -14,6 +15,7 @@ const tokenExtractor = async (req, res, next) => {
   next()
 }
 
+// middleware for extracting req.user
 const userExtractor = async (req, res, next) => {
   const token = req.token
 

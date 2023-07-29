@@ -18,19 +18,24 @@ const Loader = lazy(() => import('./misc/loader'))
 const List = lazy(() => import('./List'))
 const SearchForm = lazy(() => import('./SearchForm'))
 
+// main home component and index page that holds the list of post
 const Home = ({ searchText, setSearchText }) => {
+  // capture the search text and debounce
   const [searchValue] = useDebounce(searchText, 1000)
 
+  // query all posts from backend
   const postsQuery = useQuery({
     queryKey: postKeys.details(),
     queryFn: postService.getAll,
     staleTime: 6000,
   })
-
+  // query search text from backend
   const postsSearchQuery = useQuery(['search', searchValue], () => postService.search(searchValue))
 
+  // set all post query in atom
   const setPosts = useSetRecoilState(posts_atom)
 
+  // set all posts
   const posts = useRecoilValue(posts_atom)
 
   const isMounted = useRef(true)
@@ -59,8 +64,10 @@ const Home = ({ searchText, setSearchText }) => {
     fetchSearchPosts()
   }, [postsSearchQuery?.data, setPosts])
 
+  // sort all posts on descending order by updated date
   const sortedPosts = orderBy(posts, ['updatedAt'], ['desc'])
 
+  // sort all searched posts on descending order by updated date
   const sortedSearchPosts = orderBy(postsSearchQuery?.data, ['updatedAt'], ['desc'])
 
   if (

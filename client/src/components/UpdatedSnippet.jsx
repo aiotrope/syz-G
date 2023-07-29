@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Highlighter from './misc/highlighter'
 
+// child component of UpdateSnippet that renders the none persistent state before and after update
 const UpdatedSnippet = ({ post }) => {
   return (
     <>

@@ -2,6 +2,8 @@ import axios from 'axios'
 
 const baseUrl = import.meta.env.VITE_BASE_URL
 
+// helper functions use for authenticating user
+
 const createUser = async (data) => {
   const response = await axios.post(`${baseUrl}/api/user/signup`, data, {
     withCredentials: true,

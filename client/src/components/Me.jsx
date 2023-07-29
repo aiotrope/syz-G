@@ -27,19 +27,21 @@ const UpdateDestroyCommentsCreated = lazy(() => import('./UpdateDestroyCommentsC
 const AccountDeletion = lazy(() => import('./AccountDeletion'))
 const Loader = lazy(() => import('./misc/loader'))
 
+// main component for authenticated user to manage their profile account, update and deletion
 const Me = () => {
   const queryClient = useQueryClient()
 
+  // set current user in atom
   const setUser = useSetRecoilState(user_atom)
-
+  // value of atom
   const user = useRecoilValue(user_atom)
-
+  // value of access token
   const _jwt = useRecoilValue(jwt_atom)
-
+  // decoding jwt
   const decoded = jwtDecode(_jwt)
-
+  // reseting jwt for logging out
   const resetJWTAtom = useResetRecoilState(jwt_atom)
-
+  // query current user based on decoded jwt
   const userQuery = useQuery({
     queryKey: userKeys.detail(decoded.id),
     queryFn: userService.getMe,
@@ -62,12 +64,13 @@ const Me = () => {
     }
   }, [setUser, userQuery?.data])
 
+  // object schema for validating user profile update fields
   const schema = yup.object({
     username: yup.string().trim().matches(username_regex).default(user.username).notRequired(),
     email: yup.string().email().default(user.email).notRequired(),
     bio: yup.string().default(user.bio).notRequired(),
   })
-
+  // object schema for validating avatar field
   const updateAvatarSchema = yup.object({
     image: yup.mixed().notRequired().nullable(),
   })
@@ -95,6 +98,7 @@ const Me = () => {
     reset({ ...defaultValues })
   }, [reset, user.bio, user.email, user.username])
 
+  // mutation action for updating user info
   const userMutation = useMutation({
     mutationFn: userService.updateUser,
     onSuccess: () => {
@@ -107,6 +111,7 @@ const Me = () => {
     },
   })
 
+  // mutation action for updating user's avatar
   const avatarMutation = useMutation({
     mutationFn: userService.updateUserAvatar,
     onSuccess: () => {
@@ -119,6 +124,7 @@ const Me = () => {
     },
   })
 
+  // mutation action to delete user account
   const deleteMutation = useMutation({
     mutationFn: userService.deleteUserAccount,
     onSuccess: () => {
@@ -128,6 +134,7 @@ const Me = () => {
     },
   })
 
+  // submit action for updating user
   const onSubmit = async (data) => {
     try {
       const result = await userMutation.mutateAsync(data)
@@ -155,6 +162,7 @@ const Me = () => {
     }
   }
 
+  // handler for deleting account
   const handleDeleteAccount = async () => {
     try {
       await deleteMutation.mutateAsync(user.id)
@@ -163,8 +171,9 @@ const Me = () => {
     }
   }
 
+  // finding user's posts
   const snippetsByUser = user?.posts?.find((post) => post.user === decoded.id)
-
+// finding user's comments
   const commentsByUser = user?.comments?.find((comment) => comment.commenter === decoded.id)
 
   if (

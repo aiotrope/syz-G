@@ -1,6 +1,8 @@
 import { atom, selector } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
 
+// atoms for auth users
+
 const { persistAtom } = recoilPersist({
   key: 'JWT',
   storage: localStorage,

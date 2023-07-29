@@ -7,6 +7,7 @@ import Image from 'react-bootstrap/Image'
 import ListGroup from 'react-bootstrap/ListGroup'
 import moment from 'moment'
 
+// coponent that display single comment
 const FetchComments = ({ comments, pkg, ReactMarkdown, rehypeRaw, gfm, Highlighter }) => {
   const { orderBy } = pkg
 

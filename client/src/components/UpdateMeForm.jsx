@@ -4,6 +4,7 @@ import FormGroup from 'react-bootstrap/FormGroup'
 import FormLabel from 'react-bootstrap/FormLabel'
 import Button from 'react-bootstrap/Button'
 
+// child component of Me component that renders the user profile update form
 const UpdateMeForm = ({ handleSubmit, onSubmit, register, errors, user }) => {
   return (
     <Form className="mt-2 mb-4" spellCheck="false" noValidate onSubmit={handleSubmit(onSubmit)}>

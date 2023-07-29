@@ -1,5 +1,7 @@
 import { atom } from 'recoil'
 
+// atoms for post
+
 export const posts_atom = atom({
   key: 'posts_atom',
   default: [],

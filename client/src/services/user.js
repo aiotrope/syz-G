@@ -5,6 +5,8 @@ import jwtDecode from 'jwt-decode'
 
 const baseUrl = import.meta.env.VITE_BASE_URL
 
+// helper functions for user api calls
+
 const getUsers = async () => {
   const response = await axios.get(`${baseUrl}/api/user/all`, {
     withCredentials: true,

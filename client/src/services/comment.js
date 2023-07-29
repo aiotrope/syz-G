@@ -2,6 +2,8 @@ import axios from 'axios'
 
 const baseUrl = import.meta.env.VITE_BASE_URL
 
+// helper functions for comment api calls
+
 const getCommentById = async (id) => {
   const response = await axios.get(`${baseUrl}/api/comment/${id}`, {
     withCredentials: true,

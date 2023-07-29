@@ -144,6 +144,7 @@ const getMe = async (req, res) => {
   }
 }
 
+// get user by user id param
 const getUserById = async (req, res) => {
   const { id } = req.params
 
@@ -174,6 +175,7 @@ const getUserById = async (req, res) => {
   }
 }
 
+// updating user's avatar or photo image  with image as req.body and uer id param
 const updateUserAvatar = async (req, res) => {
   const { image } = req.body //base64 format
 
@@ -215,6 +217,7 @@ const updateUserAvatar = async (req, res) => {
   }
 }
 
+// updating user with user id as param and optional req.body or fields: username, email, bio
 const updateUser = async (req, res) => {
   const { id } = req.params
 
@@ -270,6 +273,7 @@ const updateUser = async (req, res) => {
   }
 }
 
+// delete user by id
 const deleteAccount = async (req, res) => {
   const { id } = req.params
 
