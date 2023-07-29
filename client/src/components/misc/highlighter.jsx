@@ -1,6 +1,6 @@
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { base16AteliersulphurpoolLight } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-//import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism'
+//import { base16AteliersulphurpoolLight } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { materialLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 // highlighting markdown and codes
 const Highlighter = {
@@ -9,7 +9,7 @@ const Highlighter = {
     const match = /language-(\w+)/.exec(className || '')
     return !inline && match ? (
       <SyntaxHighlighter
-        style={base16AteliersulphurpoolLight}
+        style={materialLight}
         language={match[1]}
         PreTag="div"
         {...props}
