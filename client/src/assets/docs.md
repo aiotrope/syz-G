@@ -1,3 +1,21 @@
+<style>
+  docs {
+  content: '';
+  clear: both;
+  font-size: 1.2em !important;
+  line-height: 1.8 !important;
+}
+
+  @media screen and (max-width: 480px){
+   body, docs {
+     overflow-x: hidden !important;
+   }
+
+}
+</style>
+
+<docs>
+
 ## About this project
 
 **Xzymous** is a web app project submitted in partial fulfillment of Lappeenranta–Lahti University of Technology's **CT30A3204** course. The application's architecture which consists of server-side deployed as serverless function and client-side code is separately published on the internet and maintained in a single git repository. The client side, which acts as a single-page application, can send HTTP requests to the server, providing the resources such as users, posts, and comments. Anonymous users can only access some of the resources through `GET` requests through rendered data on the website; otherwise, users must authenticate to the system to execute further interactive operations.
@@ -269,3 +287,4 @@ cd server && yarn format && yarn lint
 # client
 cd client && yarn format && yarn lint
 ```
+</docs>
